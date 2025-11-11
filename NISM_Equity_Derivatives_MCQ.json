@@ -1,0 +1,1105 @@
+[
+  {
+    "question": "Which of these is a function of the stock exchange?",
+    "options": [
+      "Providing a ready and continuous market for securities",
+      "Ensuring fair price discovery",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "A stock exchange is a place where securities are bought and sold. It provides a ready and continuous market for securities. By its continuous trading, the stock exchange ensures a fair price discovery of the securities."
+  },
+  {
+    "question": "Which of these is a feature of a stock exchange?",
+    "options": [
+      "It is a place where securities are bought and sold",
+      "It is a specific location",
+      "The securities dealt in an exchange can be issued by companies, corporate bodies and government",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A stock exchange is a place where securities which are listed on it are traded. It is a specific physical location or an electronic market. The securities traded in a stock exchange are issued by companies, corporate bodies and government."
+  },
+  {
+    "question": "Which of these is not a stock exchange?",
+    "options": [
+      "BSE",
+      "NSE",
+      "NCDEX",
+      "MCX"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "BSE and NSE are stock exchanges. NCDEX and MCX are commodity exchanges."
+  },
+  {
+    "question": "Which of these is a regulator of the securities market in India?",
+    "options": [
+      "RBI",
+      "SEBI",
+      "IRDA",
+      "PFRDA"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "SEBI is the regulator of the securities market in India. RBI is the regulator of the banking system and the money market. IRDA is the regulator of the insurance sector. PFRDA is the regulator of the pension sector."
+  },
+  {
+    "question": "Which of these is not a function of SEBI?",
+    "options": [
+      "Protecting the interests of investors in securities",
+      "Promoting the development of the securities market",
+      "Regulating the securities market",
+      "Regulating the money market"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "SEBI is the regulator of the securities market in India. Its functions include protecting the interests of investors in securities, promoting the development of the securities market and regulating the securities market. The money market is regulated by the RBI."
+  },
+  {
+    "question": "Which of these is a market intermediary?",
+    "options": [
+      "Stock broker",
+      "Depository participant",
+      "Registrar and transfer agent",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Market intermediaries are entities that help in the smooth functioning of the securities market. They include stock brokers, depository participants, registrars and transfer agents, etc."
+  },
+  {
+    "question": "Which of these is a type of corporate action?",
+    "options": [
+      "Dividend",
+      "Bonus",
+      "Stock split",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Corporate actions are actions taken by a company that affect its securities. They include dividend, bonus, stock split, rights issue, etc."
+  },
+  {
+    "question": "Which of these is a feature of a dividend?",
+    "options": [
+      "It is a distribution of a company's profits to its shareholders",
+      "It is usually paid in cash",
+      "It is declared by the company's board of directors",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A dividend is a distribution of a company's profits to its shareholders. It is usually paid in cash, but can also be paid in the form of stock. It is declared by the company's board of directors."
+  },
+  {
+    "question": "Which of these is a feature of a bonus issue?",
+    "options": [
+      "It is a distribution of a company's profits to its shareholders in the form of additional shares",
+      "It does not involve any cash outflow for the company",
+      "It increases the number of shares outstanding",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A bonus issue is a distribution of a company's profits to its shareholders in the form of additional shares. It does not involve any cash outflow for the company. It increases the number of shares outstanding, which leads to a decrease in the earnings per share."
+  },
+  {
+    "question": "Which of these is a feature of a stock split?",
+    "options": [
+      "It is a division of a company's shares into a larger number of shares",
+      "It does not affect the total market capitalization of the company",
+      "It is done to increase the liquidity of the shares",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A stock split is a division of a company's shares into a larger number of shares. For example, in a 2-for-1 stock split, a shareholder will get two shares for every one share held. A stock split does not affect the total market capitalization of the company, but it increases the number of shares outstanding, which leads to a decrease in the price per share. A stock split is done to increase the liquidity of the shares."
+  },
+  {
+    "question": "Which of these is a feature of a rights issue?",
+    "options": [
+      "It is an invitation to existing shareholders to purchase additional new shares in the company",
+      "The new shares are offered at a price lower than the market price",
+      "It is a way for a company to raise capital",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A rights issue is an invitation to existing shareholders to purchase additional new shares in the company. The new shares are offered at a price lower than the market price. It is a way for a company to raise capital."
+  },
+  {
+    "question": "Which of these is a feature of a buyback of shares?",
+    "options": [
+      "It is a process by which a company buys back its own shares from the shareholders",
+      "It reduces the number of shares outstanding",
+      "It can be done through a tender offer or from the open market",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A buyback of shares is a process by which a company buys back its own shares from the shareholders. It reduces the number of shares outstanding, which leads to an increase in the earnings per share. It can be done through a tender offer or from the open market."
+  },
+  {
+    "question": "Which of these is a feature of a depository?",
+    "options": [
+      "It holds securities in electronic form",
+      "It facilitates the transfer of ownership of securities",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A depository is an institution that holds securities in electronic form. It facilitates the transfer of ownership of securities. It is regulated by SEBI. There are two depositories in India - NSDL and CDSL."
+  },
+  {
+    "question": "Which of these is a feature of a depository participant?",
+    "options": [
+      "It is an agent of the depository",
+      "It provides depository services to investors",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A depository participant (DP) is an agent of the depository. It provides depository services to investors. A DP can be a bank, a financial institution or a stock broker. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a demat account?",
+    "options": [
+      "It is an account that holds securities in electronic form",
+      "It is opened with a depository participant",
+      "It is mandatory for trading in the stock market",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A demat account is an account that holds securities in electronic form. It is opened with a depository participant (DP). It is mandatory for trading in the stock market."
+  },
+  {
+    "question": "Which of these is a feature of a trading account?",
+    "options": [
+      "It is an account that is used to buy and sell securities",
+      "It is opened with a stock broker",
+      "It is linked to a demat account and a bank account",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A trading account is an account that is used to buy and sell securities. It is opened with a stock broker. It is linked to a demat account and a bank account."
+  },
+  {
+    "question": "Which of these is a feature of a rolling settlement?",
+    "options": [
+      "It is a settlement cycle in which trades are settled on a T+2 basis",
+      "It is followed in the Indian stock market",
+      "It helps in reducing the settlement risk",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A rolling settlement is a settlement cycle in which trades are settled on a T+2 basis, which means that the settlement of trades takes place on the second working day after the trade is executed. It is followed in the Indian stock market. It helps in reducing the settlement risk."
+  },
+  {
+    "question": "Which of these is a feature of a clearing corporation?",
+    "options": [
+      "It is an entity that is responsible for clearing and settlement of trades",
+      "It acts as a counterparty to all trades",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A clearing corporation is an entity that is responsible for clearing and settlement of trades. It acts as a counterparty to all trades, which means that it guarantees the settlement of all trades. It is regulated by SEBI. In India, the National Securities Clearing Corporation Ltd. (NSCCL) and the Indian Clearing Corporation Ltd. (ICCL) are the two clearing corporations."
+  },
+  {
+    "question": "Which of these is a feature of a settlement guarantee fund?",
+    "options": [
+      "It is a fund that is maintained by the clearing corporation",
+      "It is used to guarantee the settlement of trades in case of a default by a clearing member",
+      "It is funded by contributions from the clearing members",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A settlement guarantee fund (SGF) is a fund that is maintained by the clearing corporation. It is used to guarantee the settlement of trades in case of a default by a clearing member. It is funded by contributions from the clearing members."
+  },
+  {
+    "question": "Which of these is a feature of a circuit breaker?",
+    "options": [
+      "It is a mechanism that is used to halt trading in a security or the entire market in case of a sharp movement in prices",
+      "It is implemented by the stock exchanges",
+      "It is a risk management measure",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A circuit breaker is a mechanism that is used to halt trading in a security or the entire market in case of a sharp movement in prices. It is implemented by the stock exchanges. It is a risk management measure."
+  },
+  {
+    "question": "Which of these is a feature of an IPO?",
+    "options": [
+      "It is the first time that a company offers its shares to the public",
+      "It is a way for a company to raise capital",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An Initial Public Offering (IPO) is the first time that a company offers its shares to the public. It is a way for a company to raise capital. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a FPO?",
+    "options": [
+      "It is a process by which a listed company offers additional shares to the public",
+      "It is a way for a company to raise capital",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A Follow-on Public Offering (FPO) is a process by which a listed company offers additional shares to the public. It is a way for a company to raise capital. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a private placement?",
+    "options": [
+      "It is a process by which a company offers its shares to a select group of investors",
+      "It is a way for a company to raise capital",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A private placement is a process by which a company offers its shares to a select group of investors. It is a way for a company to raise capital. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a qualified institutional placement?",
+    "options": [
+      "It is a process by which a listed company offers its shares to qualified institutional buyers",
+      "It is a way for a company to raise capital",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A Qualified Institutional Placement (QIP) is a process by which a listed company offers its shares to qualified institutional buyers (QIBs). It is a way for a company to raise capital. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a preferential allotment?",
+    "options": [
+      "It is a process by which a company offers its shares to a select group of investors at a pre-determined price",
+      "It is a way for a company to raise capital",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A preferential allotment is a process by which a company offers its shares to a select group of investors at a pre-determined price. It is a way for a company to raise capital. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a GDR?",
+    "options": [
+      "It is a negotiable instrument that is issued by a depository bank in a foreign country",
+      "It represents a certain number of underlying shares of a company",
+      "It is traded on a foreign stock exchange",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A Global Depository Receipt (GDR) is a negotiable instrument that is issued by a depository bank in a foreign country. It represents a certain number of underlying shares of a company. It is traded on a foreign stock exchange."
+  },
+  {
+    "question": "Which of these is a feature of an ADR?",
+    "options": [
+      "It is a negotiable instrument that is issued by a depository bank in the US",
+      "It represents a certain number of underlying shares of a company",
+      "It is traded on a US stock exchange",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An American Depository Receipt (ADR) is a negotiable instrument that is issued by a depository bank in the US. It represents a certain number of underlying shares of a company. It is traded on a US stock exchange."
+  },
+  {
+    "question": "Which of these is a feature of an IDR?",
+    "options": [
+      "It is a negotiable instrument that is issued by a depository bank in India",
+      "It represents a certain number of underlying shares of a foreign company",
+      "It is traded on an Indian stock exchange",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An Indian Depository Receipt (IDR) is a negotiable instrument that is issued by a depository bank in India. It represents a certain number of underlying shares of a foreign company. It is traded on an Indian stock exchange."
+  },
+  {
+    "question": "Which of these is a feature of a mutual fund?",
+    "options": [
+      "It is a professionally managed investment fund that pools money from many investors to purchase securities",
+      "It is regulated by SEBI",
+      "It is a way to diversify investments",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A mutual fund is a professionally managed investment fund that pools money from many investors to purchase securities. It is regulated by SEBI. It is a way to diversify investments."
+  },
+  {
+    "question": "Which of these is a type of mutual fund?",
+    "options": [
+      "Equity fund",
+      "Debt fund",
+      "Hybrid fund",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Mutual funds can be classified into different types based on the underlying assets. They include equity funds, debt funds, hybrid funds, etc."
+  },
+  {
+    "question": "Which of these is a feature of an equity fund?",
+    "options": [
+      "It invests primarily in stocks",
+      "It is suitable for investors with a high risk appetite",
+      "It has the potential to generate high returns",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An equity fund is a mutual fund that invests primarily in stocks. It is suitable for investors with a high risk appetite. It has the potential to generate high returns."
+  },
+  {
+    "question": "Which of these is a feature of a debt fund?",
+    "options": [
+      "It invests primarily in fixed-income securities like bonds and debentures",
+      "It is suitable for investors with a low risk appetite",
+      "It has the potential to generate stable returns",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A debt fund is a mutual fund that invests primarily in fixed-income securities like bonds and debentures. It is suitable for investors with a low risk appetite. It has the potential to generate stable returns."
+  },
+  {
+    "question": "Which of these is a feature of a hybrid fund?",
+    "options": [
+      "It invests in a mix of equity and debt instruments",
+      "It is suitable for investors with a moderate risk appetite",
+      "It provides a balance between risk and return",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A hybrid fund is a mutual fund that invests in a mix of equity and debt instruments. It is suitable for investors with a moderate risk appetite. It provides a balance between risk and return."
+  },
+  {
+    "question": "Which of these is a feature of an index fund?",
+    "options": [
+      "It is a mutual fund that tracks a market index like the Nifty 50 or the Sensex",
+      "It is a passive fund",
+      "It has a low expense ratio",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An index fund is a mutual fund that tracks a market index like the Nifty 50 or the Sensex. It is a passive fund, which means that the fund manager does not actively pick stocks. It has a low expense ratio."
+  },
+  {
+    "question": "Which of these is a feature of an ETF?",
+    "options": [
+      "It is a mutual fund that is traded on a stock exchange like a stock",
+      "It can be bought and sold throughout the day at the prevailing market price",
+      "It has a low expense ratio",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An Exchange Traded Fund (ETF) is a mutual fund that is traded on a stock exchange like a stock. It can be bought and sold throughout the day at the prevailing market price. It has a low expense ratio."
+  },
+  {
+    "question": "Which of these is a feature of a gold ETF?",
+    "options": [
+      "It is an ETF that invests in gold",
+      "It is a way to invest in gold without holding it in physical form",
+      "It is traded on a stock exchange",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A gold ETF is an ETF that invests in gold. It is a way to invest in gold without holding it in physical form. It is traded on a stock exchange."
+  },
+  {
+    "question": "Which of these is a feature of a real estate investment trust?",
+    "options": [
+      "It is a company that owns and operates income-producing real estate",
+      "It is traded on a stock exchange like a stock",
+      "It is a way to invest in real estate without buying physical property",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A Real Estate Investment Trust (REIT) is a company that owns and operates income-producing real estate. It is traded on a stock exchange like a stock. It is a way to invest in real estate without buying physical property."
+  },
+  {
+    "question": "Which of these is a feature of an infrastructure investment trust?",
+    "options": [
+      "It is a trust that owns and operates infrastructure assets",
+      "It is traded on a stock exchange like a stock",
+      "It is a way to invest in infrastructure without directly owning the assets",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An Infrastructure Investment Trust (InvIT) is a trust that owns and operates infrastructure assets. It is traded on a stock exchange like a stock. It is a way to invest in infrastructure without directly owning the assets."
+  },
+  {
+    "question": "Which of these is a feature of a derivative?",
+    "options": [
+      "It is a financial instrument whose value is derived from an underlying asset",
+      "The underlying asset can be a stock, a commodity or a currency",
+      "It is used for hedging and speculation",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A derivative is a financial instrument whose value is derived from an underlying asset. The underlying asset can be a stock, a commodity or a currency. It is used for hedging and speculation."
+  },
+  {
+    "question": "Which of these is a type of derivative?",
+    "options": [
+      "Futures",
+      "Options",
+      "Swaps",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Derivatives can be classified into different types based on the underlying asset and the terms of the contract. They include futures, options, swaps, etc."
+  },
+  {
+    "question": "Which of these is a feature of a futures contract?",
+    "options": [
+      "It is a standardized contract to buy or sell an underlying asset at a pre-determined price on a future date",
+      "It is traded on a stock exchange",
+      "It is a legally binding contract",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A futures contract is a standardized contract to buy or sell an underlying asset at a pre-determined price on a future date. It is traded on a stock exchange. It is a legally binding contract."
+  },
+  {
+    "question": "Which of these is a feature of an options contract?",
+    "options": [
+      "It gives the buyer the right, but not the obligation, to buy or sell an underlying asset at a pre-determined price on or before a future date",
+      "It is traded on a stock exchange",
+      "The buyer of the option has to pay a premium to the seller",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An options contract gives the buyer the right, but not the obligation, to buy or sell an underlying asset at a pre-determined price on or before a future date. It is traded on a stock exchange. The buyer of the option has to pay a premium to the seller."
+  },
+  {
+    "question": "Which of these is a feature of a call option?",
+    "options": [
+      "It gives the buyer the right to buy an underlying asset at a pre-determined price on or before a future date",
+      "The buyer of the option has a bullish view on the underlying asset",
+      "The maximum loss of the buyer is limited to the premium paid",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A call option gives the buyer the right to buy an underlying asset at a pre-determined price on or before a future date. The buyer of the option has a bullish view on the underlying asset. The maximum loss of the buyer is limited to the premium paid."
+  },
+  {
+    "question": "Which of these is a feature of a put option?",
+    "options": [
+      "It gives the buyer the right to sell an underlying asset at a pre-determined price on or before a future date",
+      "The buyer of the option has a bearish view on the underlying asset",
+      "The maximum loss of the buyer is limited to the premium paid",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A put option gives the buyer the right to sell an underlying asset at a pre-determined price on or before a future date. The buyer of the option has a bearish view on the underlying asset. The maximum loss of the buyer is limited to the premium paid."
+  },
+  {
+    "question": "Which of these is a feature of a swap?",
+    "options": [
+      "It is a derivative contract in which two parties agree to exchange a series of cash flows",
+      "It is an over-the-counter (OTC) contract",
+      "It is used for hedging and speculation",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A swap is a derivative contract in which two parties agree to exchange a series of cash flows. It is an over-the-counter (OTC) contract, which means that it is not traded on a stock exchange. It is used for hedging and speculation."
+  },
+  {
+    "question": "Which of these is a type of swap?",
+    "options": [
+      "Interest rate swap",
+      "Currency swap",
+      "Commodity swap",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Swaps can be classified into different types based on the underlying asset. They include interest rate swaps, currency swaps, commodity swaps, etc."
+  },
+  {
+    "question": "Which of these is a feature of an interest rate swap?",
+    "options": [
+      "It is a swap in which two parties agree to exchange interest payments",
+      "It is used to hedge against interest rate risk",
+      "It is an OTC contract",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An interest rate swap is a swap in which two parties agree to exchange interest payments. For example, one party may agree to pay a fixed interest rate, while the other party agrees to pay a floating interest rate. It is used to hedge against interest rate risk. It is an OTC contract."
+  },
+  {
+    "question": "Which of these is a feature of a currency swap?",
+    "options": [
+      "It is a swap in which two parties agree to exchange principal and/or interest payments in different currencies",
+      "It is used to hedge against currency risk",
+      "It is an OTC contract",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A currency swap is a swap in which two parties agree to exchange principal and/or interest payments in different currencies. It is used to hedge against currency risk. It is an OTC contract."
+  },
+  {
+    "question": "Which of these is a feature of a commodity swap?",
+    "options": [
+      "It is a swap in which two parties agree to exchange cash flows based on the price of a commodity",
+      "It is used to hedge against commodity price risk",
+      "It is an OTC contract",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A commodity swap is a swap in which two parties agree to exchange cash flows based on the price of a commodity. For example, one party may agree to pay a fixed price for a commodity, while the other party agrees to pay a floating price. It is used to hedge against commodity price risk. It is an OTC contract."
+  },
+  {
+    "question": "Which of these is a feature of a credit default swap?",
+    "options": [
+      "It is a financial swap agreement that the seller of the CDS will compensate the buyer in the event of a debt default or other credit event",
+      "It is a way to transfer credit risk",
+      "It is an OTC contract",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A credit default swap (CDS) is a financial swap agreement that the seller of the CDS will compensate the buyer in the event of a debt default or other credit event. It is a way to transfer credit risk. It is an OTC contract."
+  },
+  {
+    "question": "Which of these is a feature of a forward contract?",
+    "options": [
+      "It is a customized contract between two parties to buy or sell an asset at a specified price on a future date",
+      "It is an OTC contract",
+      "It is not traded on a stock exchange",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A forward contract is a customized contract between two parties to buy or sell an asset at a specified price on a future date. It is an OTC contract, which means that it is not traded on a stock exchange. It is similar to a futures contract, but it is not standardized."
+  },
+  {
+    "question": "Which of these is a difference between a futures contract and a forward contract?",
+    "options": [
+      "A futures contract is a standardized contract, while a forward contract is a customized contract",
+      "A futures contract is traded on a stock exchange, while a forward contract is an OTC contract",
+      "A futures contract is marked to market daily, while a forward contract is not",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A futures contract is a standardized contract, while a forward contract is a customized contract. A futures contract is traded on a stock exchange, while a forward contract is an OTC contract. A futures contract is marked to market daily, which means that the profits and losses are settled on a daily basis, while a forward contract is not."
+  },
+  {
+    "question": "Which of these is a feature of a clearing member?",
+    "options": [
+      "It is a member of the clearing corporation",
+      "It is responsible for clearing and settlement of trades",
+      "It has to maintain a minimum net worth as prescribed by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A clearing member is a member of the clearing corporation. It is responsible for clearing and settlement of trades. It has to maintain a minimum net worth as prescribed by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a trading member?",
+    "options": [
+      "It is a member of the stock exchange",
+      "It can trade on its own account or on behalf of its clients",
+      "It has to be registered with SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A trading member is a member of the stock exchange. It can trade on its own account or on behalf of its clients. It has to be registered with SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a self-clearing member?",
+    "options": [
+      "It is a trading member that is also a clearing member",
+      "It can clear and settle its own trades",
+      "It has to maintain a higher net worth than a trading member",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A self-clearing member is a trading member that is also a clearing member. It can clear and settle its own trades. It has to maintain a higher net worth than a trading member."
+  },
+  {
+    "question": "Which of these is a feature of a professional clearing member?",
+    "options": [
+      "It is a clearing member that is not a trading member",
+      "It clears and settles the trades of other trading members",
+      "It has to maintain a higher net worth than a self-clearing member",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A professional clearing member is a clearing member that is not a trading member. It clears and settles the trades of other trading members. It has to maintain a higher net worth than a self-clearing member."
+  },
+  {
+    "question": "Which of these is a feature of a margin?",
+    "options": [
+      "It is a deposit that has to be made by a trader with the stock broker",
+      "It is a risk management measure",
+      "It is of two types - initial margin and maintenance margin",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A margin is a deposit that has to be made by a trader with the stock broker. It is a risk management measure. It is of two types - initial margin and maintenance margin."
+  },
+  {
+    "question": "Which of these is a feature of an initial margin?",
+    "options": [
+      "It is the minimum amount of money that has to be deposited by a trader with the stock broker before starting to trade",
+      "It is a percentage of the value of the trade",
+      "It is determined by the stock exchange",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An initial margin is the minimum amount of money that has to be deposited by a trader with the stock broker before starting to trade. It is a percentage of the value of the trade. It is determined by the stock exchange."
+  },
+  {
+    "question": "Which of these is a feature of a maintenance margin?",
+    "options": [
+      "It is the minimum amount of money that has to be maintained by a trader in the margin account",
+      "If the margin account balance falls below the maintenance margin, the trader will get a margin call",
+      "It is determined by the stock exchange",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A maintenance margin is the minimum amount of money that has to be maintained by a trader in the margin account. If the margin account balance falls below the maintenance margin, the trader will get a margin call. It is determined by the stock exchange."
+  },
+  {
+    "question": "Which of these is a feature of a margin call?",
+    "options": [
+      "It is a demand for additional funds to be deposited by a trader in the margin account",
+      "It is issued by the stock broker when the margin account balance falls below the maintenance margin",
+      "If the trader fails to meet the margin call, the stock broker can square off the position",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A margin call is a demand for additional funds to be deposited by a trader in the margin account. It is issued by the stock broker when the margin account balance falls below the maintenance margin. If the trader fails to meet the margin call, the stock broker can square off the position."
+  },
+  {
+    "question": "Which of these is a feature of a market order?",
+    "options": [
+      "It is an order to buy or sell a security at the prevailing market price",
+      "It is executed immediately",
+      "The execution price is not guaranteed",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A market order is an order to buy or sell a security at the prevailing market price. It is executed immediately. The execution price is not guaranteed."
+  },
+  {
+    "question": "Which of these is a feature of a limit order?",
+    "options": [
+      "It is an order to buy or sell a security at a specified price or better",
+      "It may not be executed immediately",
+      "The execution price is guaranteed, but the execution is not guaranteed",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A limit order is an order to buy or sell a security at a specified price or better. It may not be executed immediately. The execution price is guaranteed, but the execution is not guaranteed."
+  },
+  {
+    "question": "Which of these is a feature of a stop-loss order?",
+    "options": [
+      "It is an order to buy or sell a security when its price reaches a specified price",
+      "It is used to limit the loss on a position",
+      "It becomes a market order when the stop price is reached",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A stop-loss order is an order to buy or sell a security when its price reaches a specified price. It is used to limit the loss on a position. It becomes a market order when the stop price is reached."
+  },
+  {
+    "question": "Which of these is a feature of a stop-limit order?",
+    "options": [
+      "It is an order to buy or sell a security at a specified price or better, after a given stop price has been reached",
+      "It is a combination of a stop-loss order and a limit order",
+      "It may not be executed",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A stop-limit order is an order to buy or sell a security at a specified price or better, after a given stop price has been reached. It is a combination of a stop-loss order and a limit order. It may not be executed."
+  },
+  {
+    "question": "Which of these is a feature of an immediate or cancel order?",
+    "options": [
+      "It is an order to buy or sell a security that has to be executed immediately, and any portion of the order that cannot be executed immediately is cancelled",
+      "It is also known as a fill or kill order",
+      "It is used by traders who want to execute a large order without affecting the market price",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "An immediate or cancel (IOC) order is an order to buy or sell a security that has to be executed immediately, and any portion of the order that cannot be executed immediately is cancelled. A fill or kill (FOK) order is an order to buy or sell a security that has to be executed immediately and in its entirety, or else it is cancelled."
+  },
+  {
+    "question": "Which of these is a feature of a day order?",
+    "options": [
+      "It is an order to buy or sell a security that is valid only for the day",
+      "If it is not executed by the end of the day, it is automatically cancelled",
+      "It is the default order type",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A day order is an order to buy or sell a security that is valid only for the day. If it is not executed by the end of the day, it is automatically cancelled. It is the default order type."
+  },
+  {
+    "question": "Which of these is a feature of a good till cancelled order?",
+    "options": [
+      "It is an order to buy or sell a security that remains active until it is executed or cancelled",
+      "It is not the default order type",
+      "It is used by traders who want to buy or sell a security at a specific price, but are willing to wait for the price to be reached",
+      "All of the a"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A good till cancelled (GTC) order is an order to buy or sell a security that remains active until it is executed or cancelled. It is not the default order type. It is used by traders who want to buy or sell a security at a specific price, but are willing to wait for the price to be reached."
+  },
+  {
+    "question": "Which of these is a feature of an after-market order?",
+    "options": [
+      "It is an order to buy or sell a security that is placed after the market has closed",
+      "It is executed on the next trading day at the opening price",
+      "It is used by traders who want to place an order after market hours",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "An after-market order (AMO) is an order to buy or sell a security that is placed after the market has closed. It is executed on the next trading day at the opening price. It is used by traders who want to place an order after market hours."
+  },
+  {
+    "question": "Which of these is a feature of a bracket order?",
+    "options": [
+      "It is a three-in-one order that consists of a main order, a stop-loss order and a target order",
+      "It is used by traders to limit their loss and lock in their profit",
+      "It is an intraday order",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A bracket order is a three-in-one order that consists of a main order, a stop-loss order and a target order. It is used by traders to limit their loss and lock in their profit. It is an intraday order, which means that it has to be squared off by the end of the day."
+  },
+  {
+    "question": "Which of these is a feature of a cover order?",
+    "options": [
+      "It is a two-in-one order that consists of a main order and a stop-loss order",
+      "It is used by traders to limit their loss",
+      "It is an intraday order",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A cover order is a two-in-one order that consists of a main order and a stop-loss order. It is used by traders to limit their loss. It is an intraday order, which means that it has to be squared off by the end of the day."
+  },
+  {
+    "question": "Which of these is a feature of a trailing stop-loss order?",
+    "options": [
+      "It is a stop-loss order in which the stop price is not fixed, but trails the market price",
+      "It is used by traders to protect their profit",
+      "It is an intraday order",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A trailing stop-loss order is a stop-loss order in which the stop price is not fixed, but trails the market price. For example, if you have a long position in a stock at Rs. 100 and you have placed a trailing stop-loss of 5%, the initial stop-loss will be at Rs. 95. If the stock price moves up to Rs. 110, the stop-loss will also move up to Rs. 104.50. It is used by traders to protect their profit. It is an intraday order."
+  },
+  {
+    "question": "Which of these is a feature of a basket order?",
+    "options": [
+      "It is an order to buy or sell a group of securities at the same time",
+      "It is used by traders who want to execute a strategy that involves multiple securities",
+      "It is an intraday order",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A basket order is an order to buy or sell a group of securities at the same time. It is used by traders who want to execute a strategy that involves multiple securities. It is an intraday order."
+  },
+  {
+    "question": "Which of these is a feature of an algorithmic trading?",
+    "options": [
+      "It is a form of automated trading that uses computer programs to execute trades",
+      "It is used by institutional investors and high-frequency traders",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Algorithmic trading is a form of automated trading that uses computer programs to execute trades. It is used by institutional investors and high-frequency traders. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a dark pool?",
+    "options": [
+      "It is a private forum for trading securities",
+      "It is not accessible to the public",
+      "It is used by institutional investors to execute large trades without affecting the market price",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A dark pool is a private forum for trading securities. It is not accessible to the public. It is used by institutional investors to execute large trades without affecting the market price."
+  },
+  {
+    "question": "Which of these is a feature of a block deal?",
+    "options": [
+      "It is a trade with a value of at least Rs. 10 crore",
+      "It is executed in a separate trading window",
+      "It is reported to the stock exchange",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A block deal is a trade with a value of at least Rs. 10 crore. It is executed in a separate trading window, which is open for 35 minutes at the beginning of the trading day. It is reported to the stock exchange."
+  },
+  {
+    "question": "Which of these is a feature of a bulk deal?",
+    "options": [
+      "It is a trade in which the total quantity of shares bought or sold is more than 0.5% of the number of equity shares of the company",
+      "It is executed during the normal trading hours",
+      "It is reported to the stock exchange",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A bulk deal is a trade in which the total quantity of shares bought or sold is more than 0.5% of the number of equity shares of the company. It is executed during the normal trading hours. It is reported to the stock exchange."
+  },
+  {
+    "question": "Which of these is a feature of insider trading?",
+    "options": [
+      "It is the buying or selling of a security by someone who has access to material, non-public information about the security",
+      "It is illegal",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Insider trading is the buying or selling of a security by someone who has access to material, non-public information about the security. It is illegal. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of front running?",
+    "options": [
+      "It is the illegal practice of a stock broker executing orders on a security for its own account while taking advantage of advance knowledge of pending orders from its customers",
+      "It is a form of insider trading",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Front running is the illegal practice of a stock broker executing orders on a security for its own account while taking advantage of advance knowledge of pending orders from its customers. It is a form of insider trading. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of circular trading?",
+    "options": [
+      "It is a form of market manipulation in which a group of traders collude to create artificial trading activity in a security",
+      "It is done to inflate the price of the security",
+      "It is illegal",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Circular trading is a form of market manipulation in which a group of traders collude to create artificial trading activity in a security. It is done to inflate the price of the security. It is illegal."
+  },
+  {
+    "question": "Which of these is a feature of pump and dump?",
+    "options": [
+      "It is a form of market manipulation in which a group of traders collude to inflate the price of a security and then sell it at a higher price",
+      "It is done through false and misleading statements",
+      "It is illegal",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Pump and dump is a form of market manipulation in which a group of traders collude to inflate the price of a security and then sell it at a higher price. It is done through false and misleading statements. It is illegal."
+  },
+  {
+    "question": "Which of these is a feature of a wash trade?",
+    "options": [
+      "It is a form of market manipulation in which a trader simultaneously buys and sells the same security to create artificial trading activity",
+      "It is done to inflate the price of the security",
+      "It is illegal",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A wash trade is a form of market manipulation in which a trader simultaneously buys and sells the same security to create artificial trading activity. It is done to inflate the price of the security. It is illegal."
+  },
+  {
+    "question": "Which of these is a feature of a spoofing?",
+    "options": [
+      "It is a form of market manipulation in which a trader places a large order to buy or sell a security with no intention of executing it",
+      "It is done to create a false impression of demand or supply",
+      "It is illegal",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Spoofing is a form of market manipulation in which a trader places a large order to buy or sell a security with no intention of executing it. It is done to create a false impression of demand or supply. It is illegal."
+  },
+  {
+    "question": "Which of these is a feature of a layering?",
+    "options": [
+      "It is a form of market manipulation in which a trader places multiple orders at different prices to create a false impression of demand or supply",
+      "It is a form of spoofing",
+      "It is illegal",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Layering is a form of market manipulation in which a trader places multiple orders at different prices to create a false impression of demand or supply. It is a form of spoofing. It is illegal."
+  },
+  {
+    "question": "Which of these is a feature of a churning?",
+    "options": [
+      "It is the illegal practice of a stock broker excessively trading in a customer's account to generate commissions",
+      "It is a breach of fiduciary duty",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Churning is the illegal practice of a stock broker excessively trading in a customer's account to generate commissions. It is a breach of fiduciary duty. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a cornering?",
+    "options": [
+      "It is a form of market manipulation in which a trader or a group of traders acquire a substantial portion of a particular security to gain control of its price",
+      "It is illegal",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Cornering is a form of market manipulation in which a trader or a group of traders acquire a substantial portion of a particular security to gain control of its price. It is illegal. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a short selling?",
+    "options": [
+      "It is the selling of a security that the seller does not own",
+      "It is done with the expectation that the price of the security will fall",
+      "It is a high-risk strategy",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Short selling is the selling of a security that the seller does not own. It is done with the expectation that the price of the security will fall. It is a high-risk strategy, as the potential loss is unlimited."
+  },
+  {
+    "question": "Which of these is a feature of a naked short selling?",
+    "options": [
+      "It is the selling of a security that the seller does not own and has not borrowed",
+      "It is illegal in India",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Naked short selling is the selling of a security that the seller does not own and has not borrowed. It is illegal in India. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a stock lending and borrowing mechanism?",
+    "options": [
+      "It is a mechanism that allows traders to borrow securities from other traders",
+      "It is used for short selling",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A stock lending and borrowing mechanism (SLBM) is a mechanism that allows traders to borrow securities from other traders. It is used for short selling. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a securities lending and borrowing scheme?",
+    "options": [
+      "It is a scheme that allows traders to borrow securities from other traders",
+      "It is operated by the clearing corporation",
+      "It is regulated by SEBI",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A securities lending and borrowing scheme (SLBS) is a scheme that allows traders to borrow securities from other traders. It is operated by the clearing corporation. It is regulated by SEBI."
+  },
+  {
+    "question": "Which of these is a feature of a securities transaction tax?",
+    "options": [
+      "It is a tax that is levied on the purchase and sale of securities",
+      "It is levied by the central government",
+      "It is a direct tax",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A securities transaction tax (STT) is a tax that is levied on the purchase and sale of securities. It is levied by the central government. It is a direct tax."
+  },
+  {
+    "question": "Which of these is a feature of a capital gains tax?",
+    "options": [
+      "It is a tax that is levied on the profit from the sale of a capital asset",
+      "It is of two types - short-term capital gains tax and long-term capital gains tax",
+      "It is a direct tax",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A capital gains tax is a tax that is levied on the profit from the sale of a capital asset. It is of two types - short-term capital gains tax and long-term capital gains tax. It is a direct tax."
+  },
+  {
+    "question": "Which of these is a feature of a short-term capital gains tax?",
+    "options": [
+      "It is a tax that is levied on the profit from the sale of a capital asset that is held for not more than 12 months",
+      "The tax rate is 15%",
+      "It is a direct tax",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A short-term capital gains tax is a tax that is levied on the profit from the sale of a capital asset that is held for not more than 12 months. The tax rate is 15%. It is a direct tax."
+  },
+  {
+    "question": "Which of these is a feature of a long-term capital gains tax?",
+    "options": [
+      "It is a tax that is levied on the profit from the sale of a capital asset that is held for more than 12 months",
+      "The tax rate is 10% on gains exceeding Rs. 1 lakh",
+      "It is a direct tax",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A long-term capital gains tax is a tax that is levied on the profit from the sale of a capital asset that is held for more than 12 months. The tax rate is 10% on gains exceeding Rs. 1 lakh. It is a direct tax."
+  },
+  {
+    "question": "Which of these is a feature of a dividend distribution tax?",
+    "options": [
+      "It is a tax that is levied on the dividend distributed by a company to its shareholders",
+      "It is levied on the company",
+      "It is an indirect tax",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 0,
+    "explanation": "A dividend distribution tax (DDT) is a tax that is levied on the dividend distributed by a company to its shareholders. It is levied on the company. It is a direct tax."
+  },
+  {
+    "question": "Which of these is a feature of a financial plan?",
+    "options": [
+      "It is a comprehensive evaluation of an individual's current and future financial state",
+      "It helps in achieving financial goals",
+      "It is prepared by a financial planner",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A financial plan is a comprehensive evaluation of an individual's current and future financial state. It helps in achieving financial goals. It is prepared by a financial planner."
+  },
+  {
+    "question": "Which of these is a step in the financial planning process?",
+    "options": [
+      "Establishing the client-planner relationship",
+      "Gathering client data and determining goals and expectations",
+      "Analyzing and evaluating the client's financial status",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "The financial planning process consists of the following steps: 1. Establishing the client-planner relationship. 2. Gathering client data and determining goals and expectations. 3. Analyzing and evaluating the client's financial status. 4. Developing and presenting the financial plan. 5. Implementing the financial plan. 6. Monitoring the financial plan."
+  },
+  {
+    "question": "Which of these is a feature of a financial planner?",
+    "options": [
+      "A person who helps individuals and corporations meet their financial goals",
+      "A person who is certified by the Financial Planning Standards Board India",
+      "A person who has to adhere to a code of ethics",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A financial planner is a person who helps individuals and corporations meet their financial goals. A Certified Financial Planner (CFP) is a person who is certified by the Financial Planning Standards Board India (FPSB India). A financial planner has to adhere to a code of ethics."
+  },
+  {
+    "question": "Which of these is a feature of a financial goal?",
+    "options": [
+      "It is a target that an individual wants to achieve in the future",
+      "It can be short-term, medium-term or long-term",
+      "It should be specific, measurable, achievable, realistic and time-bound",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A financial goal is a target that an individual wants to achieve in the future. It can be short-term, medium-term or long-term. It should be SMART, which stands for Specific, Measurable, Achievable, Realistic and Time-bound."
+  },
+  {
+    "question": "Which of these is a feature of a risk profile?",
+    "options": [
+      "It is an evaluation of an individual's willingness and ability to take risks",
+      "It is used to determine the asset allocation",
+      "It is determined by a financial planner",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A risk profile is an evaluation of an individual's willingness and ability to take risks. It is used to determine the asset allocation. It is determined by a financial planner."
+  },
+  {
+    "question": "Which of these is a feature of an asset allocation?",
+    "options": [
+      "It is the process of dividing an investment portfolio among different asset categories, such as stocks, bonds, and cash",
+      "It is based on the risk profile of the investor",
+      "It is an important part of financial planning",
+      "All of the above"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "Asset allocation is the process of dividing an investment portfolio among different asset categories, such as stocks, bonds, and cash. It is based on the risk profile of the investor. It is an important part of financial planning."
+  }
+]
+
+
+
