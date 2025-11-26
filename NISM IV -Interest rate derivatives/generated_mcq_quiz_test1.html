@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Interest rate test 1</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Interest rate test 1</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "As per the rules, what are the allowed maturity durations of the GoI bonds that can be the basis for exchange-traded, cash-settled interest rate futures?",
+    "options": [
+      "2, 5 and 9 years",
+      "3, 7 and 12 years",
+      "6, 10 and 13 years",
+      "2, 7 and 10 years"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The allowed maturity durations of Government of India (GoI) bonds for exchange-traded, cash-settled interest rate futures are: -&nbsp;6 years -&nbsp;10 years -&nbsp;13 years According to SEBI circular, stock exchanges are permitted to introduce cash-settled Interest Rate Futures (IRF) on 6-year, 10-year, and 13-year GoI securities.&nbsp; &nbsp;"
+  },
+  {
+    "text": "According to the ICAI, derivatives used to hedge recognized assets or liabilities must be classified as __________ .",
+    "options": [
+      "Current asset",
+      "Current liability",
+      "Current or non current based on classification of hedge",
+      "None of these"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: As per The Institute of Chartered Accountants of India (ICAI) guidance notes - Derivatives that are hedges of recognised assets or liabilities should be classified as current or non-current based on the classification of the hedged item. &nbsp;"
+  },
+  {
+    "text": "Select the derivative from the options below that is solely traded in the over-the-counter (OTC) market.",
+    "options": [
+      "Options",
+      "Futures",
+      "Both Options and Futures",
+      "None of these"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Futures and&nbsp; Options are primarily traded on organized exchanges. &nbsp; OTC derivatives are those that are customized and traded directly between two parties, without going through an exchange. Examples of OTC derivatives include Swaps (interest rate swaps, currency swaps, etc.), certain types of Forwards etc. &nbsp;"
+  },
+  {
+    "text": "Mr. Suryavanshi purchases a bond at ₹130.50 in the spot market and simultaneously buys a put option on the same bond with a strike price of ₹130.50 for a premium of ₹0.20. Calculate Mr. Suryavanshi's net payoff if the bond price is ₹130 at the option's expiry.",
+    "options": [
+      "Rs. - 0.50",
+      "Rs. 0.50",
+      "Rs. - 0.20",
+      "0"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: 1. At expiry, the bond is worth 130, but he purchased it for 130.50. So the loss from the bond = 130 - 130.5 = Rs&nbsp;&nbsp;−&nbsp;0.50 2. A put option gives the right to sell the bond at 130.50. Since the market price is 130, the put is IN THE MONEY&nbsp; So, the payoff from the put&nbsp;= 130.50 − 130 =&nbsp; Rs. 0.50 But he paid a premium of Rs. 0.20, so net profit from the put = 0.50 − 0.20 =&nbsp; Rs. 0.30 Net payoff = (Bond payoff) + (Put option net payoff) = (−0.50) + 0.30 = − 0.20 &nbsp;"
+  },
+  {
+    "text": "A major economic function performed by derivatives is _______.",
+    "options": [
+      "Price discovery of underlying",
+      "Speculation",
+      "Management of risks",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Derivatives serve multiple key economic functions, including: Price discovery of underlying: Derivatives markets provide valuable information about the future prices of underlying assets. The prices of futures and options contracts reflect market expectations. Speculation: Derivatives also allow investors to speculate on the future price movements of underlying assets, which can contribute to market liquidity. Risk management: Derivatives are widely used to hedge or mitigate various types of risk, such as price risk, interest rate risk, and currency risk. &nbsp; &nbsp; &nbsp;"
+  },
+  {
+    "text": "Who regulates the Interest rate derivatives in India?",
+    "options": [
+      "Securities and Exchange Board of India (SEBI)",
+      "Reserve Bank of India (RBI)",
+      "Jointly by SEBI and RBI",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: In India, interest rate derivatives (IRDs) are regulated jointly by the Reserve Bank of India (RBI) and the Securities and Exchange Board of India (SEBI), depending on the market segment: RBI regulates: -&nbsp;OTC (Over-the-Counter) interest rate derivatives. -&nbsp;IRDs traded in the interbank market and by institutions under RBI supervision. SEBI regulates: -&nbsp;Exchange-traded interest rate derivatives (like interest rate futures) on recognized stock exchanges. &nbsp;"
+  },
+  {
+    "text": "If an FPI holds derivative positions for a period less than 12 months, the resulting gain or loss will be taxed under the category of __________.",
+    "options": [
+      "Long term capital gain or loss",
+      "Short term capital gain or loss",
+      "Not taxable",
+      "As per the tax bracket"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: According to the Indian tax laws: -&nbsp;If a Foreign Portfolio Investor (FPI) holds derivatives positions for less than 12 months, the gain or loss arising from these transactions is considered as a short-term capital gain or short-term capital loss. -&nbsp;Derivatives are typically treated as securities under the Income Tax Act, and gains from securities held for less than 12 months are taxed as short-term capital gains. &nbsp;"
+  },
+  {
+    "text": "Mr. Sunny takes two positions: buying a call option (strike Rs. 40.25, premium Rs. 0.20) and selling a call option (strike Rs. 39.50, premium Rs. 0.60). Determine his net profit or loss if the underlying asset's price at expiry is Rs. 39.50",
+    "options": [
+      "Rs. -0.60",
+      "Rs. 0.20",
+      "Rs. 0.40",
+      "0"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Mr. Sunny has paid a premium of Rs 0.20 and received a premium of Rs 0.60. Net Premium received = 0.60 - 0.20 = 0.40 Now, lets evaluate the payoff of each position: Long Call (Strike 40.25)&nbsp; : Since spot price &lt; strike,&nbsp;the option expires worthless. Payoff = 0 Short Call (Strike 39.50) : Since spot price = strike, this call also expires worthless. Payoff = 0 Thus the payoff on the two positions = 0 The Net Premium received is 0.40 and that will be the final payoff. &nbsp;"
+  },
+  {
+    "text": "When trading government bond futures, which of the following quantity of face value can be bought or sold?",
+    "options": [
+      "Rs 1 lakh",
+      "Rs 5 lakhs",
+      "Rs 10 lakhs",
+      "Rs 15 lakhs"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: In India,&nbsp;Government Bond Futures&nbsp;traded on exchanges like NSE or BSE have a&nbsp;standardized contract size&nbsp;based on&nbsp;face value multiples of Rs. 2 lakhs. -&nbsp;Permissible Quantities: Only&nbsp;multiples of Rs. 2 lakhs&nbsp;(e.g., 2L, 4L, 6L, 8L, 10L, etc.) can be traded. -&nbsp;Non-Permissible Quantities: Amounts like 1L, 5L, 15L, etc., are&nbsp;not allowed&nbsp;because they are&nbsp;not exact multiples of Rs. 2 lakhs. &nbsp;"
+  },
+  {
+    "text": "If you predict that the 3-month interest rate will increase in one month's time, what would be a suitable action to take today?",
+    "options": [
+      "Buy the contract that expires in three months on an underlying asset whose price is sensitive to 1-month interest rate",
+      "Buy the contract that expires in one month on an underlying asset whose price is sensitive to 3-month interest rate",
+      "Sell the contract that expires in one month on an underlying asset whose price is sensitive to 3-month interest rates",
+      "Sell the contract that expires in three months on an underlying asset whose price is sensitive to 1-month interest rates"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: If you expect that 3-month interest rates will increase in one month, here's how you would trade: -&nbsp;Interest rates rise → The price of instruments sensitive to interest rates (like bonds) falls. -&nbsp;The 1-month contract will be closer to its expiry and will reflect the immediate impact of the expected rate change. Since you expect the 3-month rate to rise in one month, selling a contract expiring in 1 month will capture the immediate market reaction to this interest rate change. By doing so, you are taking a short position (since interest rates are expected to rise, bond prices will fall, and you'll profit from this move). &nbsp;"
+  },
+  {
+    "text": "When volatility is measured based on prior closing prices, it is referred to as ________.",
+    "options": [
+      "Implied volatility",
+      "Parallel volatility",
+      "Historical volatility",
+      "Factual volatility"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Historical Volatility measure is derived from the historical price fluctuations of an asset. It analyzes past price data to estimate how much the asset's price has varied over a specific period. &nbsp;"
+  },
+  {
+    "text": "Mr. Guru buys a bond for Rs. 54.50 and sells a Rs. 55 strike call option for Rs. 0.10. Calculate the net payoff for Mr. Guru if the bond price is Rs. 55.50 at expiration.",
+    "options": [
+      "Rs. 0.40",
+      "Rs. 0.60",
+      "Rs. - 0.50",
+      "Rs. - 0.20"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: 1. Bond Payoff : At expiration, the bond is worth Rs 55.50. Since Mr. Guru bought it at Ra 54.50, the Bond gain = Rs. 55.50 − Rs. 54.50 = Rs. 1.00 2. Call Option Payoff (short position): Mr. Guru&nbsp;sold&nbsp;a Rs. 55 strike&nbsp;call option, and the bond ends at Rs. 55.50.&nbsp; So the&nbsp;buyer&nbsp;of the call will&nbsp;exercise&nbsp;it (since it's in-the-money), and Mr. Guru has to sell the bond at Rs. 55. Loss on call = Rs. 55.50 − Rs. 55 = Rs. 0.50 (Since he's short the call, he&nbsp;loses&nbsp;Rs. 0.50) 3. Premium Received: Mr. Guru collected Rs. 0.10 for selling the call. Total Net Payoff :&nbsp;Bond&nbsp;gain − Call&nbsp;loss + Premium&nbsp;received = 1.00 − 0.50 +0.10 = Rs.0.60 &nbsp;"
+  },
+  {
+    "text": "In the clearing corporation, clearing is carried out by a process called _______ netting.",
+    "options": [
+      "Gross",
+      "Closed",
+      "Open",
+      "Multilateral"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: In a clearing corporation, clearing is carried out by a process called multilateral netting, where multiple parties' obligations are offset against each other to determine a single net payable or receivable amount for each participant. This reduces settlement risk and increases efficiency. &nbsp;"
+  },
+  {
+    "text": "Usually, income from Exchange traded derivatives is treated as _________.",
+    "options": [
+      "Business income",
+      "Income from other sources",
+      "Professional income",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Income from exchange-traded derivatives is usually treated as business income for tax purposes, as per Indian tax laws. This applies whether the trading results in profit or loss. &nbsp;"
+  },
+  {
+    "text": "Loss on derivative transactions which are carried out in a “recognized stock exchange” can be set off against any other income during the year, except _________.",
+    "options": [
+      "Salary income",
+      "Business income",
+      "Income from other sources",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: According to the Income Tax Act, 1961, losses from derivative transactions carried out on a recognized stock exchange (such as futures and options) can be set off against other types of income. However, there are specific rules about setting off such losses. -&nbsp;Business income: Losses from derivatives can be set off against business income because derivative trading in recognized exchanges is considered a business activity. -&nbsp;Income from other sources: Losses from derivatives can also be set off against income under the head Income from Other Sources, if it qualifies. -&nbsp;Salary income: Salary income cannot be set off against losses from derivative transactions because salary income is considered non-speculative and cannot be adjusted with speculative losses. &nbsp; &nbsp;"
+  },
+  {
+    "text": "__________ take position in Interest Rate Derivatives to reduce interest rate risk.",
+    "options": [
+      "Arbitragers",
+      "Speculators",
+      "Hedgers",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Hedgers use Interest Rate Derivatives to reduce or manage their interest rate risk — for example, protecting against rising or falling interest rates on loans or investments. &nbsp;"
+  },
+  {
+    "text": "The concept of “accrued interest” applies to which of the following?",
+    "options": [
+      "Coupon bond",
+      "Zero coupon bond",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The concept of \"accrued interest\" applies to coupon bonds. It refers to the interest that has accumulated on a bond since the last coupon payment, but has not yet been paid. When the bond is bought or sold between coupon payment dates, the buyer must pay the seller the accrued interest for the period they held the bond. Zero coupon bonds don't pay periodic interest; instead, they are issued at a discount to face value and mature at par value, so \"accrued interest\" does not apply to them. &nbsp;"
+  },
+  {
+    "text": "Interoperability of clearing corporation framework is allowed for all the products available in the Indian securities markets, EXCEPT: __________.",
+    "options": [
+      "Index Options",
+      "Index Derivatives",
+      "Interest rate derivatives",
+      "Commodity Derivatives"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The interoperability framework among clearing corporations in India, as enabled by SEBI, allows for efficient clearing and settlement across different clearing corporations. However, commodity derivatives are not included in this framework. Interoperability currently applies to products like: Equity cash Equity derivatives (index derivatives, stock derivatives) Currency derivatives Interest rate derivatives But commodity derivatives are cleared through a separate clearing mechanism and not part of the interoperable framework. &nbsp;"
+  },
+  {
+    "text": "Mr. Sharma wishes to invest in Government Bonds and wishes to open a Gilt account. As per rules he can open only one Gilt account. - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: An investor can maintain only one Gilt Account."
+  },
+  {
+    "text": "The major economic role of derivatives is risk management - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Derivatives are financial instruments whose value is derived from an underlying asset (like stocks, bonds, commodities, currencies, or interest rates). The major economic role of derivatives is risk management (hedging): They allow businesses, investors, and financial institutions to protect against price fluctuations, interest rate changes, currency risk, or commodity price movements. While derivatives are also used for speculation or arbitrage, their primary economic function is reducing and managing risk. &nbsp;"
+  },
+  {
+    "text": "Depository for government securities is the ________ .",
+    "options": [
+      "Public Debt Office (PDO)",
+      "National Securities Depository Ltd (NSDL)",
+      "Central Depository Services (India) Ltd (CDSL)",
+      "Reserve Bank of India (RBI)"
+    ],
+    "correct": 0,
+    "explanation": ""
+  },
+  {
+    "text": "The price of a bond (of Rs 100 face value) is Rs 105. It has a coupon rate of 9%. What is the current yield ?",
+    "options": [
+      "9%",
+      "8.57%",
+      "9.33%",
+      "5%"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Current Yield = &nbsp;Coupon / Current Price &nbsp;x 100 = 9 / 105 &nbsp;x &nbsp;100 &nbsp;= &nbsp;8.57%"
+  },
+  {
+    "text": "Mr A has purchased a par bond for a total sum of Rs 10 lakhs. Later the Yield to Maturity (YTM) falls by one basis point (0.01%). The Modified Duration (MD) is 5.80 . Calculate the market value of Mr. A investments after the change in YTM.",
+    "options": [
+      "Rs. 999420",
+      "Rs. 1000580",
+      "Rs. 1005800",
+      "Rs. 994200"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Change in portfolio market value = Portfolio market value × Portfolio MD × Change in YTM = &nbsp;( 1000000 x 5.80 ) x .01% &nbsp;= &nbsp;580 As the YTM has fallen, the bond prices will rise. So 10,000,00 + 580 &nbsp;= &nbsp;Rs. 10,00,580"
+  },
+  {
+    "text": "The Conversion Factor in physical settlement of bond futures will be ______ .",
+    "options": [
+      "same for all Deliverable bonds",
+      "different for different Deliverable bonds",
+      "there is no conversion factor in physical settlement",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: To make the notional bond and a Deliverable Bond equivalent in value, a Conversion Factor (also known as Price Factor) is employed, which is specific to each Deliverable Bond. The conversion factor for bond futures is different for each deliverable bond. This factor is a unique number calculated for each specific bond to account for its coupon rate and maturity. Its purpose is to standardize the value of all eligible bonds, ensuring a fair price during the physical settlement process. &nbsp;"
+  },
+  {
+    "text": "The price quotation for Government Bond futures is ________ .",
+    "options": [
+      "price per 100 face value",
+      "100 minus the discount rate",
+      "100 plus the discount rate",
+      "price per 1000 face value"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The price quotation for T-bill is 100 minus the discount rate and that for Govt Bonds is price per 100 face value."
+  },
+  {
+    "text": "_________ have to compulsorily hold government securities in demat form.",
+    "options": [
+      "All retail Investors",
+      "All RBI controlled entities",
+      "All Primary Dealers and Banks",
+      "All schedule commercial banks"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Government securities can be also held as physical certificates. However, all entities regulated by RBI must hold their securities compulsorily in electronic book entry form in SGL Account (with PDO) or Gilt Account (with SCB/PD)"
+  },
+  {
+    "text": "Converting a floating-rate loan into a fixed-rate loan is _______ .",
+    "options": [
+      "Speculation",
+      "Hedging",
+      "Risk Insurance",
+      "Delta Arbitrage"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Hedging is the opposite of trading: eliminating the existing price risk.&nbsp;If the futures cash flows are fixed and known (in terms of their size and timing) at the outset, there is no risk. In a fixed-rate loan, there is no risk because you know in advance how much you will have to pay in future. On the other hand, if you have taken a floating-rate loan, there is risk because you do not know in advance how much you will have to pay in future for the interest."
+  },
+  {
+    "text": "___________ is a debt security which has no cash flow until maturity.",
+    "options": [
+      "Consol",
+      "Zero Coupon Bond",
+      "Annuity",
+      "All of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Zero-coupon instrument does not pay any amount before maturity date. The interest is accumulated, compounded and paid along with principal at maturity as a single payment. Annuity pays coupon and part of the principal periodically in such a manner that the cash flows are equal in size and equally spaced in time (e.g. equated monthly installments). Most consumer loans and housing loans are structured as annuities. Consolidated Annuity (“consol”), which is a bond issued by the UK Government, and which is a perpetual security with 3% coupon. The coupon is paid for ever and the principal is never redeemed."
+  },
+  {
+    "text": "Assume that the price of a 10 year Govt. bond future is Rs 113, what will the market value of one contract ?",
+    "options": [
+      "Rs. 113000",
+      "Rs. 2260000",
+      "Rs. 1130000",
+      "Rs. 226000"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: For 10-year Government of India Security futures, the contract size is 2000 underlying bonds, each with a face value of Rs. 100, resulting in a total contract value of Rs. 200,000 (Rs. 2 Lakhs). Revised Calculation for Market Value Given that the price per Rs. 100 face value is Rs. 113, the market value of one contract would Market&nbsp;Value = (Price&nbsp;per&nbsp;Rs. 100&nbsp;unit / 100) × Total&nbsp;Face&nbsp;Value = (113 / 100) × 200,000 = 2,26,000&nbsp; &nbsp;"
+  },
+  {
+    "text": "From the given options, which is the most liquid tenor in Money Markets ?",
+    "options": [
+      "10 month",
+      "6 month",
+      "2 month",
+      "1 month"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The Money market tenors consists of overnight (ON), 1-week (1W), 2-week (2W), 1-month (1M) to 1-year (1Y) at the interval of a month. Of these, ON, 1M and 3M are more liquid than others. (The Bond Market tenors &nbsp;2Y, 5Y, 7Y, 10Y, 15Y, 20Y, 25Y and 30Y. Of these, 2Y and 10Y are more liquid)."
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

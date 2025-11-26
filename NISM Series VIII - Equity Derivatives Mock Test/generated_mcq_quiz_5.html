@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mutual Fund MCQ Interactive Quiz - Set 5</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Mutual Fund MCQ Interactive Quiz - Set 5</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "In the case of futures contract, the profits or losses are received / paid only on maturity - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In futures contract, the profits / losses are received / paid as and when the contract is closed (squared up) by the trader or on maturity, which ever is earlier. &nbsp;"
+  },
+  {
+    "text": "If there are three series of one, two and three months futures open at a given point of time, how many calendar spread possibilities arise?",
+    "options": [
+      "4",
+      "3",
+      "2",
+      "1"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The three calendar spreads can be between months 1 and 2,&nbsp; 2 and 3 and 1 and 3."
+  },
+  {
+    "text": "______ is not a derivatives market product.",
+    "options": [
+      "Preference Share",
+      "Futures",
+      "Swaps",
+      "Options"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Futures, Forwards, Options, Swaps etc. are all products in the derivative market. Preference share is not a derivative product."
+  },
+  {
+    "text": "Even if you do not own the underlying stock, you can sell the stock option for that stock - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Although Futures and Options were introduced as hedgeing tools but there is no pre-condition that one has to own the stock to trade in futures and options. One can easily buy and sell options without owning the underlying stock."
+  },
+  {
+    "text": "Over-the-counter options are always standardised - State whether True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Over the Counter options are made as per the needs of the trading parties - so they are customised. Future options are standardised as per the rules of stock exchange."
+  },
+  {
+    "text": "Calendar spreads carry basis risk and no market risk - hence _____ margins are charged.",
+    "options": [
+      "Higher",
+      "Lower",
+      "NIL",
+      "Very high"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Calendar spreads carry only basis risk and no market risk - hence lower margins are adequate."
+  },
+  {
+    "text": "A long or short position in a futures contract can be closed by initiating a reverse trade - State True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: A closing transaction is one that reduces or eliminates an existing position by an&nbsp;appropriate offsetting purchase or sale. This is also known as “squaring off” your&nbsp;position."
+  },
+  {
+    "text": "When it is said that there is cash settlement of an index futures contract, it means that the contract is settled in cash with no delivery of the underlying - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Index futures are always cash settled. Individual securities can be cash settled or by delivery."
+  },
+  {
+    "text": "Which of these complaints against a trading member can an Exchange take up for redressal?",
+    "options": [
+      "Claims for expenses incurred for taking up the matter with the ISC",
+      "Losses for transaction which are not within the framework of exchange",
+      "Claims for opportunity loss for the particular disputed trade",
+      "Excess brokerage charged by a broker"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Complaints against trading members on account of the following&nbsp;can be taken by an Exchange for redressal :"
+  },
+  {
+    "text": "In exercising a Put option on a stock, the option holder acquires from the option writer _____ .",
+    "options": [
+      "a short position in the underlying stock",
+      "a long position in the underlying stock",
+      "a strangle position in the underlying stock",
+      "a butterfly position in the underlying stock"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The buyer / holder of a Put option is of the view that price of the underlying will fall. He thus acquires a short position on exercise. &nbsp;"
+  },
+  {
+    "text": "When a person enters into a forward contract, the loss that can occur on the position is _____ .",
+    "options": [
+      "known",
+      "unknown"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: When a person enters into a forward or a futures contract, his profits or losses are uncertain as it depends on the movement of prices. (Only in the case of buying an option, the losses are fixed ie. premium paid)"
+  },
+  {
+    "text": "You sold a call option on a share. The strike price of the Call was Rs 250 and you received a premium of Rs 16 from the option buyer. What can be the maximum loss on this position?",
+    "options": [
+      "Unlimited",
+      "Zero",
+      "Rs. 250",
+      "Rs. 234"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: When you sell a call option, you’re obligated to deliver the underlying share at the strike price if the buyer exercises the option. Here's how the risk unfolds :&nbsp; Strike Price = Rs. 250 Premium Received = Rs.16 So, your maximum profit is Rs.16 per share But if the stock price rises significantly above Rs. 250, you must sell the share at Rs. 250, regardless of how high the market price goes. Since the market price can theoretically go to infinity, your maximum loss is unlimited. &nbsp;"
+  },
+  {
+    "text": "Clearing Member Mr. Prabhu focuses mainly on proprietary trading, while Clearing Member Mr. Mehta does not do any proprietary trades and does trades only for clients. If both have deposited the same amount of assets with Clearing Corporation, which of the following statement is true?",
+    "options": [
+      "Mr. Prabhu enjoys a lower exposure limit than Mr. Mehta",
+      "Mr. Prabhu enjoys a higher exposure limit than Mr. Mehta",
+      "Both of them enjoy the same exposure limits"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: On Indian stock exchanges, exposure limits are influenced by risk perception and type of trading activity: - Mr. Prabhu: Engages in proprietary trading (i.e., trades on his own account). Since the risk is limited to himself and not to clients, the risk to the Clearing Corporation is lower. -&nbsp;Mr. Mehta: Trades only for clients. This involves client-related risks (e.g., default risk, regulatory compliance), so the clearing corporation assigns stricter risk controls and lower exposure limits for client-only clearing members. Even if both have deposited the same collateral, proprietary traders are generally allowed higher exposure limits due to the lower systemic risk they pose."
+  },
+  {
+    "text": "A tick is __________ .",
+    "options": [
+      "Minimum price difference between two buy quotes",
+      "Minimum price difference between two sell quotes",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Tick Size is the minimum move allowed in the price quotations. (Eg - Suppose the tick size is 5 paise. A buyer has entered an order to buy at Rs 100. If some other buyer wants to enter a buying quote at a higher price, he can quote the price as Rs 100.05 and not 100.01)"
+  },
+  {
+    "text": "A stock index like Nifty ______ .",
+    "options": [
+      "is a basket of stocks",
+      "can be easily manipulated",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Stock Index like Nifty and Sensex consists of a basket of stocks and so its very difficult / almost impossible to manipulate the index."
+  },
+  {
+    "text": "Generally, other things remaining the same - American options value is lower than that of European options - True or False?",
+    "options": [
+      "True",
+      "False",
+      "The information given is inadequate",
+      "It depends on market condition"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: American options are generally valued higher than&nbsp;European options. American options allow option holders to exercise the option at any time prior to its maturity date, thus increasing the value of the option to the holder relative to European options, which can only be exercised at maturity.&nbsp;"
+  },
+  {
+    "text": "A Trading Member on derivatives exchange does not have Clearing rights - State True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Trading Member: They are members of Stock Exchanges. They can trade either on behalf of their clients or"
+  },
+  {
+    "text": "The exercise date and expiration date of an European option is ________ .",
+    "options": [
+      "Always the same",
+      "Always on the 28th of the expiry month",
+      "always different",
+      "May be same"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: An European option can only be exercised on the expiry date/day of the contract. So in an&nbsp;European option the&nbsp;exercise date and expiration date is always the same. An American option can be exercised on any day."
+  },
+  {
+    "text": "Mr A sold a put option of strike Rs.300 on ABC stock for a premium of Rs.20. The lot size is 1000. On the expiry day, ABC stock closed at Rs. 250. What is his net profit (+) or loss (-)?",
+    "options": [
+      "-30000",
+      "+30000",
+      "+70000",
+      "-70000"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Mr. A sold a PUT option, that means he has a bullish or neutral view on PQR stock. However, ABC stock has fallen by Rs 50 ( 300 - 250 ). Which means he has lost Rs 50. Since he has sold a PUT, he will receive the premium which is Rs 20. So his net loss will be Rs 50 (Loss) - Rs 20 (Premium Recd) = Rs 30 Total Loss = Rs 30 x 1000 (lot size) = Rs. 30000"
+  },
+  {
+    "text": "When a PUT option on an index is exercised, the option holder receives from the option writer _______ .",
+    "options": [
+      "A cash amount that is equal to the excess of spot price over exercise price",
+      "A cash amount that is equal to the excess of exercise price over spot price",
+      "A cash amount that is equal to spot price",
+      "No amount"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: An option will only be exercised when its In the Money (Profitable) A put option is In the Money when the Exercise price is higher than the spot price. So the excess of exercise price over the spot price will be receivable by the option holder. (IN THE MONEY - A call option with a strike (exercise) price that is lower than the market (spot) price of the underlying asset, or a put option with a strike price that is higher than the market price of the underlying asset.&nbsp;In the money means that your stock option is worth money and you can turn around and sell or exercise it.)"
+  },
+  {
+    "text": "Intrinsic value is always positive for in-the-money options and zero for out-of-the money options - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In-the-money options have positive intrinsic value whereas at-the-money and out-of-the-money options have zero intrinsic value. The intrinsic value of an option can never be negative. &nbsp;"
+  },
+  {
+    "text": "If futures price is higher than spot price of an underlying asset, this is known as _____ .",
+    "options": [
+      "Maximization",
+      "Normalization",
+      "Backwardation",
+      "Contango"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: If futures price is higher than spot price of an underlying asset, market&nbsp;participants may expect the spot price to go up in near future. This expectedly rising&nbsp;market is called “Contango market”. &nbsp; Similarly, if futures price are lower than spot price&nbsp;of an asset, market participants may expect the spot price to come down in future. This&nbsp;expectedly falling market is called “Backwardation market”. &nbsp;"
+  },
+  {
+    "text": "Mr. Ashish is a portfolio manager and he is bullish on the market. What should be his course of action ?",
+    "options": [
+      "He should sell index futures",
+      "He should sell index call option",
+      "He should buy index futures",
+      "He should sell his complete portfolio"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Buying index futures such as Nifty futures will help him reap good profits if his view of bullish markets prove correct."
+  },
+  {
+    "text": "The main proof of whether a futures transaction is for speculation or hedging is based on whether there already exists a related commercial position which is exposed to risk of loss due to price movement - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Hedgeing basically means making a trade to reduce the risk of adverse price movements in an asset which you already hold. Normally, a hedge consists of taking an offsetting position in a related security, such as a futures contract For eg. - A company will be receiving dollars after three months. So to safe guard against any fluctuations, it sells dollars in the futures market (3 month futures) and locks in the price. &nbsp;"
+  },
+  {
+    "text": "What is the role of speculators in the market ?",
+    "options": [
+      "They stabilise the markets",
+      "They reduce their risks by speculating",
+      "They maintain the Dollar-Rupee price parity",
+      "They add to the liquidity in the futures market"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Speculators constantly buy and sell creating good liquidity."
+  },
+  {
+    "text": "What is an Index Future ?",
+    "options": [
+      "Its a synthetic option",
+      "Its a cash market product",
+      "Its a derivative product",
+      "Its an option"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The future price of an index is derived from the spot / cash price. So Index Future is a derivative product. &nbsp; &nbsp;"
+  },
+  {
+    "text": "Identify the INCORRECT statement with respect to Tracking error of index funds.",
+    "options": [
+      "From the point of view of the investors a low tracking error is desirable",
+      "Tracking error can also arise due to mutual fund expenses",
+      "Tracking error is same for all index funds as it is fixed by the regulator",
+      "Cash balances which are maintained by the fund manager can cause tracking error"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Tracking error measures how closely an index fund’s performance follows its benchmark index. A low tracking error is desirable (1, correct). It can arise due to mutual fund expenses like expense ratios (2, correct) Cash balances held for liquidity, causing deviations from the index (4, correct). However, tracking error is not fixed by the regulator and varies across index funds based on management, expenses, and strategy. (Therefore statement 3 is incorrect) &nbsp;"
+  },
+  {
+    "text": "Which type of index is NSE NIFTY?",
+    "options": [
+      "Its a price-weighted index",
+      "Its a free-float market capitalisation index",
+      "Its an equally-weighted index",
+      "Its a market capitalisation – weighted index"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The free-float methodology is a method of calculating the market capitalization of a stock market index's underlying companies. With the free-float methodology,&nbsp;market capitalization is calculated by taking the equity's price and multiplying it by the number of shares readily available in the market. A majority of the stock indices globally, over a period of time, have moved to free float basis, including the Indian equity indices - Sensex, Nifty and SX40. &nbsp;"
+  },
+  {
+    "text": "Identify the strategy in which an investor takes a short position in call option and long position in the underlying stock.",
+    "options": [
+      "Writing a naked call",
+      "Protective call strategy",
+      "Writing a covered call",
+      "Butterfly strategy"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: A Covered Call is a basic option trading strategy frequently used by traders to protect their share holdings. It is a strategy in which you own shares of a company and Sell OTM Call Option of the company in similar proportion. The Call Option would not get exercised unless the stock price increases. Till then you will earn the Premium. This a unlimited risk and limited reward strategy. &nbsp;"
+  },
+  {
+    "text": "Identify the FALSE statement with respect to trading on the OTC market.",
+    "options": [
+      "OTC markets have a centralised clearing and settlement of all trades",
+      "On the OTC markets, there are no limits on the positions that buyers and sellers can take",
+      "Buyers and sellers can trade in tailor-made contracts in the OTC markets",
+      "In the OTC markets, risk management is usually the responsibility of the parties themselves"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Forward contracts are also known as OTC contracts. It is a contractual agreement between two parties to buy/sell an underlying asset at a certain future date for a particular price that is pre-decided on the date of contract. Both the contracting parties are committed and are obliged to honour the transaction irrespective of the price of the underlying asset at the time of delivery. Since forwards are negotiated between two parties, the terms and conditions of contracts are customized/tailor made. These contracts are not regulated by an Exchange and there is no&nbsp; centralised clearing and settlement of trades. &nbsp;"
+  },
+  {
+    "text": "The cost incurred due to the Bid-Ask spread is known as ______ .",
+    "options": [
+      "Transaction cost",
+      "Spread cost",
+      "Margin cost",
+      "Impact cost"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Impact cost is a measure of the cost incurred due to the bid-ask spread. Impact cost represents&nbsp;the cost of executing a transaction in a given stock, for a specific predefined order size, at any given point of time. Impact cost is the measure of liquidity of the security. It is the cost a buyer or seller has to incur for a particular quantity of order at a given point of time due to the existing liquidity condition of the security available in the market. &nbsp;"
+  },
+  {
+    "text": "A future contract ______ .",
+    "options": [
+      "can be traded on a one to one basis by counterparties",
+      "will never have a specified maturity",
+      "can be squared off any time before expiry",
+      "cannot be squared off before expiry"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: A futures contract is a standardized derivative traded on an exchange. Key features: -&nbsp;Standardized contract – not traded on a one-to-one basis like forwards. -&nbsp;Specified maturity – each futures contract has a defined expiry date. -&nbsp;Squaring off – positions can be closed (squared off) anytime before expiry by taking an opposite position in the same contract. -&nbsp;Settlement occurs at expiry if not squared off. &nbsp;"
+  },
+  {
+    "text": "A Trading-cum-clearing member has a client X who has purchased and sold 1000 and 2000 contracts respectively in the June series of ABC futures (contract multiplier 50). The Trading-cum-clearing member has purchased and sold 2200 and 1500 contracts respectively on his own account in the same June series of ABC futures (contract multiplier 50). What is the outstanding liability (open position) of the member towards clearing corporation in the number of contracts?",
+    "options": [
+      "1700",
+      "300",
+      "6700",
+      "2200"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The open position of a client and the clearing member cannot be netted off with each other. Open position of client X is 1000 - 2000 =&nbsp; 1000 sale contracts Open position of Clearing member is 2200 - 1500 = 700 purchase contracts Total outstanding position of the clearing member towards the Clearing Corporation is 1000 + 700 = 1700 contracts &nbsp;"
+  },
+  {
+    "text": "Which of these is an example of derivative contract?",
+    "options": [
+      "Treasury Bills of Government of India",
+      "Equity shares of XYZ Ltd",
+      "S&amp;P 500 futures",
+      "Certificate of Deposit"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Index Derivatives are derivative contracts which have the index as the underlying asset. The Standard and Poor's 500, or simply the S&amp;P 500, is a stock market index tracking the stock performance of 500 of the largest companies listed on stock exchanges in the United States. S&amp;P futures are a derivative contract with S&amp;P 500 index as the underlying. &nbsp;"
+  },
+  {
+    "text": "Which of these derivative contracts, once entered into, usually cannot be closed or reversed till their expiry?",
+    "options": [
+      "Exchange traded options on futures",
+      "Exchange traded options",
+      "Future contracts",
+      "Forward contracts"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Forwards are bilateral over-the-counter (OTC) transactions where the terms of the contract, such as price, quantity, quality, time and place are negotiated between two parties to the contract. The tailor made contracts and their non-availability on exchanges creates illiquidity in the contracts. Therefore, it is very difficult for parties to exit from the forward contract before the contract’s maturity. &nbsp;"
+  },
+  {
+    "text": "Who becomes a legal counter party to every trade in futures transactions on a recognised stock exchange?",
+    "options": [
+      "SEBI",
+      "Clearing Corporation",
+      "Custodian",
+      "Depository"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Clearing Corporation is responsible for clearing and settlement of all trades executed on&nbsp;the F&amp;O Segment of the Exchange. It acts as a legal counterparty to all trades on this segment and also guarantees their financial settlement. &nbsp;"
+  },
+  {
+    "text": "What will the option holder receive when he exercises a put option on an index?",
+    "options": [
+      "He will receive cash amount equal to excess of spot price over exercise price",
+      "He will receive cash amount equal to excess of exercise price over spot price",
+      "He will receive cash amount equal to spot price",
+      "He will receive nothing"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: An option will only be exercised when its In the Money (Profitable) A put option is In the Money when the Exercise price is higher than the spot price. So the excess of exercise price over the spot price will be receivable by the option holder. (IN THE MONEY - A call option with a strike (exercise) price that is lower than the market (spot) price of the underlying asset, or a put option with a strike price that is higher than the market price of the underlying asset.&nbsp;In the money means that your stock option is worth money and you can turn around and sell or exercise it.) &nbsp;"
+  },
+  {
+    "text": "When does the Clearing Corporation change the initial margin requirements?",
+    "options": [
+      "Clearing Corporation can continuously change the initial margin requirements according to changes in market volatility",
+      "Clearing Corporation can continuously change the initial margin requirements whenever their is an increase in trading volumes",
+      "Clearing Corporation changes the initial margin requirements periodically, based on specific instructions received from SEBI",
+      "Clearing Corporation changes the initial margin requirements periodically, after each expiry date"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The initial margin is dependent on price movement of the underlying asset. As high volatility assets carry more risk, the Exchange / Clearing Corporation would charge higher initial margin on them. &nbsp;"
+  },
+  {
+    "text": "Mark-to-market margins are collected _____ .",
+    "options": [
+      "On a weekly basis",
+      "On a daily basis",
+      "Every 2 days",
+      "Every 3 days"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In the futures market, profits and losses are settled on day-to-day basis – called mark to market (MTM) settlement. The exchange collects these margins (MTM margins) from the loss making participants and pays to the gainers on day-to-day basis. &nbsp;"
+  },
+  {
+    "text": "The facility for lending and borrowing securities is usually necessary for smooth execution of ________ .",
+    "options": [
+      "Cash and carry arbitrage",
+      "Reverse cash-and-carry arbitrage",
+      "Cross-hedge using futures",
+      "Calendar spread using futures"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Usually the futures prices are higher than cash market prices. The reverse cash-and-carry arbitrage is done when the futures contract are lower than the cash market price.&nbsp; For eg. Reliance Industries Ltd. is trading at Rs 2050 in the cash market and Rs. 2000 in futures market. The arbitrageur will sell in the cash market at Rs 2050 and buy in the future market at Rs 2000, thus making a profit of Rs 50 (less expenses). The arbitrageur should have the stock to deliver in the cash market, which will be bought back at the time of reversing the position. If stock is not available, arbitrageur needs to borrow the stock to implement the arbitrage. Therefore, existence of a facility for lending and borrowing securities is required for smooth execution Reverse cash-and-carry arbitrage. &nbsp;"
+  },
+  {
+    "text": "Identify the strategy which will be most appropriate when volatility is expected to be very low.",
+    "options": [
+      "Short Straddle",
+      "Short Butterfly",
+      "Long Butterfly",
+      "Long Straddle"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: A Short Straddle strategy involves selling a Call and a Put option at the same strike price (usually at-the-money). It profits when the price remains stable and volatility is low, because both options lose value as time passes (time decay works in the seller’s favor). The trader earns the total premium received from selling both options. However, it carries high risk if the market moves sharply in either direction. Hence, when volatility is expected to remain very low, the most suitable strategy is a Short Straddle. &nbsp;"
+  },
+  {
+    "text": "Identify the TRUE statement with respect to Option Spreads.",
+    "options": [
+      "A bullish call spread will result in an initial cash inflow for the trader",
+      "A bearish call spread will result in an initial cash inflow for the trader",
+      "A bullish put spread will result in an initial cash outflow for the trader",
+      "A bearish put spread will result in an initial cash inflow for the trader"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In a bearish call spread, there is a net in-flow of premium when the spread is initiated. A bear call spread is achieved by simultaneously selling a call option and buying a call option at a higher strike price but with the same expiration date. The maximum profit to be gained using this strategy is equal to the credit received when initiating the trade. (In a bearish put spread and bullish call spread there is a net out-flow of premium when the spread is initiated.&nbsp;In a bullish put spread, there is a net in-flow of premium when the spread is initiated.) &nbsp;"
+  },
+  {
+    "text": "In India, when the option holder exercises a call option on an equity stock, _________ .",
+    "options": [
+      "The option holder will receives cash amount equal to excess of spot price (at the time of exercise) over the strike price of the option",
+      "The option holder buys the underlying stock from the option writer at a pre-specified price",
+      "The option holder receives cash amount equal to excess of strike price of the call option over the spot price (at the time of exercise)",
+      "The option holder sells the underlying stock to the option writer at a pre-specified price"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In India, equity stock options are typically settled by physical delivery (especially on the NSE), not by cash settlement. This means when a call option is exercised, the option holder (buyer) has the right to buy the underlying equity stock at the strike price from the option writer (seller). Therefore, the option holder takes delivery of the stock and pays the strike price. &nbsp;"
+  },
+  {
+    "text": "Trader A wants to sell 20 contracts of August series at Rs 4500 and Trader B wants to sell 17 contracts of September series at Rs 4550. Lot size is 50 for both these contracts. The Initial Margin is fixed at 6%. How much Initial Margin is required to be collected from both these investors (sum of initial margins of A and B) by the broker?",
+    "options": [
+      "5,02,050",
+      "2,70,000",
+      "4,10,000",
+      "2,32,050"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Payment of Initial Margin by a broker cannot be netted against two or more clients. So he will have to pay the margin for the open position of each of his clients. So margin payable for Trader A is : 20 x 4500 x 50 (Lot size) at 6% = Rs 2,70,000 Margin payable for Trader B is : 17 x 4550 x 50 (Lot size) at 6% = Rs 2,32,050 Total = Rs 5,02,050. &nbsp;"
+  },
+  {
+    "text": "State whether True or False - A trading member of a derivatives exchange can clear his trades through a Clearing member, who may or may not be a Professional clearing member.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: There are Trading cum Clearing Members on an Exchange. They are Clearing Members who are also Trading Members of the exchange. Such Clearing Members may clear and settle their own proprietary trades, their clients' trades as well as trades of other Trading Members and Custodial Participants. &nbsp;"
+  },
+  {
+    "text": "A trader has a short position in a futures contract. If prices of this futures contract increases, than the mark-to-market margin account of the trader will be ______ .",
+    "options": [
+      "Credited for the loss",
+      "Credited for the gain",
+      "Debited for the loss",
+      "Debited for the gain"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: In a short position, if the price increases, there is a loss. So, the mark to market margin will be debited. &nbsp; &nbsp;"
+  },
+  {
+    "text": "A Mutual Fund manager has collected Rs. 300 crores in a New Fund Offer. He is planning to invest this amount over the next one month in buying 20 selected index stocks. How can he hedge the risk for this planned purchase of stocks?",
+    "options": [
+      "He can execute a long hedge using index futures",
+      "He can execute a short hedge using index futures contracts on each of the 20 stocks",
+      "He can execute a short hedge using index futures",
+      "He can execute a long hedge using put options on each of the 20 stocks"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Since the&nbsp;Mutual Fund manager&nbsp;is planning to&nbsp;buy stocks over the next month, he is exposed to the risk that stock prices might&nbsp;rise&nbsp;before he completes his purchases. To hedge against this risk, he should use a&nbsp;long hedge&nbsp;with index futures. Why is a long hedge using index futures appropriate? -&nbsp;A long hedge involves buying index futures, which will gain value if stock prices increase. -&nbsp;If the stock prices&nbsp;rise, the&nbsp;gains from the index futures&nbsp;will offset the higher cost of purchasing stocks later. -&nbsp;This ensures that the fund manager locks in a price level close to current market condition. &nbsp;"
+  },
+  {
+    "text": "Default risk is also known as ________ .",
+    "options": [
+      "Credit Risk",
+      "Counterparty Risk",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Counterparty risk is the risk arising out of the default of a counterparty to the transaction. It is the risk of an economic loss from the failure of the counterparty to fulfil its contractual obligation. This risk is also called default risk or credit risk. It is generally not applicable to clients trading in exchange-traded equity derivatives because the settlement of such transactions is guaranteed by the exchange / clearing corporation. &nbsp;"
+  },
+  {
+    "text": "What is a 'Stock Option'?",
+    "options": [
+      "Its a debt instrument",
+      "Its a derivative instrument",
+      "Its a foreign exchange instrument",
+      "Its a money market instrument"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Stock option: These options have individual stocks as the underlying asset. For example, option on ONGC, NTPC, etc.&nbsp; These options are derivative instruments. &nbsp;"
+  },
+  {
+    "text": "On announcement of the record date for merger/demerger, the unexpired futures and options contracts on the underlying securities which are outstanding on the last cum date ________ .",
+    "options": [
+      "Will compulsorily be settled at the settlement price on the last cum date",
+      "Will continue to be traded till their expiry date",
+      "Will be squared up by the broker at the day’s opening price",
+      "Will be closed-off by the merged /demerged company at a predetermined price"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: On announcement of the record date for merger/demerger, the last cum-date for merger/demerger would be determined by the Exchange/ Clearing Corporation. Un-expired contracts in the underlying, which shall cease to exist subsequent to the merger/demerger, outstanding as on last cum-date shall be compulsorily settled at the settlement price. The settlement price shall be the last available closing price of such underlying in the Capital Market segment of the Exchanges, on the last cum-date. &nbsp;"
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

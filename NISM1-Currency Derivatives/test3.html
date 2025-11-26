@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Test 3</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Test 3</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "The default mode of settlement in OTC spot market is ______ .",
+    "options": [
+      "As decided by the merchants",
+      "Net settlement in cash",
+      "Always delivery based",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The settlement in the OTC&nbsp;(Over the counter)&nbsp;spot market happens by&nbsp;actual delivery of currency."
+  },
+  {
+    "text": "The methodology usually used to value European options is ______ .",
+    "options": [
+      "Binomial pricing",
+      "Black and Scholes",
+      "London - Paris pricing system",
+      "Llyods Theory of option pricing"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: There are two common methodologies for pricing options: - Black and Scholes: This methodology is more analytical, is faster to compute and is&nbsp;mainly used to price European options. - Binomial pricing: This methodology is more computational, taken more computing&nbsp;power and is mainly used to price American options. &nbsp;"
+  },
+  {
+    "text": "A trader does the following currency futures trade - sells EURINR and Buy JPYINR for an equivalent amount. What view has he executed ?",
+    "options": [
+      "INR weakening against EUR",
+      "EUR weakening against JPY",
+      "EUR strengthening against JPY",
+      "INR strengthening against EUR"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Let's break down the trade: 1.&nbsp;Selling EURINR futures: This means the trader is short on EUR and long on INR, indicating a view that EUR will weaken against INR (or INR will strengthen against EUR). 2.&nbsp;Buying JPYINR futures: This means the trader is long on JPY and short on INR, indicating a view that JPY will strengthen against INR (or INR will weaken against JPY). Combining both trades, the trader is essentially short on EUR (from the first trade) and long on JPY (from the second trade), both relative to INR. This implies the trader expects EUR to weaken against JPY (or JPY to strengthen against EUR). &nbsp;"
+  },
+  {
+    "text": "In OTC market, one month USDINR is quoting at 65.25/65.50 and futures for same maturity is quoting at 66.00/66.10. Which of the following describes possible arbitrage trade and profit per USD if the arbitrage trade is carried till maturity ?",
+    "options": [
+      "Buy USDINR in OTC and sell in futures , 40 paise",
+      "Buy USDINR in OTC and sell in futures , 50 paise",
+      "Buy USDINR in OTC and sell in futures , 55 paise",
+      "Buy USDINR in OTC and sell in futures , 75 paise"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Arbitrageurs make profits by simultaneously entering opposite side transactions in two or more markets ie. buy in one market at a lower price and sell in another at a higher price. Here, in the OTC Market the Bid Ask price is 65.25 / 65.50. So an arbitrageur will buy at 65.50 In Futures Market the Bid Ask price is 66.00 / 66.10. So the arbitrageur will sell at 66.00 Thus he will make an arbitrage profit of Rs 0.50 ( 66.00 - 65.50 )"
+  },
+  {
+    "text": "A person sells ten lots of USDINR April futures contract at 66.50 and squared off his position after INR appreciated by 100 ticks. What will be the profit or loss on this trade ?",
+    "options": [
+      "Profit of Rs. 250",
+      "Loss of Rs. 250",
+      "Profit of Rs. 2500",
+      "Loss of Rs. 2500"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: INR has appreciated against USD, which means USD has depreciated. So the USDINR rate will fall.&nbsp; The trader has sold USDINR, so he will profit from the fall. Tick Size is Rs .0025 100 Ticks X .0025 = 0.25&nbsp; 0.25 X &nbsp;10 lots &nbsp;X 1000 ( Lot size of USDINR) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = Rs 2500 Profit"
+  },
+  {
+    "text": "The maximum net NPA % which an AD category 1 bank can have for it to become a trading and clearing member of any recognized currency futures exchange is ____ .",
+    "options": [
+      "1%",
+      "2%",
+      "2.5%",
+      "3%"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Banks authorized by the Reserve Bank of India under section 10 of the&nbsp;Foreign Exchange Management Act, 1999 as ‘AD Category - I bank’ are&nbsp;permitted to become trading and clearing members of the currency futures&nbsp;segment of the recognized stock exchanges, on their own account and on behalf of their clients, subject to fulfilling the following minimum prudential&nbsp;requirements: a) Minimum net worth of Rs. 500 crores. b) Minimum Capital adequacy ratio (CAR) of 10 per cent. c)&nbsp;Net NPA should not exceed 3 per cent. d) Made net profit for last 3 years &nbsp;"
+  },
+  {
+    "text": "Mr. Gopal has invested Rs 100000 in UK securities. At the time of investment the exchange rate was 100. After two years his investment gained 25% in GBP terms and he liquidated his investment and repatriated the money to India at the then exchange rate of 105. What would be his real returns (in INR terms)",
+    "options": [
+      "27.50 %",
+      "31.25 %",
+      "23.65 %",
+      "42.80 %"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Mr Gopal invested Rs 100000 at GBRINR 1000. So he invested 100000 / 100 = &nbsp;1000 GBP His investment rose by 25 % ie.1000 plus 25% = 1250 GBP He repatriated this amount at &nbsp;GBPINR 105 = 1250 X 105 = 131250 In real terms the growth is from Rs 100000 to Rs 131250&nbsp; ie. 31.25% (131250 x 100 / 100000 = 131.25)"
+  },
+  {
+    "text": "An multinational company has export revenue in JPY and it uses part of it to make import payments in USD and balance is converted in INR. The company is concerned about JPYUSD risk for its import payments. Which of the following best describes company’s risk and currency futures strategy that it may use to mitigate the risk?",
+    "options": [
+      "USD appreciating against JPY, Short USDINR and long JPYINR for same maturity",
+      "USD appreciating against JPY, Short JPYINR and long USDINR for same maturity",
+      "USD depreciating against JPY, Short JPYINR and long USDINR for same maturity",
+      "USD depreciating against JPY, Short USDINR and long JPYINR for same maturity"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The company receives JPY against its exports and has to make payments in USD for its imports. So the currency risks it faces is USD appreciating and JPY depreciating in future. To hedge this it will buy USD and sell JPY in the futures market. Thus if USD rises later on it will make losses in the import payments but make profits in long USD futures as its is hedged. Same situation for JPY."
+  },
+  {
+    "text": "When a client defaults in making payments in respect of a daily settlement, the contract is closed out. The amount not paid by the client is adjusted against the _______ .",
+    "options": [
+      "bank fixed deposits of the client",
+      "PPF balance of the client",
+      "initial margin paid by the client",
+      "Shares deposited by the client with the trading member"
+    ],
+    "correct": 2,
+    "explanation": ""
+  },
+  {
+    "text": "Consider a scenario - In the OTC market, one month GBPUSD is quoting at 1.6120/1.6150. In the currency future market, one month USDINR is 64.10 / 64.50 and one month GBPINR is 93.40/93.70. A trader does his calculations and feels that he can construct a GBPUSD position using currency future USDINR and GBPINR futures and it will be at a premium to the GBPUSD quote of the OTC market. Which of the following trade strategy can best capture this arbitrage opportunity ? (Both OTC and futures have same settlement dates)",
+    "options": [
+      "Buy GBPUSD on OTC , Sell GBPINR &amp; Buy USDINR in currency futures",
+      "Buy GBPUSD on OTC , Buy GBPINR &amp; Sell USDINR in currency futures",
+      "Sell GBPUSD on OTC , Sell GBPINR &amp; Buy USDINR in currency futures",
+      "Sell GBPUSD on OTC , Buy GBPINR &amp; Sell USDINR in currency futures"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: To synthesize a GBPUSD position using USDINR and GBPINR, we need to divide GBPINR by USDINR."
+  },
+  {
+    "text": "The lot size of JPYINR futures contract is _______ .",
+    "options": [
+      "1,00,000 JPY",
+      "10,000 JPY",
+      "1000 INR",
+      "10,000 INR"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The amount of asset that has to be delivered under one contract is the&nbsp;lot size. In the case of USDINR it is USD 1000; EURINR it is EUR&nbsp;1000; GBPINR it is GBP 1000 and in case of JPYINR it is JPY 1,00,000"
+  },
+  {
+    "text": "A trading member (TM) buys 9 lots of April USDINR futures and also sells 9 lots of May futures in his proprietary book. On the same day a client of the TM buys 9 lots of April futures and sells 9 lots of May futures. What would be the open position (in USD) of TM and his client at the end of the day?",
+    "options": [
+      "Zero and Zero",
+      "18000 and 18000",
+      "36000 and 18000",
+      "Zero and 18000"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The contracts are bought and sold are of different months, so these will be considered as different contracts and not as squared up contracts. Open Position of Client is : 9 lots bought and 9 lots sold = 18 lots x 1000 (Lot size) = 18000 Open Position of the Trading Member will be his own position plus his clients open position Trading member :&nbsp;9 lots bought and 9 lots sold = 18 lots x 1000 (Lot size) = 18000 + 18000 that of his Client = 36000"
+  },
+  {
+    "text": "A trader sells 10 lots of USDINR 1 month futures when price was 74.50/74.70 and squares off 5 lots after a week when price was 73.55/73.75. How much money (in Rs) did he make/lose on the part of the transaction which was squared off ?",
+    "options": [
+      "Profit of Rs 3750",
+      "Profit of Rs 2750",
+      "Profit of Rs 4300",
+      "Loss of Rs 2800"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: When the price was 74.50 / 74.70, the trader sold USDINR - so he sold at 74.50 as that is the Bid (Buyers) price. When the price was 73.55 / 73.75, the trader bought USDINR, so he bought at 73.75 as that is the Ask (Sellers) price. 74.50 - 73.75&nbsp; = &nbsp;0.75 Profit Out of the 10 lots sold, he has squared off only 5 lots. Total Profit = 0.75 x 5 lots x 1000 (each lot of USDINR) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = 3750"
+  },
+  {
+    "text": "A trading member buys 20 lots of USDINR one month futures on day 1 at 74.50 and also sells 30 contracts of the same contract on the same day at 74.80 in his proprietary book. The settlement price for day 1 was 75 and he paid the MTM accordingly at the end of 1 on the carry forward positions. The settlement price for day 2 is 75.60. How much will be his mark to market (MTM) profit/loss pertaining to day 2 ?",
+    "options": [
+      "Profit of Rs 3000",
+      "Profit of Rs 5500",
+      "Loss of Rs 6000",
+      "Loss of Rs 5500"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: On Day, the trading member had bought 20 contracts and sold 30 contract So his carry forward position is (-) 10 contracts&nbsp; The settlement price was Rs 75. So his carry forward position is - 10 contracts at Rs 75 On Day 2, the settlement price was Rs 75.60. As the price has risen and he has a short position, he will face a loss and have to pay the MTM. (75 - 75.60) x 10 lot X 1000 lot size =&nbsp; - 6000 Loss"
+  },
+  {
+    "text": "A trader in currency markets believes that EURUSD will move from 1.18 to 1.30 in next 2 months. Which of the following would you do to execute this view using currency futures contract of EURINR and USDINR?",
+    "options": [
+      "Long EURINR",
+      "Short EURINR",
+      "Long EURINR, Short USDINR",
+      "Short EURINR, Long USDINR"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: EURUSD moving from 1.18 to 1.30 means EUR becoming stronger against USD. So he will buy EURINR and Sell USDINR."
+  },
+  {
+    "text": "Identify the appropriate strategy for a bearish view on USDINR and trade objective of zero cash outgo.",
+    "options": [
+      "Buy USDINR Call option",
+      "Buy USDINR Put option",
+      "Sell USDINR Call option",
+      "Sell USDINR Put option"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: When you buy an option (either Call or Put), you have to pay a premium - so buying an option is not a zero cash outgo strategy. When you sell a Put, you have a bullish view and you receive a premium When you sell a Call, you have a bearish view&nbsp;and you receive a premium So when there is a bearish view and zero cash outgo strategy, one should sell Call option."
+  },
+  {
+    "text": "A trading member buys 20 lots of USDINR one month futures on day 1 at 74.50 and also sells 12 lots of the same contract on the same day at 74.80 in his proprietary book. The settlement price for the day was 74.40. What would be the mark-to-market margin (MTM) on the open positions?",
+    "options": [
+      "-1200",
+      "- 800",
+      "1600",
+      "- 1000"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The question asked is to calculate the MTM only on the open positions. The trading member has bought 20 lots and sold 12 lots, so his open position is of 8 lots. MTM = (Settlement price - Contract price )&nbsp; X Open position in lots X 1000 (lot size) = ( 74.40 - 74.50 ) X 8 X 1000 =&nbsp; &nbsp;- 0.10 (MTM Lots) X 8 X 1000 = - 800 &nbsp;"
+  },
+  {
+    "text": "If USDINR futures was trading at 71.0025/71.0050 and the INR appreciates by two ticks. What will be the new trading price assuming no change in the bid-ask spread?",
+    "options": [
+      "70.9975/71.0000",
+      "71.0000/71.0050",
+      "71.0050/71.0075",
+      "71.0050/71.0100"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: For currency futures contract in India, the tick size is 0.25 paise or 0.0025 Rupee When INR appreciates against USD by two ticks, the price will fall by two ticks - that means the price will fall by 50 paise or 0.0050 So the new price will be 70.9975/71.0000"
+  },
+  {
+    "text": "Of the below options, which one is true for Exchange Traded Derivatives?",
+    "options": [
+      "In Exchange Traded Derivatives, there are no formal rules for risk management",
+      "There are standardized formal rules for risk management and burden sharing in Exchange Traded Derivatives",
+      "In Exchange Traded Derivatives, there are customized terms of contract",
+      "Exchange Traded Derivatives is highly customized for client to client"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The difference between Exchange Traded Derivatives and OTC contracts is &nbsp;that exchange traded derivatives are standardized, more transparent, the counterparty risk is borne by a centralized corporation with stringent margining systems."
+  },
+  {
+    "text": "_______ typically the market makers in OTC market for currency options.",
+    "options": [
+      "Exchanges",
+      "Agents",
+      "Banks",
+      "A market maker on an Exchange will automatically become market maker for OTC market also"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: In OTC option market, the select scheduled commercial banks are permitted to be&nbsp;market makers in currency options market."
+  },
+  {
+    "text": "Derivatives held for trading or speculative purposes are required to be reported as __________ in the financial statements.",
+    "options": [
+      "Investment or long term loan",
+      "Investment or short term loan",
+      "Current assets and current liabilities",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: As per the guidelines issued by the Institute of Chartered Accountants of India (ICAI) : Derivatives that are intended for trading or speculative purposes should be reflected as current assets and liabilities. Derivatives held for trading or speculative purposes are typically marked-to-market and reflected as current assets or current liabilities on the balance sheet, as their value can fluctuate frequently and are intended to be settled in the short term. This accounting treatment reflects their liquidity and the potential impact on an entity's financial position in the near term. &nbsp;"
+  },
+  {
+    "text": "A trading member buys 70 lots of EURINR one-month futures on day 1 at 88.40 and also sells 90 lots of the same contract on the same day at 88.55 in his proprietary book. The settlement price for the day was 88.10. What would be the mark to market (MTM) settlement on the open positions only (in Rs.)?",
+    "options": [
+      "+9000",
+      "+ 19500",
+      "- 8750",
+      "- 12500"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The trading member buys 70 lots and sells 90 lots of EURINR futures. The net position would be 90 (sell) - 70 (buy) = 20 lots short and the price for short contract is Rs 88.55 The settlement price for the day is 88.10 For the short position, profit occurs when price falls. Therefore, in this case there is a notional profit of 88.55 – 88.10 = 0.45 MTM = Notional Proft or Loss × Net&nbsp;lots × Lot&nbsp;size = 0.45 × 20 × 1000 = 9000 &nbsp;"
+  },
+  {
+    "text": "Assuming all other factors remain constant, for a Long Call option, once the break-even price is surpassed, the profits continue to increase as the underlying asset’s price rises? State whether this is true or false?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: For a long call option, once the underlying asset price surpasses the break-even point (strike price + premium), the option holder starts making profits. As the price of the underlying asset increases further, the profits increase correspondingly without any upper limit. &nbsp;"
+  },
+  {
+    "text": "What term describes a trading method that uses automated execution logic ?",
+    "options": [
+      "Internet based trading",
+      "Swing trading",
+      "Algorithmic trading",
+      "Direct market access"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: An order generated using automated execution logic is referred to as algorithmic trading. This involves the use of computer programs or algorithms to automatically execute trades based on predefined criteria such as price, volume or other market conditions. &nbsp;"
+  },
+  {
+    "text": "Which statement correctly reflects the regulatory norms for obtaining membership in the currency derivatives segment of a recognized stock exchange?",
+    "options": [
+      "Membership in the currency derivatives segment is separate from other segments and require different set of approvals",
+      "No certification is required to obtain membership in the currency derivatives segment",
+      "A member of the equity cash segment can participate in the currency derivatives segment without additional approvals",
+      "A member of the equity derivatives segment is automatically eligible for the currency derivatives segment"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In India, membership in the currency derivative segment of a recognized exchange requires separate registration and approval. This means that a trading member who is registered for equity cash or derivative segments cannot automatically trade in the currency derivative segment. They need to obtain separate membership or registration specifically for the currency derivative segment. This separate membership requirement ensures that trading members have the necessary expertise, infrastructure, and risk management systems in place to handle the unique characteristics of currency derivatives. &nbsp;"
+  },
+  {
+    "text": "The current EURINR futures price is trading at a premium to the spot price. The spot price is 101. A trader expects the EURINR spot price to remain at 101 at the expiry of the one-month futures contract, with all other factors unchanged. Which currency futures trading strategy would be profitable if the trader's expectation is correct?",
+    "options": [
+      "Buy EURINR",
+      "Sell EURINR",
+      "Sell EURINR for 1 month and buy for 3 month",
+      "Buy EURINR for 1 month and sell for 3 month"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: &nbsp;By selling EURINR futures at the premium price now, the trader locks in the higher price (Higher than 101). At expiry, futures price will fall to spot price (101), so the trader can close the position at a lower price, realizing a profit. &nbsp;"
+  },
+  {
+    "text": "AD Category I Banks who are trading members of currency derivatives exchange can participate in Exchange Traded Currency derivatives ________ .",
+    "options": [
+      "Only on behalf of its clients",
+      "Only on its own account",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: An Authorised Dealer (AD) Category I bank registered as a trading member in the Exchange Traded Currency Derivatives segment is allowed to: -&nbsp;Trade on its own account (proprietary trading) -&nbsp;Trade on behalf of its clients This is as per SEBI and RBI guidelines governing participation in currency derivatives on recognized stock exchanges in India. &nbsp;"
+  },
+  {
+    "text": "Which major global stock market opens around afternoon according to Indian Standard Time (IST)?",
+    "options": [
+      "Brazil",
+      "USA",
+      "Japan",
+      "Europe (UK)"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Major European markets like the London Stock Exchange (UK) and Euronext (e.g., Frankfurt, Paris) open at 8:00 AM or 9:00 AM local time. The Indian time at that time is around 12.30 to 1.30pm. Therefore, European and UK markets open around the afternoon time in India. &nbsp;"
+  },
+  {
+    "text": "You place a limit sell order for USDINR one-month futures at Rs 86.50. In the order book, the best available buy order is at Rs 86.60. At what price is your order most likely to be executed?",
+    "options": [
+      "At any price below 86.50",
+      "Any price between 86.60 and 86.50",
+      "At 86.50",
+      "At 86.60"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: If you place a limit sell order at 86.50, you're willing to sell at 86.50 or higher. If the best buy order is at 86.60, your order can get matched immediately. If your sell order is large and the buy quantity at 86.60 is limited or there is a price movement, part of it may be filled at prices between 86.60 and 86.50. But not below 86.50. Hence, the execution can happen at any price in that range, depending on order book depth. &nbsp;"
+  },
+  {
+    "text": "As per the Income Tax Act, income from exchange traded derivatives is treated as ______ .",
+    "options": [
+      "Income from capital gains",
+      "Income from salary",
+      "Income from other sources",
+      "Income from profits and gains from business and profession"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: As per the Income Tax Act, exchange-traded derivatives (like futures and options) executed on recognized stock exchanges are classified as non-speculative business income. Therefore&nbsp;Gains or losses from such trades are taxed under the head “Profits and Gains from Business and Profession”. &nbsp;"
+  },
+  {
+    "text": "Which option pricing model depend on calculation by Iteration?",
+    "options": [
+      "Black (1976)",
+      "Black and Scholes",
+      "Interest rate parity",
+      "Binomial"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Iteration means the action or a process of iterating or repeating. The binomial option pricing model values options using an iterative approach utilizing multiple periods to value options. The binomial option pricing model was developed by William Sharpe in 1978. It has proved over time to be the most flexible, intuitive and popular approach to option pricing. The binomial model represents the price evolution of the option’s underlying asset as the binomial tree of all possible prices at equally-spaced time steps from today under the assumption that at each step, the price can only move up and down at fixed rates and with respective simulated probabilities. This is a very accurate model as it is iterative, but also very lengthy and time consuming. &nbsp;"
+  },
+  {
+    "text": "Identify the TRUE statement with respect to accounting for derivatives under the current standards?",
+    "options": [
+      "Derivatives contracts that are unsettled remain off-balance-sheet items",
+      "All derivatives contracts must be accounted at book value",
+      "All derivatives contract must be accounted at zero value",
+      "All derivatives contract should be recognized in balance sheet"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: As per the Institute of Chartered Accountants of India (ICAI) guidance notes on Accounting for Derivatives Contract - All derivative contracts should be recognised on the balance sheet and measured at fair value. &nbsp;"
+  },
+  {
+    "text": "On a particular day, a trading member buys 10 lots of April USDINR futures at 83.60 and also sells 10 lots of May futures at 83.80 in his proprietary book. For that day, daily settlement price for April contract was 83.70 and for May contract was 83.90. What would be mark to market (MTM) settlement for the trading member on the open positions?",
+    "options": [
+      "+2000",
+      "-1000",
+      "-2000",
+      "Zero"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: MTM for April USDINR futures : Bought at 83.60 and Settlement price was 83.70. So positive MTM of 0.10 MTM for May USDINR fututes : Sold at 83.80 and Settlement price was 83.90. So negative MTM of 0.10 Net the MTM will be +0.10 - 0.10 = Zero &nbsp;"
+  },
+  {
+    "text": "Mr. Sameer has a strong bullish view on USDINR and he thinks that its price would easily cross Rs. 84.50 during the next one month. To execute the view, he writes a PUT option with a strike of Rs 84.50 and receives a premium of Rs 0.40 per USD. At the expiry of the contract, the settlement price was declared as Rs. 83.70. How much per USD profit or loss did he make in this whole transaction (in Rs)?",
+    "options": [
+      "Loss of 0.50",
+      "Profit of 0.50",
+      "Loss of 0.40",
+      "Profit of 0.40"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: To match his bullish views, Mr. Sameer writes a PUT option of strike 84.50 and receives a premium Rs.0.40.&nbsp; However the price has fallen and the settlement price is Rs. 83.70.&nbsp; So he makes a loss of&nbsp; 84.50 - 83.70 = 0.80 However, he has received a premium of 0.40 So his net loss will be 0.80 - 0.40 = 0.40 &nbsp; &nbsp;"
+  },
+  {
+    "text": "The one year interest rate in US is 4% and 7% in India. If current USDINR spot rate is 83.1000, which of the following could be the closest to the one year futures rate of USDINR? (Appx)",
+    "options": [
+      "85.49",
+      "80.73",
+      "83.31",
+      "84.97"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: To find the approximate one-year futures rate of USDINR, we use the Interest Rate Parity (IRP) formula: Futures&nbsp;Rate = Spot&nbsp;Rate× (1+Interest&nbsp;Rate&nbsp;in&nbsp;India) / (1+Interest&nbsp;Rate&nbsp;in&nbsp;US) Given: Spot Rate (USDINR) = 83.1000 , US Interest Rate = 4% = 0.04, India Interest Rate = 7% = 0.07 Apply the formula: Futures&nbsp;Rate = 83.10 × ( (1+0.07) / (1+0.04) = 83.10 x (1.07 / 1.04) = 83.10 x 1.0288 = 85.49 &nbsp;"
+  },
+  {
+    "text": "As per the Indian Income Tax Act, if the taxpayer is opting for the presumptive taxation scheme under section 44AD, he can declare the profit at the rate of _____ of turnover in case of cash receipts.",
+    "options": [
+      "7%",
+      "8%",
+      "6%",
+      "10%"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The Income-tax Act does not contain any provision or guidance for computation of turnover in Exchange traded derivatives trading. The computation of turnover is a very important factor as the applicability of tax audit is determined on the basis of turnover. Also, if the taxpayer is opting for the presumptive taxation scheme under section 44AD (subject to total turnover not exceeding Rs. 2 crores), he can declare the profit at the rate of 6% of such turnover in case of receipts in cheque or any digital modes or 8% of turnover in case of cash receipts. &nbsp;"
+  },
+  {
+    "text": "On the last trading day, the currency option contract expire at _____",
+    "options": [
+      "5.00 PM",
+      "3.30 PM",
+      "12.30 PM",
+      "1.00 PM"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The last trading day is also known as expiry day or maturity date of contract. It is the day on which trading ceases in the contract. For all monthly currency futures contract expiry date is two working days prior to the last business day of the expiry month at 12:30 PM. On expiry date the trading in contract ceases at 12:30 pm and not on regular trading time of 5:00 pm or 7:30 pm. &nbsp;"
+  },
+  {
+    "text": "Selling an option means selling a right to buy an underlying asset - True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Selling an option means you are writing (granting) a right to the buyer. If you sell a call option, you are selling the buyer the right to buy the underlying asset. If you sell a put option, you are selling the buyer the right to sell the underlying asset. So the statement “Selling an option means selling a right to buy” is only true for call options, but not universally true for all options. Therefore, the correct answer is False. &nbsp;"
+  },
+  {
+    "text": "Loss on derivative transactions which are carried out in a “recognized stock exchange” can be set off against any other income during the year except _________.",
+    "options": [
+      "Income from other sources",
+      "Business income",
+      "Salary income",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: According to the Income Tax Act, 1961, losses from derivative transactions carried out on a recognized stock exchange (such as futures and options) can be set off against other types of income. However, there are specific rules about setting off such losses. -&nbsp;Business income: Losses from derivatives can be set off against business income because derivative trading in recognized exchanges is considered a business activity. -&nbsp;Income from other sources: Losses from derivatives can also be set off against income under the head Income from Other Sources, if it qualifies. -&nbsp;Salary income: Salary income cannot be set off against losses from derivative transactions because salary income is considered non-speculative and cannot be adjusted with speculative losses. &nbsp; &nbsp;"
+  },
+  {
+    "text": "A trader believes that GBPUSD will move from 1.20 to 1.14 in next 3 months. Which of the following would you do to execute this view using currency futures of GBPINR and USDINR in India?",
+    "options": [
+      "Short GBPINR, Long USDINR",
+      "Long GBPINR, Short USDINR",
+      "Short GBPINR",
+      "Long GBPINR"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Since the trader believes that GBPUSD will fall from 1.20 to 1.14, he is assuming that GBP will weaken against USD. So in India he will short GBPINR and long USDINR. &nbsp;"
+  },
+  {
+    "text": "Currency Market Participants who try to predict the future movements in currency rate and take positions in derivative contracts based on that view are known as _________ .",
+    "options": [
+      "Arbitrageurs",
+      "Speculators",
+      "Trading Members",
+      "Hedgers"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Speculators/Traders try to predict the future movements in prices of underlying assets and based on the view, take positions in derivative contracts. &nbsp;"
+  },
+  {
+    "text": "Client can place order through following options ________?",
+    "options": [
+      "Direct Market Access",
+      "Phone",
+      "Internet",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Clients can place orders over Phone, Internet (Internet trading can take place through order routing systems, which will route client orders to exchange trading systems for execution),&nbsp;Direct Market Access (This allows brokers to offer clients direct access to the exchange trading system through the broker’s infrastructure without manual intervention by the broker). &nbsp;"
+  },
+  {
+    "text": "Which of the following is the last trading day for EURINR monthly futures contract?",
+    "options": [
+      "Seven business days before the last business day of the Expiry Month",
+      "One business days after the first business day of the Expiry Month",
+      "Two working days prior to the last business day of the expiry month",
+      "Last Thursday of Contract Month"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: For monthly contracts : The Expiry day is two working days prior to the last business day of the expiry month at 12:30 PM. &nbsp;"
+  },
+  {
+    "text": "A person has invested INR 100,000 in an Indian corporate bond for a year giving a return of 16% in one year. The person plans to use the proceeds from the maturity of corporate bond to fund his son's education on US. At the time of investing in the corporate bond, USDINR spot rate was 70 and one year premium was 4%. The person decides to hedge currency risk using USDINR one year futures. At the end of one year, how many USD can this person remit to his son.",
+    "options": [
+      "1096",
+      "1674",
+      "1232",
+      "1593"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The person has invested Rs 1,00,000 at 16% . So after one year he will receive : 100000 X 16% = Rs 1,16,000 One year premium for USD is 4% So the future price of USD is 70 x 4% = 72.80 Therefore, USD which he will have after one year = &nbsp;116000 / 72.80&nbsp; = 1593.40 &nbsp;"
+  },
+  {
+    "text": "Which body acts as a central counterparty to USDINR futures trades?",
+    "options": [
+      "The Currency Exchange",
+      "The Clearing Corporation",
+      "The Clearing Members",
+      "SEBI or RBI"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Clearing Corporation acts as a legal counterparty to all trades in Currency Derivatives Segment of the Exchange and also guarantees their financial settlement. &nbsp;"
+  },
+  {
+    "text": "A person buys one lot of USDINR futures and after half an hour of buying, the price of the contract moved by 400 ticks. By how may rupees has the value of contract changed?",
+    "options": [
+      "100 Rupees",
+      "1 Rupee",
+      "1000 Rupees",
+      "10 Rupees"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Each tick of USDINR is of Rs 0.0025 400 ticks X 0.0025 X 1000 (Lot size)&nbsp; = 1000 Rupees"
+  },
+  {
+    "text": "Can we say that when the USDINR increase one way, this means there is a increase in volatility ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Volatility is a measure of the magnitude of the change of prices (up or down) of the underlying asset. Higher the volatility, higher is the option premium and vice versa. IMP - Volatility does not measure direction."
+  },
+  {
+    "text": "If one unit of gold was valued at USD 1000 and one unit of gold was valued at EUR 600, then as per the gold standard system what is the value of EUR in terms of USD",
+    "options": [
+      "1",
+      "1.66",
+      "2.40",
+      "0.60"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Earlier the value of each currency against another currency was derived from gold exchange rate."
+  },
+  {
+    "text": "You are long in a put option - which of the below statement is true wrt. to your position after the breakeven point is reached ?",
+    "options": [
+      "When the spot price decreases the option value will decrease",
+      "When the spot price decreases the option value increases",
+      "The option value is not affected by Spot price"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Being long in a put option means you have taken a bearish view and expect a fall in the underlying. So when the spot price will fall there will be a rise in the option value leading to profits. &nbsp;"
+  },
+  {
+    "text": "The currency futures segment of the Exchange has a separate Governing Council on which the representation of Trading /Clearing Members of the currency futures segment does not exceed 50% - True or False ?",
+    "options": [
+      "False",
+      "True"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The currency futures segment of the Exchange has a separate Governing Council on which the representation of Trading /Clearing Members of the currency futures segment does not exceed 25 %"
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

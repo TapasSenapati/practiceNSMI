@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Last day test final</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Last day test final</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "Which of the following describes the trades involved in a Short Strangle strategy?",
+    "options": [
+      "Takes a long call position at a lower strike price and a short call position at a higher strike price",
+      "Enters a long call position at a lower strike price and a short put position at a higher strike price",
+      "Enters a long call position at a higher strike price and a short call position at a lower strike price",
+      "Simultaneously sells a call option and a put option with different strike prices, typically out-of-the-money (OTM)"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: A short strangle strategy involves: -&nbsp;Selling an out-of-the-money (OTM) call -&nbsp;Selling an out-of-the-money (OTM) put Both options have the same expiration date but different strike prices. The trader profits if the underlying asset stays within the range defined by these strike prices, as both options expire worthless. It's a neutral strategy used to earn premium from time decay, ideal when the trader expects low volatility. &nbsp;"
+  },
+  {
+    "text": "A call option with a strike price lower than the spot price is considered ______ option.",
+    "options": [
+      "At-The-Money (ATM)",
+      "Out of the Money (OTM)",
+      "In-The-Money (ITM)",
+      "Positive Delta"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: For a Call Option: -&nbsp;In the Money (ITM): When Strike Price &lt; Spot Price.&nbsp;&nbsp;The option has intrinsic value (you can buy below market price) - At the Money (ATM): When Strike Price ≈ Spot Price -&nbsp;Out of the Money (OTM): When Strike Price &gt; Spot Price.&nbsp;&nbsp;&nbsp;The option has no intrinsic value &nbsp;"
+  },
+  {
+    "text": "What is the underlying for cash-settled 6-year Bond futures as per the current regulations?",
+    "options": [
+      "Actual",
+      "Notional",
+      "Actual or Notional",
+      "None of these"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Under current regulations in India, cash-settled interest rate futures (IRFs), including those on 6-year Government of India (GoI) bonds, are based on a notional underlying. -&nbsp;A notional bond is a hypothetical or standardized bond with specified features (e.g., coupon, maturity) used for trading futures. -&nbsp;This allows for standardization and liquidity in the futures market, even if no single actual bond matches the characteristics perfectly. &nbsp;"
+  },
+  {
+    "text": "Identify the correct statement with respect to Quantity freeze.",
+    "options": [
+      "Quantity freeze involves a limit on the total quantity during a day at a clearing member level",
+      "Quantity freeze involves a limit on the total quantity during a day by a single client",
+      "Quantity freeze involves a limit on the total quantity during a day by a single trading member",
+      "Quantity freeze involves a limit on the total quantity during a day by all trading members"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Quantity freeze is a mechanism used by exchanges to control excessive order sizes, particularly in volatile market conditions. It sets a maximum limit on the number of contracts or shares that can be traded in a single order or within a specific timeframe by a single trading member or trading ID. This helps to prevent large, disruptive orders from causing market instability. &nbsp;"
+  },
+  {
+    "text": "If all other factors are held constant, an increase in the strike price leads to a _____ in the call option premium.",
+    "options": [
+      "Increase",
+      "Decrease",
+      "Nil effect",
+      "Insufficient data"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: For a call option, the strike price is the price at which the holder can buy the underlying asset. When the strike price increases, the likelihood of the option ending in-the-money decreases, and therefore: -&nbsp;The intrinsic value becomes lower (or zero) -&nbsp;The overall premium (price of the option) decreases. &nbsp;"
+  },
+  {
+    "text": "Which SEBI regulations prescribe a code of conduct for securities brokers?",
+    "options": [
+      "SEBI (KYC Registration Agency) Regulations",
+      "SEBI (Prohibition of Insider Trading) Regulations",
+      "SEBI (Prohibition of Fraudulent and Unfair Trade Practices) Regulations",
+      "SEBI (Stock Brokers) Regulations"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Schedule II of the SEBI (Stock Brokers) Regulations, 1992 prescribes a code of conduct for securities brokers. This includes general code of conduct of stock brokers, Duty towards the Investor, Duty towards Other Stock-Brokers etc. &nbsp;"
+  },
+  {
+    "text": "Which of the following instruments offers a return that can be accurately determined in advance i.e. for which of the following investments is the real or exact return predictable beforehand?",
+    "options": [
+      "Zero Coupon Bond",
+      "Consols",
+      "Annuity",
+      "Coupon Bond"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Zero Coupon Bond: The return (yield) is&nbsp;fixed and known in advance&nbsp;because it is purchased at a discount and redeemed at face value. There is no intermediate cash flows. The difference represents the pre-determined return. Other Instruments: -&nbsp;Consols (Perpetual Bonds): No maturity date, so return depends on future interest rates. -&nbsp;Annuity: Payments are fixed, but the true return depends on lifespan/duration. -&nbsp;Coupon Bond: Return varies if sold before maturity (due to changing yields). Therefore, only&nbsp;zero coupon bonds&nbsp;guarantee a&nbsp;pre-computable return&nbsp;if held to maturity. &nbsp;"
+  },
+  {
+    "text": "What action will an arbitrageur take in a Reverse arbitrage strategy involving single bond interest rate futures?",
+    "options": [
+      "Sell the Government of India (GOI) bond in the underlying market and simultaneously purchase futures contracts for the same GOI bond.",
+      "Purchase the underlying bond in the cash market and simultaneously purchase futures contracts for the same bond",
+      "Purchase the underlying bond in the cash market and simultaneously sell futures contracts for the same bond",
+      "Sell the Government of India (GOI) bond in the underlying market and simultaneously sell futures contracts for the same GOI bond"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In Reverse arbitrage with single bond interest rate futures, the arbitrageur takes advantage of a situation where the futures price is lower than the fair price (i.e., the futures are underpriced). To profit from this: -&nbsp;The arbitrageur sells the GOI bond in the spot (underlying) market -&nbsp;And buys the futures contract of the same GOI bond At expiry, the arbitrageur delivers the bond bought via futures (at a cheaper rate) and benefits from the price difference. This is the reverse of a standard arbitrage (cash-and-carry), where the futures are overpriced. &nbsp;"
+  },
+  {
+    "text": "Which of the following entities provides support for trade settlement to the Clearing Corporation?",
+    "options": [
+      "Depositories",
+      "Clearing Banks",
+      "Clearing Members",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The settlement of trades by the Clearing Corporation involves coordination with: -&nbsp;Depositories – Handle the securities settlement (debiting/crediting securities to/from accounts -&nbsp;Clearing Banks – Facilitate the funds settlement (pay-in and pay-out of money). -&nbsp;Clearing Members – They are responsible for settling obligations on behalf of trading members or themselves. &nbsp;"
+  },
+  {
+    "text": "How is the closing price for cash-settled GOI bond futures contracts determined for a trading day? It's based on _______ .",
+    "options": [
+      "The weighted average of all transaction prices for that contract in the last half hour of the trading day, calculated across all relevant exchanges",
+      "The weighted average of all transaction prices for that contract in the last one hour of the trading day, calculated across all relevant exchanges",
+      "The weighted average of all transaction prices for that contract in the last one and half hour of the trading day, calculated across all relevant exchanges",
+      "None of these"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: For cash-settled GOI bond futures contracts, the closing price is calculated based on the weighted average price of the contract during the last half-hour of trading on the respective exchanges. This methodology helps ensure that the closing price reflects the most recent trading activity and is not unduly influenced by short-term price fluctuations that may occur just before the market closes. &nbsp;"
+  },
+  {
+    "text": "Identify from the following options a measure that reflects the PRICE RISK inherent in a bond.",
+    "options": [
+      "Yield-to-Maturity",
+      "Current yield",
+      "Credit rating",
+      "Modified duration"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Modified Duration is a key measure of price risk (also known as interest rate risk) in a bond. It tells you how much the price of a bond is expected to change for a 1% change in interest rates. &nbsp;"
+  },
+  {
+    "text": "The permissible price movement for overnight MIBOR futures is _____ of the base rate.",
+    "options": [
+      "+/- 2%",
+      "+/- 5%",
+      "+/- 7.5%",
+      "+/- 10%"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The operating range for overnight MIBOR (Mumbai Inter-Bank Offered Rate) futures is +/-&nbsp;5% of the base rate This range is set to limit extreme price fluctuations and manage volatility in the futures market. It ensures that the contract trades within a reasonable band around the reference (base) rate, providing stability and reducing risk for participants. &nbsp;"
+  },
+  {
+    "text": "What is the limit of net long position for Foreign Portfolio Investors (FPIs) to collectively can transact in Interest Rate Futures (IRF) ?",
+    "options": [
+      "Rs. 5 billion",
+      "Rs. 25 billion",
+      "Rs. 50 billion",
+      "Rs. 100 billion"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: As per RBI circular - Foreign Portfolio Investors (FPIs), collectively, may also transact in interest rate futures (IRF) up to a limit of net long position of INR 50 billion. &nbsp;"
+  },
+  {
+    "text": "Which of these constitute an 'Operational Risk' for a broker?",
+    "options": [
+      "Non-Delivery of scrips",
+      "Trading errors",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Operational risk is the risk of monetary loss resulting from inadequate or failed internal processes, manual and systems error or external events. For the stock broker, operations risks are essentially risk arises on account of handling of client assets, regulatory non-compliance, trading error, non-payment for buying or selling a scrip, non-delivery of scrip(s), denial of matched order by clients, sudden closure of banks where funds are deposited etc. &nbsp;"
+  },
+  {
+    "text": "Which of the following actions can a Professional clearing member undertake?",
+    "options": [
+      "Execution of trades",
+      "Clearing and settlement of trades",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: A Professional Clearing Member (PCM) is a type of member in a clearing corporation whose main role is to clear and settle trades on behalf of trading members and clients. They do not engage in trade execution themselves. &nbsp;"
+  },
+  {
+    "text": "Arbitration is a ________ judicial process.",
+    "options": [
+      "Fully",
+      "Non",
+      "Quasi",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Arbitration is considered a quasi-judicial process because.&nbsp;It involves a third party (arbitrator) who makes decisions, similar to a judge. However, arbitration is not part of the formal judiciary system. It is an alternative dispute resolution (ADR) mechanism where parties agree to resolve their disputes outside of court.&nbsp;The decisions made in arbitration are legally binding, but the process itself is less formal than a court trial and does not involve a full judicial system. &nbsp;"
+  },
+  {
+    "text": "Total number of derivatives contracts outstanding is called __________",
+    "options": [
+      "Open interest",
+      "Long position",
+      "Short position",
+      "Neutral position"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Open Interest refers to the total number of outstanding derivative contracts (futures or options) that have not been settled or closed. It represents the total number of active positions (long and short) in the market at a given time.&nbsp;It increases when new contracts are created (a buyer and a seller enter a new contract).&nbsp;It decreases when contracts are closed (positions are squared off or expire). &nbsp;"
+  },
+  {
+    "text": "Participants buy a put option with strike price of 98.50 at a premium of Rs. 0.20. On Expiry the bond price is Rs. 98.50. What is his net pay-off?",
+    "options": [
+      "Loss of Rs. 0.20",
+      "Profit of Rs. 0.20",
+      "Profit of Rs. 0.25",
+      "No profit &amp; no loss"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: For a put option, the holder has the right to sell the underlying asset at the strike price. However, since the bond price (Rs 98.50) is equal to the strike price (Rs 98.50), the option will not be exercised because there's no benefit to selling at Rs. 98.50 when the market price is also Rs. 98.50. The premium paid (Rs. 0.20) is a loss in this case, as the option expires worthless. &nbsp;"
+  },
+  {
+    "text": "Option buyer faces ________ risk and option seller faces __________ risk.",
+    "options": [
+      "Limited, Limited",
+      "Limited, Unlimited",
+      "Unlimited, Limited",
+      "Unlimited, Unlimited"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: An option buyer (whether it's a call or put) pays a premium to acquire the right, but not the obligation, to buy or sell the underlying asset. The maximum loss for the buyer is the premium paid → Limited Risk An option seller (writer) receives the premium but has the obligation to fulfill the contract if exercised. The seller of a call option can face unlimited loss if the price of the underlying asset rises sharply. The seller of a put option can face substantial (but not technically unlimited) losses if the price falls significantly. &nbsp;"
+  },
+  {
+    "text": "Subsequent to KYC, broker has to upload the KYC information in _______ system.",
+    "options": [
+      "KRA",
+      "Depository",
+      "Clearing Bank",
+      "SEBI"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: KRA - KYC Registration Agency After completing the KYC process, the broker must upload the KYC information to the KRA system, which centralizes and standardizes KYC records across intermediaries. &nbsp;"
+  },
+  {
+    "text": "If the base rate of Overnight MIBOR futures is 5, then its operating range will be _______.",
+    "options": [
+      "5.50 &amp; 4.50",
+      "5.05 &amp; 4.95",
+      "5.25 &amp; 4.75",
+      "5.10 &amp; 4.90"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: For Overnight MIBOR futures, the operating range is typically ±0.25 from the base rate. So, if the base rate is 5.00, the upper and lower limits are: -&nbsp;Upper limit = 5.00 + 0.25 = 5.25 -&nbsp;Lower limit = 5.00 - 0.25 = 4.75 &nbsp;"
+  },
+  {
+    "text": "Yield curve spread risk arises when the term structure shifts are not parallel but either steepening or flattening - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": ""
+  },
+  {
+    "text": "Which of the following is interest rate risk ?",
+    "options": [
+      "Price Risk",
+      "Reinvestment Risk",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Interest rate risk refers to the potential impact of changes in interest rates on the value of investments, especially fixed-income securities like bonds. It includes: -&nbsp;Price Risk: When interest rates rise, the market value of existing bonds falls because newer bonds offer higher returns. This affects investors who want to sell bonds before maturity. -&nbsp;Reinvestment Risk: When interest rates fall, the proceeds from a bond (like coupon payments or maturity proceeds) may have to be reinvested at lower rates, reducing overall returns. Together, these two components form the broader concept of interest rate risk. &nbsp;"
+  },
+  {
+    "text": "Delivery Margin is payable on the Day of Intent - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Delivery margin is collected on the Day of Intent (which is the Last Trading Day)."
+  },
+  {
+    "text": "The right sequence of products launched in the Indian Exchange traded derivatives market is : First - Equity Index futures , then - Equity Index options , Single stock options and Single stock futures - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The correct chronological sequence of products launched in the Indian exchange-traded derivatives market is: Equity Index Futures – Introduced in June 2000 on NSE, based on the Nifty 50 index. Equity Index Options – Launched in June 2001. Stock Options (Single Stock Options) – Introduced in July 2001. Stock Futures (Single Stock Futures) – Introduced in November 2001. &nbsp;"
+  },
+  {
+    "text": "One of the reason that 'Coupon' is not a true measure of return is that it ignores the premium or discount in bond price - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Coupon cannot be considered the return because it does not consider the premium / discount in bond price and the capital gain/loss at redemption. &nbsp;"
+  },
+  {
+    "text": "Which of the following constitute the “capital” market ?",
+    "options": [
+      "Equity and forex markets",
+      "Money and bond markets",
+      "Debt and equity markets",
+      "Bond and equity markets"
+    ],
+    "correct": 2,
+    "explanation": ""
+  },
+  {
+    "text": "Position limits are defined only at the Trading member level - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Position limits are defined at various levels like Client, Trading member and Exchange levels. &nbsp;"
+  },
+  {
+    "text": "A Good Till Day order will get executed as soon the trigger price is hit in the market - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The stop-loss order is activated when the trigger price is hit in the market. A Good Till Day order is a limit order that is kept in the market until the close of trading hours. After the close of market it will get cancelled automatically.&nbsp;"
+  },
+  {
+    "text": "VaR will be slightly higher for short positions than for long positions - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: VaR will be slightly higher for short positions than for long positions. The reason is that the price can theoretically rise to infinity but cannot fall below zero. As a result, the possible loss on short positions is infinity (because price can rise to infinity) while the possible loss on long positions cannot be higher than current price (because price cannot fall below zero)."
+  },
+  {
+    "text": "The underlying for 'Interest rate derivative' should be __________ .",
+    "options": [
+      "Borrowing / Lending of money",
+      "A specific instrument issued by a specific borrower",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The underlying for an interest rate derivative is the financial benchmark or instrument tied to interest rates. It can be borrowing/lending of money, referring to benchmarks like SOFR or LIBOR, which drive derivatives like swaps and FRAs. Alternatively, it can be a specific instrument like government bonds, whose price movements, influenced by interest rates, underlie derivatives like futures and options. &nbsp;"
+  },
+  {
+    "text": "The current position limit at Clearing Member level is ________ .",
+    "options": [
+      "3% of total open interest in the respective maturity bucket or Rs 200 Crore, whichever is higher",
+      "10% of total open interest in the respective maturity bucket or Rs 600 Crore, whichever is higher",
+      "25% of the outstanding of underlying bond",
+      "No separate position limit is prescribed"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: There is no seperate position limit at Clearing Member level."
+  },
+  {
+    "text": "Which of the following is the settlement day of the 91 day bill futures contract ?",
+    "options": [
+      "Next working day following Last Trading Day",
+      "Two days after the last business day of the Contract Month",
+      "Last business day of Contract Month",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": ""
+  },
+  {
+    "text": "The extreme loss margin is implemented by the __________ .",
+    "options": [
+      "Stock Exchange",
+      "Clearing Corporation",
+      "SPAN Margining system",
+      "SEBI"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The extreme loss margin and delivery margin are&nbsp;implemented by the Clearing Corporation.&nbsp; Extreme loss margin is applicable to the Clearing Member and is the amount deducted from liquid assets in real-time."
+  },
+  {
+    "text": "Inter-commodity spread consists of two trades with ___________ .",
+    "options": [
+      "different market side and same underlying",
+      "same market side and different expiry",
+      "different market side and different expiry",
+      "None of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Inter-commodity spread consists of buying futures on one underlying and selling futures on another for the same expiry month and for the same quantity. For example, “buy 10 contracts March-2015 T bill futures and sell 10 contracts of March-2015 bond futures\"."
+  },
+  {
+    "text": "In India, exchange traded derivatives were first started in which of the following ?",
+    "options": [
+      "Infosys Equity Share",
+      "Interest Rate",
+      "Equity Index",
+      "Currency"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: In the Indian markets, Equity Index futures were&nbsp;first started in Exchange traded derivatives in June 2000. &nbsp;"
+  },
+  {
+    "text": "________ is a measure of 'Price Risk' in a bond.",
+    "options": [
+      "Macaulay Duration",
+      "Modified Duration",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Price risk (also known as market risk) is the possibility of change in bond price before maturity because of change in market interest rate. Mr. Macaulay &nbsp;( Macaulay Duration )&nbsp;was the first to measure the price risk. Subsequently, a better measure for price risk is derived by computing the sensitivity of&nbsp;bond price to changes in YTM. This measure is called Modified Duration. &nbsp; &nbsp;"
+  },
+  {
+    "text": "When you are speculating the timing of change in interest rate yield, you should match the ____________ .",
+    "options": [
+      "expiry date of futures",
+      "tenor of the underlying",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: If we expect the rate change to occur in one month, we should chose a contract that expires in one month; if we expect the rate change to occur in three months, we should choose a contract that expires in three months; and so on."
+  },
+  {
+    "text": "The settlement date for interest rate derivatives is _________ .",
+    "options": [
+      "the next business day after trade date",
+      "two days after trade date",
+      "three days after trade date",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In India, as per SEBI and RBI regulations, the settlement cycle for Interest Rate Derivatives (IRD) follows the T+1 (Trade Date + 1 Business Day) settlement rule. This means that the settlement date is the next business day after the trade date (T+1)."
+  },
+  {
+    "text": "A company issues two bonds having the same maturity but different coupon. An investor will choose one bond over the other for investment because of ______ .",
+    "options": [
+      "Yield to Maturity difference",
+      "Coupon difference",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Coupon is not a return measure because it ignores: (1) the premium/discount in bond price; (2) capital gain or loss at redemption; and (3) reinvestment rate of periodic cash flows. Yield To Maturity considers the premium/discount in bond price and capital gain/loss at redemption and even handles the reinvestment in a rough way. Thus the investor will prefer the bond which offers better YTM ."
+  },
+  {
+    "text": "Current yield is an unsatisfactory measure of return because _______ .",
+    "options": [
+      "it ignores the capital gain/loss at redemption",
+      "it ignores the premium/discount in bond price",
+      "both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Current yield &nbsp;is an unsatisfactory return measure. Although it considers the premium/discount in bond price but ignores the capital gain/loss and reinvestment rate; and therefore cannot be a true return."
+  },
+  {
+    "text": "The members of Exchange are called __________ .",
+    "options": [
+      "Trading Members",
+      "Clearing Members",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The members of Exchange are called Trading Members and those of Clearing Corporation are called Clearing Members."
+  },
+  {
+    "text": "Which of the following is true with respect to the regulations on buying and selling of T Bill and T Bond futures for Non-residents and Foreign Institutional Investors ?",
+    "options": [
+      "They can short sell freely",
+      "They can short sell only with prior permission of SEBI",
+      "They cannot short sell",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: For Non-residents and Foreign Institutional Investors,&nbsp;short position can be maintained only for hedging (and not for speculation)."
+  },
+  {
+    "text": "When one trades in SWAP derivatives, he buys and sell the _______ .",
+    "options": [
+      "futures of the underlying",
+      "rights of the underlying",
+      "returns from the underlying",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Swap differs from all other derivatives in the sense it does not involve exchange of cash for an underlying asset: it involves exchange of returns from the underlying against return from money."
+  },
+  {
+    "text": "Delivery margin is collected on the ________ .",
+    "options": [
+      "Day of Intent",
+      "Day of Delivery",
+      "Day of Settlement",
+      "None pf the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Delivery margin is collected on the Day of Intent (which is the Last Trading Day) after the intention to deliver and allocations are completed."
+  },
+  {
+    "text": "Holdings of Govt. securities of investors are held in _________ with the Public Debt Office of RBI.",
+    "options": [
+      "Subsidiary General Ledger (SGL) Account",
+      "Constituent Subsidiary General Ledger (CSGL) Account",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Schedule Commercial Banks and Primary Dealers must separate their own holdings in government securities from those held on behalf of their constituents ie. investors. The holdings of&nbsp;Schedule Commercial Banks&nbsp;and&nbsp;Primary Dealers are held in&nbsp;Subsidiary General Ledger A/c and the holdings of other investors are held in&nbsp;Constituent Subsidiary General Ledger A/c."
+  },
+  {
+    "text": "Among the following options, which is true about Position Limits ?",
+    "options": [
+      "Position limit is the maximum daily volume at client level",
+      "Position limit is the maximum daily volume at trading member level",
+      "Position limit is the maximum daily volume at clearing member level",
+      "None of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Position Limit is the limit on an investor’s / trading member's share in the total open interest. It concerns the daily gross open positions and not the total daily volume."
+  },
+  {
+    "text": "A zero coupon bond issued by a corporate will have which of the following risks ?",
+    "options": [
+      "Credit Risk",
+      "Market Risk",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Market Risk :&nbsp;The possibility of change in bond price before maturity because of change in market interest rate. Credit risk: The possibility of default by issuer and therefore the source of risk is the issuer."
+  },
+  {
+    "text": "___________ is the true return on investment.",
+    "options": [
+      "Yield-to-maturity",
+      "Coupon",
+      "Current yield",
+      "None of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Spot rate (also known as “zero rate”) is the true return on investment because it considers premium/discount in bond price, capital gain/loss at redemption and reinvestment of interim income."
+  },
+  {
+    "text": "The contract months ie. expiry months for Treasury Bills futures in India are ___________ .",
+    "options": [
+      "Three nearest “serial” months",
+      "Three nearest “quarterly” months",
+      "Both \"Serial\" and \"Quarterly\" months",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The Contract Months for&nbsp;91-day bill futures are&nbsp;three nearest “serial” months and three nearest “quarterly” months."
+  },
+  {
+    "text": "The effect of price risk on a bond is __________ .",
+    "options": [
+      "Immediate",
+      "Over a period of time",
+      "No impact",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Price risk (also known as market risk) is the possibility of change in bond price before maturity because of change in market interest rate. The change in bond price is instant after the change in interest rate. Usually&nbsp;if the interest rate rises, the bond price falls and viceversa.&nbsp; &nbsp;"
+  },
+  {
+    "text": "A coupon paying bond is issued by a government ( sovereign ). Which risk(s) is/are associated with such bonds ?",
+    "options": [
+      "Repayment Risk",
+      "Reinvestment Risk",
+      "Both 1 and 2",
+      "No risk are associated with government bonds"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: If the issuer is a sovereign government, there will be no credit risk because government will not default in its own currency. However there will be Reinvestment risk ie. the uncertainty of reinvestment rate for cash flows received before maturity (e.g. coupons). For eg. - if the interest rates falls in a economy, the interest received on bonds will have to be reinvested at lower rates ie. it faces reinvestment risk. &nbsp;"
+  },
+  {
+    "text": "The VaR (Value at Risk) will be higher for _______ .",
+    "options": [
+      "Long positions",
+      "Short positions",
+      "VaR is same for both Long or Short positions",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: VaR will be slightly higher for short positions than for long positions. The reason is that the price can theoretically rise to infinity but cannot fall below zero. As a result, the possible loss on short positions is infinity (because price can rise to infinity) while the possible loss on long positions cannot be higher than current price (because price cannot fall below zero)."
+  },
+  {
+    "text": "The price of derivatives is determined by the demand and supply factors - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Derivative is something that is derived from another called the underlying. The price of derivatives is determined by the price of underlying, and not by the demand-supply for derivative. The underlying is the raw material and derivative is the finished product. If the underlying price goes up (or down), the derivative price will go up (or down) regardless of demand-supply for derivative."
+  },
+  {
+    "text": "'Day Order' is also known as __________ .",
+    "options": [
+      "Stop-Loss Order",
+      "Good Till Day order",
+      "Immediate or Cancel order",
+      "Limit Order"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Good Till Day order is also known as “day order”.&nbsp;"
+  },
+  {
+    "text": "________ are hybrid assets.",
+    "options": [
+      "Structured revenue products",
+      "Currency Derivatives",
+      "Interest Rate Derivatives",
+      "Structured investment products"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Structured investment products (SIP) are hybrid assets and derived by combining a bond with option whose underlying is one of the four financial underlyings or a physical asset."
+  },
+  {
+    "text": "Among Modified Duration (MD) and Price Value of Basic Point (PVBP) , which one is a better risk measure ?",
+    "options": [
+      "Modified Duration",
+      "Price Value of Basic Point",
+      "Both of them are similar but in different context",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": ""
+  },
+  {
+    "text": "If the VaR (1 Day - 99%) for a security is Rs 17, what is the correct interpretation of 'Rs 17' ?",
+    "options": [
+      "There will loss over next day with 99% probability but the loss will be over Rs 17",
+      "There will loss over next day with 99% probability but the loss will be not be over Rs 17",
+      "There will profit over next day with 99% probability but the profit will be not be over Rs 17",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Value-at-risk (VaR) is a measure of maximum likely price change over a given interval (called “horizon”) and at a given confidence level (called “percentile”). The correct interpretation of above statement is that in the next one day (“horizon”), the price change will be:"
+  },
+  {
+    "text": "A client of a trading member has a long position of 14 contracts and short position of 3 contracts in the same underlying. What is the net position for the client ?",
+    "options": [
+      "14 long and 3 short contracts",
+      "14 long contracts",
+      "11 long contracts",
+      "3 short contracts"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The long and short position of the client in the same underlying, can be netted to arrive at the net outstanding position. In the above example, the client has 14 Long and 3 Short contracts, so his net position is 14 - 3 = 11 contracts. (However,&nbsp;for net trades of the Trading Member, the buy trades of one client cannot be offset with the sell trades of another client) &nbsp;"
+  },
+  {
+    "text": "_________ are traded only in the OTC market.",
+    "options": [
+      "Forwards",
+      "SWAPs",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: OTC market instrument means its privately negotiated contract between two parties. No Exchange is involved in executing, clearing and settlement of trade. Both Forward and SWAPs are traded only on OTC."
+  },
+  {
+    "text": "If the shape of term structure is INVERTED, this means that ______ .",
+    "options": [
+      "Rate rises first and then falls with the term",
+      "Rate rises with the term",
+      "Rate is same through out the term",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In an inverted curve, there is demand for short-term money (i.e. working capital) and not for long-term money (i.e. capital expenditure). So the rate is higher at first and then falls.&nbsp; This means that borrowers are not going for capital expenditure possibly because they expect no economic growth in the future, which explains why inverted yield curve may indicate recession in near future."
+  },
+  {
+    "text": "Investors can hold Government Securities _______ .",
+    "options": [
+      "Only in electronic book entry form",
+      "Only in physical form",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Government Securities (G-Secs) may be held by investors either as physical stock or in dematerialized (demat/electronic) form. However, from May 20, 2002, it is mandatory for all the RBI regulated entities to hold and transact in G-Secs only in dematerialized (SGL) form. &nbsp;"
+  },
+  {
+    "text": "Which is the risk you face if the prices of cash treasury bills and treasury bills futures are not the same ?",
+    "options": [
+      "Basis Risk",
+      "Yield curve spread risk",
+      "Market Liquidity risk",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Basis risk occurs when there is a difference between the price of cash treasury bills (the underlying asset) and treasury bills futures (the derivative contract). This discrepancy arises because the two do not move perfectly in sync due to factors like market conditions, interest rates, and supply-demand imbalances. This is a common risk in hedging strategies, where futures prices may not perfectly offset the price movement of the underlying asset."
+  },
+  {
+    "text": "What is Term Structure ?",
+    "options": [
+      "Its the change of rates over a period of time",
+      "Its a snapshot of rates at a point of time",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Term structure is a snapshot of rates at a point of time. How the term structure changes over time, is called &nbsp;“shifts”."
+  },
+  {
+    "text": "What is Market liquidity risk ?",
+    "options": [
+      "The seller is unable to give the deliveries of the securities",
+      "The buyer is unable to make payments",
+      "Both 1 and 2",
+      "There is not sufficient volumes in the market to enable the required trades"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Market liquidity risk is the inability to quickly buy or sell futures contract without disturbing the futures price. If there is no market liquidity, the futures price is de-linked from the price of cash markets."
+  },
+  {
+    "text": "Which of the following is a “risk-free” security ?",
+    "options": [
+      "Bank deposit",
+      "Certificate of deposit",
+      "Commercial paper",
+      "None of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Only Sovereign bonds issued by the government are considered “risk-free” securities in terms of credit risk."
+  },
+  {
+    "text": "When is the auction conducted for short delivery of securities ?",
+    "options": [
+      "first business day after the Day of Intention",
+      "second business day after the Day of Intention",
+      "third business day after the Day of Intention",
+      "settlement day"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: When there is a short-delivery on the settlement day, the shortage is auctioned on the same day. When there is a failure to notify the Intent to Deliver, the auction is conducted on the first business day after the Day of Intention."
+  },
+  {
+    "text": "Among the following options, which quantity of face value can be bought or sold for Govt. bond futures ?",
+    "options": [
+      "Rs 1 lakh",
+      "Rs 5 lakh",
+      "Rs 7 lakh",
+      "Rs 8 lakh"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Contract Amount (or Market Lot) is the minimum and multiple of trade size. It is Rs 200,000 of face value. Because the face value will always be an integral multiple of Rs 2 lakhs, we cannot buy or sell for amounts like Rs 3 lakh, Rs 5 lakh, etc. ie. odd amounts. Only even amounts can be traded."
+  },
+  {
+    "text": "If the interest rate falls within the period, the shape of the term structure will be ________ .",
+    "options": [
+      "Normal",
+      "Inverted",
+      "Flat",
+      "Humped"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: If the interest rate falls within the period, the yield on long-term securities will be higher than short-term securities, meaning the yield curve slopes downward. This is called an Inverted term structure. When interest rates are expected to fall, investors anticipate lower yields on long-term securities. However, to lock in longer-term investments, they demand a premium, which can result in long-term yields being lower than short-term yields. This creates a downward-sloping yield curve, known as an inverted term structure. &nbsp;"
+  },
+  {
+    "text": "When there is a failure to notify the Intent to Deliver, the auction is conducted on __________",
+    "options": [
+      "the Day of Intention",
+      "the first business day after the Day of Intention",
+      "the second business day after the Day of Intention",
+      "one week after the Day of Intention"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: When there is a failure to notify the Intent to Deliver, the auction is conducted on the first business day after the Day of Intention, and the result of auction is added to the settlement obligation due on the settlement day."
+  },
+  {
+    "text": "Currently the underlying for Interest Rate Derivatives in India is / are ________ .",
+    "options": [
+      "Treasury Bills",
+      "Govt. of India bonds",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Reserve Bank of India&nbsp;has permitted futures on the following underlying securities :&nbsp;91-day Treasury Bill ,&nbsp;2-year and 5-year central government bond and&nbsp;10-year central government bond."
+  },
+  {
+    "text": "The price of a bond (of Rs 100 face value) is Rs 97. It has a coupon rate of 8.5%. What is the current yield ?",
+    "options": [
+      "8%",
+      "8.53%",
+      "8.76%",
+      "9.70%"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Current Yield = Coupon / Current Price &nbsp;x 100 = 8.5 / 97 x 100 &nbsp;= &nbsp;8.76 %"
+  },
+  {
+    "text": "You have bought a car by taking a vehicle loan at fixed interest rate. Which of the following is true in this case ?",
+    "options": [
+      "You are exposed to Credit Risk",
+      "You are exposed to Market Risk",
+      "You are not exposed to Interest Rate Risk",
+      "You are exposed to Bank Risk"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: If you have taken a fixed-rate loan, there is no interest rate risk because you know in advance how much you will have to pay in future. The amount will not change even if the interest rates in the economy goes up."
+  },
+  {
+    "text": "In India the Interest Rate Derivatives are regulated by ______ .",
+    "options": [
+      "RBI",
+      "SEBI",
+      "Finance Ministry",
+      "Jointly by RBI and SEBI"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Reserve Bank of India permission is required for all derivatives on interest rate and debt instruments. RBI has delegated powers to further define the futures contract terms (e.g. contract amount, expiry months, etc, defined below) to SEBI."
+  },
+  {
+    "text": "Which of the following is a correct measure of the realized return for a coupon bond ?",
+    "options": [
+      "Yield-to-maturity (YTM)",
+      "Current yield",
+      "Coupon",
+      "None of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The realized return on a coupon bond refers to the actual return earned over the holding period, which includes&nbsp;Coupon payments received,&nbsp;Capital gains or losses (if the bond is sold before maturity) and&nbsp;Reinvestment income (if coupons are reinvested) None of the listed options fully capture this: -&nbsp;Yield-to-Maturity (YTM): Assumes the bond is held to maturity and all coupons are reinvested at the YTM rate. It’s a promised yield, not necessarily the realized return. -&nbsp;Current Yield: Only considers the annual coupon divided by current price—ignores capital gains/losses and reinvestment. -&nbsp;Coupon: Refers to the fixed periodic payment, not a return measure. &nbsp;"
+  },
+  {
+    "text": "One Basis Point is equal to _________ .",
+    "options": [
+      "1%",
+      ".1%",
+      ".01%",
+      ".001%"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The change in YTM of 0.01% (or 0.0001) is called a basis point (BP) or “bip”."
+  },
+  {
+    "text": "The Public Debt Office of RBI maintains demat account of Govt. Securities for _________ .",
+    "options": [
+      "All investors of Govt. securities",
+      "All investors of Private , Public and Got. debt securities",
+      "All securities of State Govt",
+      "Banks, Primary Dealers and select Financial Institutions"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Public Debt Office holds accounts only for Schedule Commercial Banks, Primary Dealers and few select financial institutions."
+  },
+  {
+    "text": "A fixed rate housing loan is not exposed to any interest rate risk - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: For a housing loan buyer, an upward change in market interest rate will lead to higher EMI payments. This is interest rate risk. However if the buyer has taken a housing loan at fixed interest rates, he will not face any interest rate risks."
+  },
+  {
+    "text": "A Trading-cum-Clearing Member is a member of _________ .",
+    "options": [
+      "Exchange",
+      "Clearing Corporation",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: A Trading-cum-Clearing Member is a member of both Exchange and Clearing Corporation so that it&nbsp;can execute as well as settle trades. It can settle trades executed by other Trading Members, too."
+  },
+  {
+    "text": "The seller must deliver _________ , in the physical settlement of Government bond futures.",
+    "options": [
+      "any bond which the seller has",
+      "the bond which is exactly matching the coupon",
+      "any specified deliverable bond",
+      "any bond of Govt. of India"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The futures seller can deliver any of the Deliverable Bonds. In theory, the introduction of Conversion Factor for each Deliverable Bond should make the seller indifferent to any preference for particular bond."
+  },
+  {
+    "text": "When the original period of borrowing / lending is less than one year, it is known as ________ .",
+    "options": [
+      "Bond Market",
+      "Currency Market",
+      "Money Market",
+      "Equity Market"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: In money market, the period is less than one year; and in bond market, it is one year or more."
+  },
+  {
+    "text": "The maturity of the underlying for Treasury Bill futures in India is _____ .",
+    "options": [
+      "14 day",
+      "91 day",
+      "182 day",
+      "364 day"
+    ],
+    "correct": 1,
+    "explanation": ""
+  },
+  {
+    "text": "What is the major economic role of the underlying markets - Primary Markets ?",
+    "options": [
+      "Delta hedgeing",
+      "Trading",
+      "Risk Mangagement",
+      "Financing"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Economic role of underlying markets is financing, which means transferring cash from the party who has it to the party who needs it."
+  },
+  {
+    "text": "The settlement guarantee for exchange traded derivatives is provided by ______ .",
+    "options": [
+      "SEBI",
+      "Clearing Corporation",
+      "Exchange",
+      "RBI"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In the case of exchange-traded derivatives, the Clearing Corporation (or Clearing House) acts as the central counterparty to all trades. Its key responsibilities include: Guaranteeing the settlement of trades Managing counterparty risk Ensuring that even if one party defaults, the trade is honoured &nbsp;"
+  },
+  {
+    "text": "If the bond price is 120 and the Modified Duration of a bond is 6.0 and the yield to maturity changes by 1%, the change in bond price will be _____ .",
+    "options": [
+      "Rs 6",
+      "6%",
+      "Both 1 and 2 are same",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Percentage change in bond price = Modified Duration &nbsp; X &nbsp; Yield change% = 6 &nbsp;x &nbsp; 1% = 6 &nbsp;x .01 = .06 = 6%"
+  },
+  {
+    "text": "The settlement system for Treasury Bill futures is ________ .",
+    "options": [
+      "Cash Settlement",
+      "Physical Settlement",
+      "Cash or Physical as per the choice of buyer",
+      "None of above"
+    ],
+    "correct": 0,
+    "explanation": ""
+  },
+  {
+    "text": "Investors can hold their Govt. securities in demat form in which of the following ?",
+    "options": [
+      "Gilt account with Depositories",
+      "Demat account with Primary Dealers and Banks",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": ""
+  },
+  {
+    "text": "The maturity of the underlying bond on which the futures contract is currently listed is ________ .",
+    "options": [
+      "1 Year",
+      "5 Year",
+      "10 Year",
+      "20 Year"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The underlying for bond futures is 10 Year bond and for Bill futures is 91 day Treasury Bills."
+  },
+  {
+    "text": "An investor can open _________ Gilt Account(s).",
+    "options": [
+      "Only one",
+      "One per primary dealer",
+      "Maximum two",
+      "Maximum five"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: A Gilt Account Holder maintains only one Gilt Account. A suitable declaration to this effect must be made from the Gilt Account Holder before the account is opened."
+  },
+  {
+    "text": "A trader expects the interest rates to go down in the near future. To profit from this view he should ________ today.",
+    "options": [
+      "Buy bond futures",
+      "Sell bond futures",
+      "Both 1 and 2 will give him profits",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Interest rate and bond prices are inversely related. So when interest rate goes down, the bond prices will rise. So he should buy bond futures now and sell them when the price rises due to interest rates going down."
+  },
+  {
+    "text": "Amongst the following options, which one is true with respect to ' CLEARING ACCOUNTS' ?",
+    "options": [
+      "It has to be used only for the payments with SEBI",
+      "It cannot be closed or shifted without the prior permission of the Clearing Corporation",
+      "The Clearing Corporation cannot directly debit or credit amounts in it for the member",
+      "Closure does not require prior permission of the Clearing Member"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Clearing Accounts are accounts opened by the Trading / Clearing / Professional Clearing members at&nbsp;designated branches of designated banks exclusively for the purpose of settlement ( payment and receipt of funds) with the Clearing Corporations. The shifting of Clearing Account to another Clearing Bank or closing it,&nbsp;will require prior approval of Clearing Corporation.will require prior approval of Clearing Corporation."
+  },
+  {
+    "text": "The derivatives segment has the Exchange and the Clearing Corporation. These are __________ .",
+    "options": [
+      "same and considered as on legal entity",
+      "two separate legal entities",
+      "located in the same premises / building",
+      "either one entity or two entities"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The trading and settlement are conducted by two distinct legal entities. Trading is managed by the Exchange and the Settlement (along with the associated process of Clearing) is managed by Clearing Corporation (CC)."
+  },
+  {
+    "text": "The situation of BUY IN arises due to failure in settlement by _________ .",
+    "options": [
+      "Buyer",
+      "Seller",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: When there is a short-delivery by the seller on the settlement day, the shortage is auctioned on the same day. This is called “buy-in”."
+  },
+  {
+    "text": "The legal form of Professional Clearing Member can be _________ .",
+    "options": [
+      "Partnership firm",
+      "corporate bodies or banks",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Professional Clearing Member&nbsp;can be only corporate bodies or banks."
+  },
+  {
+    "text": "Considering global derivative markets, which of the following is bigger in size ?",
+    "options": [
+      "Over the Counter (OTC)",
+      "Exchange Traded Markets",
+      "Both 1 and 2 are almost same in size",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: As per 2014-15 data,&nbsp;the outstanding notional of OTC derivatives is nine times more than that for Exchange-traded derivatives."
+  },
+  {
+    "text": "Which risk does one face when the changes in prices of spot Treasury Bill and Treasury Bill futures are not same ?",
+    "options": [
+      "Yield curve spread risk",
+      "Basis Risk",
+      "Market liquidity risk",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Basis risk is the risk&nbsp;that the value of a futures contract (or an over-the-counter (OTC) hedge) will not move in line with that of the underlying exposure.&nbsp;"
+  },
+  {
+    "text": "In Exchange traded derivatives, the 'trade guarantee' is given by ______ .",
+    "options": [
+      "SEBI",
+      "RBI",
+      "The concerned Exchange",
+      "Clearing Corporation"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The trade guarantee is provided by Clearing Corporation becoming a common party, called central counterparty, to the buyer and seller. &nbsp;This process is called Novation."
+  },
+  {
+    "text": "The maximum contract months available for 10 year , 6 year and 13 year bond futures is _____ .",
+    "options": [
+      "3",
+      "6",
+      "9",
+      "12"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The maximum contract months available for each of these is -&nbsp;Three nearest “serial” months and three quarterly contracts - ie. 6 months."
+  },
+  {
+    "text": "When a Stop Loss buy order is entered, the trigger price has to be ________ .",
+    "options": [
+      "higher than current market offer price",
+      "higher than current market bid price",
+      "lower than current market offer price",
+      "lower than current market bid price"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The stop-loss requires a trigger price to be specified, which should be higher than current market offer price for stop-loss buy order; and lower than current market bid price for stop-loss sell order."
+  },
+  {
+    "text": "______ are quarterly months for the purpose of expiry of interest rate derivatives.",
+    "options": [
+      "January , February and March",
+      "July, August and September",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Trading Cycle: Three serial monthly contracts and Three serial quarterly contracts of the cycle March / June / September / December. &nbsp;"
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

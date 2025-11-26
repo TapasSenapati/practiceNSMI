@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mutual Fund MCQ Interactive Quiz - Set 4</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Mutual Fund MCQ Interactive Quiz - Set 4Interactive</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "The mark-to-market margin debits for stock futures are done on a daily basis but the mark-to-market margin credits are done on a weekly basis - State whether True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In the futures and options market, profits and losses (Debits and Credits) are settled on day-to-day basis – called mark to market (MTM) settlement."
+  },
+  {
+    "text": "Tick size is _________ .",
+    "options": [
+      "Contract Lot size",
+      "Average of the high and low prices",
+      "The maximum permitted movement in the price of the contract",
+      "The minimum permitted movement in the price of the contract"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Tick Size is minimum move allowed in the price quotations. Exchanges decide the tick&nbsp;sizes on traded contracts as part of contract specification. For eg. - Tick size for Nifty futures is 5&nbsp;paisa."
+  },
+  {
+    "text": "A forward contract is _____",
+    "options": [
+      "is a type of Option",
+      "is settled and cleared through a Clearing Corporation",
+      "a bilateral commitment of trade between two parties",
+      "is entered through an Exchange"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Forward Contract -&nbsp;It is a contractual agreement between two parties to buy/sell an underlying asset at a&nbsp;certain future date for a particular price that is pre-decided on the date of contract."
+  },
+  {
+    "text": "How many shares should be ideally there in an index ?",
+    "options": [
+      "Depends on the objective of the index",
+      "Around 100 to comprehensively cover all sectors",
+      "Exactly 50",
+      "Below 50"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Stocks in the index are chosen based on certain pre-determined qualitative and&nbsp;quantitative parameters, laid down by the Index Construction Managers. Once a stock&nbsp;satisfies the eligibility criterion, it is entitled for inclusion in the index."
+  },
+  {
+    "text": "Longer the time to maturity of the PUT option, higher will be the time value - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Time value of the option depends upon how much time is remaining for the&nbsp;option to expire. Longer the time to maturity, higher will be the time value."
+  },
+  {
+    "text": "Brokers and dealers of derivative exchanges have also to be registered with SEBI in addition to their registration with stock exchange - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In addition to their registration as brokers of existing stock exchanges, Derivative brokers/dealers and clearing members are required to seek registration from SEBI.&nbsp;&nbsp;"
+  },
+  {
+    "text": "As a Call option moves more Out-Of-The-Money, the absolute value of Delta will ______.",
+    "options": [
+      "Increase",
+      "Decrease",
+      "Not change",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The Delta of a call option measures how much the option's price is expected to move for a ?1 change in the price of the underlying asset. For call options, Delta ranges between 0 and 1. When a call option is Out-Of-The-Money (OTM), its Delta is closer to 0, since it's less sensitive to changes in the underlying price. As it moves further OTM, the absolute value of Delta decreases even more. Conversely, Delta increases as the option becomes In-The-Money, nearing 1. So when the call option becomes further OTM, it becomes less responsive to changes in the underlying asset—hence, Delta decreases. &nbsp;"
+  },
+  {
+    "text": "Counterparty risk can also be called as ________ .",
+    "options": [
+      "Credit Risk",
+      "Default Risk",
+      "Both 1 and 2",
+      "Speculative Risk"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Counterparty risk is the risk that the other party in a financial contract will fail to meet their obligations. This makes it a form of credit risk, which is a broader term for the risk of financial loss due to a borrower's failure to repay. It is also often referred to as default risk, as it specifically refers to the possibility of a party defaulting on their agreement. &nbsp;"
+  },
+  {
+    "text": "A penalty or suspension of registration of a stock broker from derivatives exchange/segment under SEBI (Stock Broker and Sub-broker) Regulations, 1992 can take place if ______ .",
+    "options": [
+      "The stock broker fails to resolve the complaints of the investors",
+      "The stock broker indulges in manipulating, or price rigging or cornering of the market",
+      "The stock broker does not follow the code of conduct",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: A penalty or suspension of registration of a stock - broker under the SEBI (Stock Broker)"
+  },
+  {
+    "text": "At the time of final settlement, the seller / writer of the option will recognize the adverse difference he paid to the buyer as ____ in his profit and loss account.",
+    "options": [
+      "Expenses",
+      "Loss",
+      "Debt",
+      "Profit"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: On exercise of the option, the seller/writer will pay the adverse difference, between&nbsp;the final settlement price as on the exercise/ expiry date and the strike price. Such&nbsp;payment will be recognised as a loss."
+  },
+  {
+    "text": "Its the duty of the Clearing Corporation to continuously analyse and modify the initial margin requirements as the stock markets tend to be very volatile - State whether True or False?",
+    "options": [
+      "False",
+      "True"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Initial Margin levels should be dynamic and calculated continuously based on&nbsp;volatility levels. The Clearing Corporation does this activity using modern mathematical tools."
+  },
+  {
+    "text": "Fixed deposits and Bank guarantees are NOT permitted to be offered by Clearing Members to the Clearing Corporation as part of liquid assets - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Clearing member is required to provide liquid assets which adequately cover various&nbsp;margins and liquid Net-worth requirements. He may deposit liquid assets in the form of&nbsp;cash, bank guarantees, fixed deposit receipts, approved securities and any other form of&nbsp;collateral as may be prescribed from time to time."
+  },
+  {
+    "text": "The absolute amount of minimum capital adequacy requirement for derivative clearing member is higher than that of spot (cash) market - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The absolute amount of minimum capital adequacy requirement for derivative brokers/dealers is&nbsp;much higher than for cash market as the risk involved are higher. Further, if a broker/dealer is involved both in cash and futures segments, or in several exchanges, the capital adequacy requirement should be satisfied for each exchange/segment separately.&nbsp;"
+  },
+  {
+    "text": "At price level of Rs. 6900, what will be the value of one lot of ABC futures contract (contract multiplier 50)?",
+    "options": [
+      "Rs. 289000",
+      "Rs. 690000",
+      "Rs. 345000",
+      "Rs. 460000"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The value of the futures contract is the Price X&nbsp; Lot size = Rs 6900 X 50 = Rs 345000"
+  },
+  {
+    "text": "What will be the value of one lot of ABC futures contract if the price is Rs. 3200 and the contract size is 150 ?",
+    "options": [
+      "Rs.240000",
+      "Rs.320000",
+      "Rs.540000",
+      "Rs.480000"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Value of a futures contract is the price multiplied by the contract size. In the above question : 3200 * 150 = Rs.480000"
+  },
+  {
+    "text": "In the derivatives market, the mark to market margin is equal to the initial margin - State True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Mark to Market is a process by which margins are adjusted on the basis of daily price&nbsp;changes in the markets for underlying assets. So this margin is as per the daily price movements."
+  },
+  {
+    "text": "Which of these strategies in not a HEDGE ?",
+    "options": [
+      "Ms. Agarwal is bullish on the market and so she buys an Out-of-the-money index call and sells an out-of-the-money index put option",
+      "A trader with a short index futures position buys an out-of-the-money call on the index so as to limit his loss",
+      "An importer is expecting to send dollars after 1 month, takes a long position in one-month USDINR futures to lock in his dollar price",
+      "A fund manager is expecting market volatility after RBI policy, buys index put options to limit the loss on his portfolio"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: A hedge is basically created to safeguard an existing position. It is to minimise the losses or lock a profit. Let’s analyze each option: 1. Ms. Agarwal is bullish on the market and so she buys an OTM index call and sells an OTM index put option -&nbsp;This is a bullish strategy (synthetic long futures / bullish options spread), not a hedge. It is a directional speculation strategy. 2. A trader with a short index futures position buys an OTM call -&nbsp;This limits the loss on his short position - hedging. 3. An importer expecting to send dollars in 1 month takes a long position in 1-month USDINR futures -&nbsp;This locks in the dollar rate, so it’s a hedge. 4. A fund manager expecting market volatility buys index put options to protect the portfolio -&nbsp;This is also a hedge (portfolio insurance). Therefore -&nbsp;\"Buying a call and selling a put (bullish view)\" is not a hedge, it’s a speculative strategy. &nbsp;"
+  },
+  {
+    "text": "A call option gives its holder the right to buy ‘any quantity’ of the underlying asset from the writer of the call option at a pre-specified price - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: A call option gives its holder the right to buy ONLY THE SPECIFIED QUANTITY (lot size of the option contract) of the underlying asset from the writer of the call option at a pre-specified price."
+  },
+  {
+    "text": "Losses incurred on derivative transactions on a ‘recognized stock exchange’ can be carried forward to _____ subsequent assessment year and set off against any other non-speculative business income of the subsequent year.",
+    "options": [
+      "5",
+      "8",
+      "12",
+      "15"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Loss incurred on derivatives transactions which are carried out in a recognized stock exchange can be carried forward for a period of&nbsp;8 assessment years."
+  },
+  {
+    "text": "The price at which the underlying asset can be bought or sold on exercise of an option is called ________ .",
+    "options": [
+      "Spot Price",
+      "Risk Premium",
+      "Strike Price",
+      "Option Premium"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Strike price or Exercise price is the price per share for which the&nbsp;underlying security may be purchased or sold by the option holder."
+  },
+  {
+    "text": "In an ‘Opening Buy Transaction’ the effect will be that of creating or increasing ____ .",
+    "options": [
+      "Arbitrage position",
+      "Cross position",
+      "Long position",
+      "Short position"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Opening a position means either buying or selling a contract, which increases client’s&nbsp;open position (long or short)."
+  },
+  {
+    "text": "The initial margin in derivatives market depends on the volatility of the underlying market. Usually _________ .",
+    "options": [
+      "Higher the volatility, Lower the initial margin",
+      "Higher the volatility, Higher the initial margin",
+      "Lower the volatility, Higher the initial margin",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: If the stock is very volatile it could result in looses to the trader in a short period of time. So to safe guard the trading member and the trader, higher initial margin are levied on volatile stocks."
+  },
+  {
+    "text": "In general terms, if the number of participants in a market are more, the liquidity will be low - State True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Liquidity in the context of stock market means a market where large orders are&nbsp;executed without moving the prices."
+  },
+  {
+    "text": "All types of investors should allot some portion of their portfolio to derivative products in order to increase the portfolio returns irrespective of their risk tolerance levels - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Derivatives are ideally used as a hedging product and not investment products. Also, as a stand alone investment, they can prove to be very risky. So investors who do not want to take risks, senior citizens etc. should not trade / invest in derivative products."
+  },
+  {
+    "text": "If the interest rate increases, the premium on CALL option will also increase - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Relationship between Interest Rates and Option Premiums: -&nbsp;Interest rates affect the cost of carry. Higher interest rates increase the cost of holding the underlying asset. - For call options, higher interest rates make it more attractive to hold the option rather than the underlying asset. This increased attractiveness translates to a higher premium. - Conversely, for put options, higher interest rates tend to decrease the premium. Therefore, an increase in interest rates generally leads to an increase in the premium of a call option. &nbsp;"
+  },
+  {
+    "text": "The Clearing Corporation gives exposure limits to Clearing Members based on the number of Trading Members using the services of that Clearing Member - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Clearing Corporation gives exposure limits to Clearing Members based on deposits and not the number of members with that clearing member. &nbsp;"
+  },
+  {
+    "text": "In derivative exchanges, the exposure amount possible for each member broker is linked to the amount of deposits / margins kept by the member with the clearing house - True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Higher the deposits / margins kept, more will be the exposure amount available to the member brokers."
+  },
+  {
+    "text": "Which of these is/are true for Unsystematic Risk ?",
+    "options": [
+      "Unsystematic Risk is related to risk in a specific security and not pertaining to overall market",
+      "Unsystematic Risk can be reduced through diversification",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Unsystematic Risk (also called specific risk) refers to the risk associated with a particular company or industry, and not the overall market. Examples include: Company management changes, Strike in factory, Regulatory issues affecting a specific sector etc. It can be reduced or eliminated through diversification, by holding a well-diversified portfolio of assets across different sectors and companies. &nbsp;"
+  },
+  {
+    "text": "How can risks be controlled in the derivatives segment by the stock exchange ?",
+    "options": [
+      "By implementing a effective margin system",
+      "By having a well organized control systems and audit procedures",
+      "By periodic evaluation of member positions",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: All the above steps need to be taken to control risks in the derivative segment."
+  },
+  {
+    "text": "In the derivative segment, once initial margin requirement is fixed, it cannot be changed by the exchange, during the lifetime of the futures contract - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The initial margin is dependent on price movement of the underlying asset. So the Initial Margin levels are dynamic and recalculated continuously based on volatility levels."
+  },
+  {
+    "text": "What happens to the unmatched portion of the order in an Immediate or cancel (IOC) order ?",
+    "options": [
+      "It will be added to the order book as a limit order",
+      "It will be executed on the next trading day",
+      "It will be executed in the next one hour",
+      "It will be cancelled"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Immediate or cancel (IOC): User is allowed to buy/sell a contract as soon as the order is&nbsp;released into the trading system. An unmatched order will be immediately cancelled. Partial order match is possible in this order, and the unmatched portion of the order is&nbsp;cancelled immediately. &nbsp;"
+  },
+  {
+    "text": "What should be the market-wide position limit for a stock for it to be eligible for launch in the futures and options contracts in the exchange traded equity derivatives segment in India?",
+    "options": [
+      "At least Rs. 100 crores",
+      "At least Rs. 500 crores",
+      "At least Rs. 1000 crores",
+      "At least Rs. 1500 crores"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: A stock on which stock option and single stock futures contracts are proposed to be introduced shall conform to broad eligibility criteria for a continuous period of six months. One of the criteria is : The market wide position limit (MWPL) in the stock shall not be less than Rs 1500 crores on a rolling basis. &nbsp;"
+  },
+  {
+    "text": "When an investor gives instruction to his broker to buy a certain number of contracts at or below a specific price, the order is called as _________ .",
+    "options": [
+      "Market Order",
+      "Arbitrage Order",
+      "Spread Order",
+      "Limit Order"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Limit order is an order to buy or sell a contract at a specified price. The user has to specify this limit price while placing the order and the order gets executed only at this specified limit price or at a better price than that. &nbsp;"
+  },
+  {
+    "text": "Under which Act / Regulations is the Suspicious Transaction reporting required?",
+    "options": [
+      "SEBI Insider Trading Regulations",
+      "Foreign Account Tax Compliance Act (FATCA)",
+      "Anti-Money laundering (AML) and Combating of Financial Terrorism (CFT) Regulations",
+      "Foreign Exchange Management Act (FEMA)"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Under the Anti-Money Laundering (AML) and Combating of Financial Terrorism (CFT) regulations, certain suspicious transactions are required to be reported to the Financial Intelligence Unit – India (FIU-IND) set up by the Government to detect possible attempts at money laundering. &nbsp;"
+  },
+  {
+    "text": "Why are the margins for calendar spreads in index futures low ?",
+    "options": [
+      "Because calendar spreads are not traded on an Exchange",
+      "Because calendar spreads are OTT transaction",
+      "Because the market risk is low in calendar spreads",
+      "Because calendar spreads are special transactions guaranteed by RBI"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Calendar spread position is a combination of two positions in futures on the same underlying - long on one maturity contract and short on a different maturity contract. Calendar spreads carry only basis risk and low or no market risk ie. no risk even if market rises or falls by a big amount - hence lower margins are adequate. &nbsp; &nbsp;"
+  },
+  {
+    "text": "A hedger wants to offset the price risk on his equities, so he will take _________ .",
+    "options": [
+      "A long positions in futures",
+      "A short positions in futures",
+      "A long position in Call",
+      "Both a long or short position in futures"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Hedgers face risk associated with the prices of underlying assets and use derivatives to reduce their risk. If a person has a portfolio of equity stocks, he can sell futures to offset the price risk. &nbsp;"
+  },
+  {
+    "text": "In the Option segment, if you buy a CALL at a premium of Rs 35 at the Strike Price of Rs 400, lot is of 200 shares, then the maximum possible profit is ________ .",
+    "options": [
+      "Rs 400",
+      "Rs 7000",
+      "Rs 43000",
+      "Unlimited"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: When you buy a CALL option, your losses are limited to the extent of premium paid, but your profits, theoretically can be unlimited as the price of the underlying can rise to any levels. When the price of an underlying rises, the price of an CALL option will also rise and so you can have unlimited profits. &nbsp;"
+  },
+  {
+    "text": "Who can trade in derivative products?",
+    "options": [
+      "Any broker who is registered with SEBI can trade in derivative products",
+      "Any broker who is registered with SEBI for trading in derivatives products can trade in derivatives",
+      "Any member of a registered Stock Exchange",
+      "All of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: A normal equity market SEBI registered broker cannot deal in derivatives. The broker has to be specially registered for dealing in derivative products with SEBI to deal in derivatives. &nbsp;"
+  },
+  {
+    "text": "A Call Option will give the holder of the option a right to buy how much of the underlying from the writer of the option?",
+    "options": [
+      "The specified quantity or more than the specified quantity",
+      "The specified quantity or less than the specified quantity",
+      "Only the specified quantity"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Only the specified quantity as per the lot size of the option contract. &nbsp;"
+  },
+  {
+    "text": "Those contracts which have been initiated but are not yet offset by a subsequent sale or purchase or by making or taking delivery are considered as ______ .",
+    "options": [
+      "Offsetting Positions",
+      "Clear Positions",
+      "Open Positions",
+      "Squared-off Positions"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Outstanding / unsettled position in various derivative contracts is called “Open Position”. For instance, if Mr. X shorts 5 contracts on Infosys futures and goes long on 3 contracts of Reliance futures, he is said to be having open position, which is equal to short on 5 contracts of Infosys and long on 3 contracts of Reliance. If on the next day, he buys 2 Infosys contracts of same maturity, his open position would be – short on 3 Infosys contracts and long on 3 Reliance contracts. &nbsp;"
+  },
+  {
+    "text": "As per SEBI's guidelines, derivatives trading takes place through ______ .",
+    "options": [
+      "Online screen based trading system",
+      "Kerb trading",
+      "Auctions at public mandis",
+      "Open outcry method in the trading ring"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Derivatives trading as per SEBI’s guidelines takes place through an online screen based electronic trading system. In case of electronic trading, there are screen-based broker dealing terminals, instead of the trading pit. Futures and options trading in India is electronic in nature, with the bids and offers, and the acceptance being displayed on the terminal continuously. &nbsp;"
+  },
+  {
+    "text": "Ms. Seema, a stock market trader, is very bearish on specific companies. However she is bullish on the market as a whole. Identify the most appropriate strategy to take advantage from this view?",
+    "options": [
+      "She should sell shares of those specific companies and buy index futures",
+      "She should sell the shares of those specific companies and also sell index futures",
+      "She should buy the shares of those specific companies and sell index futures",
+      "She should not do anything"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Ms. Seema is bearish on specific companies - she expects their prices to fall - sell those shares. She is bullish on the overall market - she expects the index to rise - buy index futures. She should sell the shares of those specific companies in futures and buy index futures. By this she will profit when the stock prices of those specific companies fall and index rises - if her view proves correct. &nbsp;"
+  },
+  {
+    "text": "Why is the Clearing Corporation considered very important in the derivatives market?",
+    "options": [
+      "Clearing Corporation deals with exchanges",
+      "Clearing Corporation related with stocks",
+      "Clearing Corporation provides settlement guarantee and assumes role of counterparty for each trade",
+      "Clearing Corporation collects margins from members"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Clearing corporations are required to have in place a Core Settlement Guarantee Fund (SGF). The primary objective of the Core SGF is to have a fund for each segment to guarantee the settlement of trades executed in the respective segment of the stock exchange. The Clearing Corporation acts as a legal counterparty for every contract. &nbsp;"
+  },
+  {
+    "text": "A client has asked for a quarterly settlement of his running account. In this connection, identify the INCORRECT statements.A. The settlement will be done on first Friday of the quarterB. The settlement will be done on last Friday of the quarterC. The settlement will be done on any trading day of the quarter",
+    "options": [
+      "Both A and B are incorrect",
+      "Both B and C are incorrect",
+      "Both A and C are incorrect",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: With a view to prevent any misuse of a client’s funds by the broker, SEBI has made it mandatory for brokers to settle the running account of client funds on a monthly or quarterly basis as per the mandate of the client. To bring uniformity in the settlement of running accounts, brokers are now required to settle the running account after considering the client’s EOD obligations as on the date of settlement across all the Exchanges on the first Friday of the quarter, in case of clients requiring a quarterly settlement, and on the first Friday of the month in the case of clients opting for a monthly settlement. &nbsp;"
+  },
+  {
+    "text": "Identify the CORRECT statement .",
+    "options": [
+      "Penny stocks are and good investment options for senior citizens",
+      "Brokers of a stock exchange are not expected to disclose the investment risks to their clients",
+      "Low income families can use derivatives instruments to get rich quickly",
+      "Sales agents of the brokers should not use high pressure luring tactics"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: As per ethical Sales Practices to be followed by brokers : Sales agents of brokers must at all times: - Be courteous and professional. - Shall refrain from making false assumptions, in particular over potential returns on their investments. -&nbsp;Avoid the use of high pressure/ luring tactics. &nbsp;"
+  },
+  {
+    "text": "Complete the sentence : Shorter the time to expiry of a PUT Option, lesser will be its _______ .",
+    "options": [
+      "Assignment Value",
+      "Time Value",
+      "Intrinsic Value",
+      "Settlement Value"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Other things being equal, options tend to lose time value each day throughout their life. This is due to the fact that the uncertainty element in the price decreases. Thus shorter the time to maturity, lower will be the time value. &nbsp;"
+  },
+  {
+    "text": "A derivatives market would primarily have which of the following participants?",
+    "options": [
+      "Speculators",
+      "Long-term investors",
+      "Hedgers",
+      "Both Speculators and Hedgers"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: There are broadly three types of participants in the derivatives market - hedgers, traders (also called speculators) and arbitrageurs. Long-term investors invest in the cash market and take delivery of the securities. &nbsp;"
+  },
+  {
+    "text": "Which of these is NOT included in the Indian equity derivatives market?",
+    "options": [
+      "Options on individual stocks",
+      "Options on equity market indices",
+      "Futures on individual stocks",
+      "Interest rate futures"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Although NSE and BSE allows trading in Interest rate futures but it is not a part of equity derivatives. &nbsp;"
+  },
+  {
+    "text": "For calculating the net worth of a clearing member, which of these is/are NOT considered?",
+    "options": [
+      "His Fixed Assets",
+      "His pledged securities",
+      "His membership card",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The networth of the member shall be computed as follows: &nbsp;Capital + Free reserves &nbsp;Less non-allowable assets which are : -&nbsp;Fixed assets -&nbsp;Pledged securities -&nbsp;Member’s card - Non-allowable securities (unlisted securities) - Bad deliveries - Doubtful debts and advances - Prepaid expenses - Intangible assets - 30% marketable securities &nbsp;"
+  },
+  {
+    "text": "in ___________ , the strike price and market price are equal.",
+    "options": [
+      "Out-of-the money option",
+      "Same-the-money option",
+      "At-the-money option",
+      "In-the-money option"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: At-the-money (ATM) option: At-the-money option would lead to zero cash flow if it were exercised immediately. Therefore, for both call and put ATM options, strike price is equal to spot / market price. &nbsp;"
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

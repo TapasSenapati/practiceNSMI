@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Test 5</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Test 5</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "According to the current accounting regulations, which of the following is a correct statement regarding the treatment of derivatives?",
+    "options": [
+      "Current accounting standards require the recognition of all derivative contracts on the balance sheet",
+      "According to present regulations, all derivatives are to be recognized on the books with a value of zero",
+      "Derivative contracts that have not yet been settled are treated as off-balance sheet items",
+      "Current accounting standards require all derivative instruments to be recorded at their book value"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Under current accounting standards, the treatment of derivatives includes the following key principle- &nbsp;Recognition on the Balance Sheet: -&nbsp;All derivative contracts, whether settled or unsettled, must be recognized on the balance sheet as either assets or liabilities. -&nbsp;They are measured at fair value, not book value or zero &nbsp;"
+  },
+  {
+    "text": "Which of the following can only be done by a Trading member?",
+    "options": [
+      "Execution of trade",
+      "Execution of trade and Settlement of trade",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In the structure of exchange-traded markets, the roles are divided between Trading Members and Clearing Members: 1.&nbsp;Trading Member&nbsp; -&nbsp;Authorized to execute trades on the exchange. -&nbsp;Cannot clear or settle trades unless they are also a Clearing Member. 2.&nbsp;Clearing Member -&nbsp;Responsible for clearing and settlement of trades (their own or on behalf of trading members). &nbsp;"
+  },
+  {
+    "text": "When a stockbroker's collateral utilization reaches ____ , all their unexecuted orders will be cancelled as a risk mitigation step.",
+    "options": [
+      "80%",
+      "85%",
+      "90%",
+      "95%"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: As a risk reduction measure, according to SEBI and exchange guidelines, all unexecuted orders are required to be cancelled automatically if a stock broker breaches 90% of the collateral utilisation level. This is done to prevent excessive risk exposure and ensure that brokers do not place orders beyond their risk-taking capacity. &nbsp;"
+  },
+  {
+    "text": "What is a feature of Contract-level minimum margin?",
+    "options": [
+      "It will be same for all treasury bill futures and government securities futures",
+      "It will be different for treasury bill and Government bond futures but same for all government bond futures",
+      "It will be different for each treasury bill and for each government bond futures",
+      "There are no margins for treasury bills and other Government Securities"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Treasury bill futures and government bond futures have different risk profiles, mainly due to differences in maturity and volatility. Therefore, their minimum margin requirements will differ. Within the category of government bond futures, the exchange may have standardized margin requirements or may vary them based on the specific underlying security, however the most common practice is to have a standardized margin for all government bond futures. &nbsp;"
+  },
+  {
+    "text": "What entity acts as the guarantor for transactions in the exchange-traded derivatives market?",
+    "options": [
+      "The Trading Member",
+      "The Clearing Member",
+      "The Clearing Bank",
+      "None of these"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The Clearing Corporation provides a trade guarantee&nbsp;by becoming the central counterparty (CCP)&nbsp;to both the buyer and seller. This happens through a process called Novation, where the CCP steps in and replaces the original contract — becoming the buyer to every seller and the seller to every buyer. This ensures smooth settlement and reduces counterparty risk. &nbsp;"
+  },
+  {
+    "text": "If an investor has the choice between two bonds issued by the same entity, maturing at the same time, but paying different coupon amounts, which should they select?",
+    "options": [
+      "The investor should select the bond with higher market price",
+      "The investor should select the bond with lower market price",
+      "The investor can select any as the returns will be the same",
+      "The decision for judging the cheapness of a bond cannot be taken based on price"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: When choosing between two bonds issued by the same entity with the same maturity but different coupon amounts, the investor should consider the yield to maturity (YTM) rather than just the market price. The bond with the higher YTM offers better returns, accounting for both coupon payments and price differences. Market price alone doesn’t determine which bond is \"cheaper\" or more attractive, as it ignores the impact of coupons and yield on total returns. &nbsp;"
+  },
+  {
+    "text": "Which of these financial instruments involve periodic principal repayments prior to the final maturity date?",
+    "options": [
+      "Zero Coupon Bond",
+      "Coupon Bond",
+      "Consol",
+      "Staggered maturities"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Staggered maturities or more commonly referred to as an amortizing bond or a bond with an amortization schedule. These bonds involve periodic payments that include both interest and a portion of the principal.&nbsp; This means the principal balance gradually decreases over time. &nbsp;"
+  },
+  {
+    "text": "How is the premium settled for exchange-traded interest rate option contracts?",
+    "options": [
+      "Its Cash settled",
+      "Its adjusted to liquid assets",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: For exchange-traded interest rate option contracts in India, the premium (i.e., the price paid by the buyer to the seller of the option) is settled in cash.&nbsp;This is a standard practice for exchange-traded derivatives, ensuring efficient and transparent settlement. No physical delivery or adjustment to liquid assets is involved in premium settlement. &nbsp;"
+  },
+  {
+    "text": "The payment an option buyer makes to secure the right from the seller is known as _________ .",
+    "options": [
+      "Strike Price",
+      "Market Price",
+      "Agreed Price",
+      "Premium"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: In options trading, the option buyer pays a PREMIUM to the option seller (writer) to acquire the right, but not the obligation, to buy or sell the underlying asset at a specified price (the strike price) before or at expiry. &nbsp;"
+  },
+  {
+    "text": "What are the available options for a client to submit a trade order on a securities exchange?",
+    "options": [
+      "Through Internet",
+      "By Phone",
+      "Using Direct Market Access",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The Broker accepts orders from the client and sends the same to the Exchange after performing the risk management checks. Clients have the option of placing their orders directly through various channels, provided by members, like internet, phone, direct market access (DMA) (for institutional clients), securities trading using wireless technology facility (STWT) / Automated / Algorithm Trading (ALGO) / Smart order router (SOR), etc. &nbsp;"
+  },
+  {
+    "text": "Do treasury bills issued by the Indian government pay a coupon? If so, what is it?",
+    "options": [
+      "7.5%",
+      "6%",
+      "Treasury bills are issued as Zero-coupon instruments",
+      "The coupon varies from issue to issue"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Treasury bills (T-bills) issued by the Government of India do not pay a coupon rate or periodic interest payments. Instead, they are zero-coupon instruments. T-bills are sold at a price lower than their face value (also known as the par value or maturity value). &nbsp;On the maturity date, the investor receives the full face value of the T-bill. &nbsp;The investor's profit is the difference between the face value they receive at maturity and the discounted price they paid at the time of purchase. This difference effectively represents the interest earned. &nbsp;"
+  },
+  {
+    "text": "Assuming no other changes, what happens to the price of a put option when the underlying asset becomes more volatile?",
+    "options": [
+      "The price of a put option will increase",
+      "The price of a put option will decrease",
+      "There will be no change in the price of a put option",
+      "It cannot be determined"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: When volatility of the underlying asset increases, the premium of both call and put options increases This is because: -&nbsp;Higher volatility increases the probability that the option will end up in the money before expiry. -&nbsp;Therefore, the potential for profit is higher, which makes the option more valuable. &nbsp;"
+  },
+  {
+    "text": "Person goes short in a futures contract at Rs.100 and on expiry underlying price is Rs. 101, he will ________.",
+    "options": [
+      "Make profit of Rs. 1",
+      "Make loss of Rs. 1",
+      "No profit no loss",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: When a person goes short in a futures contract, they are essentially betting that the price of the underlying asset will fall. In this case, the person shorts the futures contract at Rs. 100.&nbsp;At the time of expiry, the underlying price is Rs. 101. Since the person is short, they will need to buy back the contract at the prevailing market price of Rs. 101 to close their position. As they sold at Rs. 100 and bought back at Rs. 101, they will incur a loss of Rs. 1 per unit of the underlying asset. &nbsp;"
+  },
+  {
+    "text": "An option is _________, if on exercising it, the option buyer gets negative cash flow.",
+    "options": [
+      "In the money",
+      "Out of the money",
+      "At the money",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: An option is considered \"Out of the Money\" if, on exercising it, the option buyer gets a negative cash flow (i.e., they would incur a loss). For a call option, it is out of the money when the strike price is higher than the current market price of the underlying asset. For a put option, it is out of the money when the strike price is lower than the current market price of the underlying asset. In this case, exercising the option would result in a negative cash flow, meaning the option holder would lose money. &nbsp;"
+  },
+  {
+    "text": "As a Risk Reduction Measure, all unexecuted orders shall be cancelled once stock broker breaches ________ collateral utilization level.",
+    "options": [
+      "50 percent",
+      "75 percent",
+      "90 percent",
+      "95 percent"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: As a Risk Reduction Measure, all unexecuted orders shall be cancelled once a stockbroker breaches the 90 percent collateral utilization level. This is done to manage risk and ensure that brokers do not exceed their collateral limits. &nbsp;"
+  },
+  {
+    "text": "Guidance Notes on Accounting for Derivatives Contract recognise following type of hedging for hedge accounting: ____________.",
+    "options": [
+      "The cash flow hedge accounting model",
+      "Fair value hedge accounting model",
+      "The hedge of a net investment in a foreign operation",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The Guidance Notes on Accounting for Derivatives Contracts issued by the Institute of Chartered Accountants of India (ICAI) recognize the following types of hedging for hedge accounting: -&nbsp;Fair value hedge accounting model -&nbsp;Cash flow hedge accounting model -&nbsp;Hedge of a net investment in a foreign operation These models align with international accounting standards for recognizing and measuring hedge effectiveness. &nbsp;"
+  },
+  {
+    "text": "Due to denial of matched orders by client/s, which type of risk arises?",
+    "options": [
+      "Regulatory",
+      "Market",
+      "Operational",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: When clients deny matched orders, the risk that arises is Operational risk. This type of risk arises due to internal processes, systems, or human errors within an organization or trading environment. Operational risk includes failures like system malfunctions, errors in executing orders, and issues arising from order matching or denial of orders. &nbsp;"
+  },
+  {
+    "text": "If participant buy 20 lot of single bond futures at Rs. 97, then contract value _________.",
+    "options": [
+      "Rs. 42,20,000",
+      "Rs. 35,50,000",
+      "Rs. 38,80,000",
+      "Rs. 33,25,000"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Given:&nbsp;Face Value (Notional Value) of 1 Bond Futures Contract&nbsp;= Rs 2,00,000&nbsp;(standard in India for 10-year Government Bond Futures) Number of Lots Purchased&nbsp;= 20 Futures Price&nbsp;= Rs 97&nbsp;(i.e., 97% of the face value) Calculation: 1.&nbsp;Value per Contract&nbsp;= Face Value × (Futures Price / 100) = Rs 2,00,000 × (97/100) = Rs 1,94,000 2. Total Contract Value for 20 Lots&nbsp;= 20 × 1,94,000&nbsp;= Rs 38,80,000 &nbsp;"
+  },
+  {
+    "text": "If the base price of a security for a trading day is Rs 500 and the price range is 2%, the opening price for the trading day will be _______ .",
+    "options": [
+      "cannot be lower than 490",
+      "cannot be higher than 510",
+      "both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Price band is 2% of Rs 500 &nbsp;= &nbsp;Rs +/- 10 So Rs 500 +/- 10 = Rs 490 and Rs 510"
+  },
+  {
+    "text": "When there is a failure to notify the Intent to Deliver, the shortage is auctioned on the same day and this is called “buy-in” - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In derivatives or securities settlement, when a seller fails to notify the intent to deliver (or fails to deliver securities), the exchange may conduct an auction to cover the shortage on the same day. This process is known as a \"buy-in\". The exchange buys the securities from the market to fulfill the buyer’s obligation.&nbsp;It ensures smooth settlement and protects the counterparty. &nbsp;"
+  },
+  {
+    "text": "The price of a derivative is basically determined by ________ .",
+    "options": [
+      "Demand and supply of the derivative",
+      "Exchange in which it is traded",
+      "Underlying",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Derivative is something that is derived from another called the underlying. The price of derivatives is determined by the price of underlying, and not by the demand-supply for derivative. The underlying is the raw material and derivative is the finished product. If the underlying price goes up (or down), the derivative price will go up (or down) regardless of demand-supply for derivative."
+  },
+  {
+    "text": "Every debit in Gilt Account would require authorization from Gilt Account Holder, and the right to set off cannot be applied in the Gilt Account - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": ""
+  },
+  {
+    "text": "Quantity Freeze is a limit set by the Exchange on the trade size - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Quantity freeze is not a limit on the trade size. It is a check to ensure that the order entry is not erroneous.&nbsp; The Exchange will specify the Quantity Freeze, and any order input with quantity higher than the Quantity Freeze will not be executed automatically&nbsp;unless the Trading Member separately confirms to the Exchange that the order is genuine and without errors."
+  },
+  {
+    "text": "In a zero coupon bond the Macaulay Duration will be ________ .",
+    "options": [
+      "Equal / Proportionate to maturity",
+      "Less than maturity",
+      "More than maturity",
+      "Zero"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: As per&nbsp;Macaulay Duration, for a change of 1% rise in the interest rate&nbsp;the price of 1Y zero-coupon bond will fall by roughly 1%; that of 2Y zero-coupon bond will fall by roughly 2%; that of 3Y zero-coupon bond will fall by roughly 3%; and so on. Thus, the change in the bond price is roughly proportional to the maturity."
+  },
+  {
+    "text": "The underlying for Interest rate futures is _________ .",
+    "options": [
+      "Bond",
+      "Interest Rate",
+      "Commodity",
+      "Currency"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: An interest bearing instrument is the underlying for Interest rate futures. In the given options, Bond is the only option which shall pay interest."
+  },
+  {
+    "text": "__________ is traded both in OTC and Exchange markets.",
+    "options": [
+      "Swap",
+      "Futures",
+      "Forwards",
+      "None of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Swap and Forwards are traded only in OTC market. Futures are traded on an Exchange. &nbsp;"
+  },
+  {
+    "text": "The short-term interest rate is predominantly determined by inflation outlook - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The short-term rate is determined by liquidity and the long-term rate is determined by inflation outlook and the capital expenditure by industry and business. &nbsp;"
+  },
+  {
+    "text": "SPAN margining is applied between _________ .",
+    "options": [
+      "The trading members and their clients",
+      "Clearing Corporation and Clearing Members",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: SPAN margin considers the entire portfolio of an investor for computing the portfolio-wide margin. SPAN margining system is applied to individual clients and collected by the trading member and paid to the clearing corporation."
+  },
+  {
+    "text": "Who maintains Constituent Subsidiary General Ledger account with the Public Debt Office (PDO) of RBI ?",
+    "options": [
+      "Schedule Commercial Banks (SCB)",
+      "Primary Dealers (PD)",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The Schedule Commercial Banks or Primary Dealers holding government securities in Gilt Account for their constituents must in turn open a separate second account with Public Debt Office, which is called Constituent SGL (CSGL) Account or SGL II A/c."
+  },
+  {
+    "text": "What is the meaning of Market Risk ?",
+    "options": [
+      "Risk which arises if the market / exchange defaults",
+      "Risk due to uncertainty of future profit or loss due to price changes",
+      "Risk of loss",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The sale price may be higher or lower than the initial purchase price, resulting in capital gain/loss. This is called market risk (also known as price risk)."
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

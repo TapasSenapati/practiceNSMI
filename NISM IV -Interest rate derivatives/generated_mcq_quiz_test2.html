@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Test 2</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Test 1</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "What is the net payoff in rupees for Ms. Smita, who purchased a Rs 21.50 strike call option for Rs 0.20, if the underlying bond price closes at Rs 21.70 on the expiry date?",
+    "options": [
+      "0.20",
+      "0.40",
+      "-0.20",
+      "0"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Since the&nbsp;expiry price (?21.70)&nbsp;&gt;&nbsp;strike price (?21.50), the call option is&nbsp;in-the-money&nbsp;and will be exercised. Lets calculate Gross Payoff from Exercise Gross Payoff&nbsp;= Expiry Price – Strike Price 21.70 − 21.50 =&nbsp; Rs. 0.20&nbsp; To get the net pay-off, we subtract the premium paid of Rs. 0.20 Net Payoff&nbsp;= Gross Payoff – Premium 0.20 − 0.20&nbsp; =&nbsp; 0 &nbsp;"
+  },
+  {
+    "text": "The effect of reinvestment risk on bond returns is ________.",
+    "options": [
+      "Slow and over a period of time",
+      "Immediate and instant",
+      "Nil impact",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Reinvestment risk is the risk that future cash flows (like interest payments from a bond) will be reinvested at a lower interest rate than the original bond yield. This doesn't impact the bond's value immediately, but over time, as coupons are reinvested at potentially lower rates, the total return can be reduced — hence the effect is slow over a period of time. &nbsp;"
+  },
+  {
+    "text": "The key variable(s) affecting an option's price is/are ________.",
+    "options": [
+      "The spot price of underlying asset",
+      "The time to expiration",
+      "The strike price of an option",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The price (premium) of an option depends on&nbsp;multiple factors, including: -&nbsp;Strike Price :&nbsp;Determines whether the option is&nbsp;in-the-money (ITM), at-the-money (ATM), or out-of-the-money (OTM). - Time to Expiration :&nbsp;More time =&nbsp;Higher premium&nbsp;(due to greater chance of the option becoming profitable). - Spot Price of the Underlying Asset :The spot price (current price) of the underlying asset is crucial in determining whether the option has intrinsic value and how much it is worth relative to the strike price. &nbsp;"
+  },
+  {
+    "text": "Identify the correct statement for 'Clearing Bank Account'.",
+    "options": [
+      "All transactions conducted by the clearing member are routed through this general account",
+      "This account is solely for processing payments to and from SEBI",
+      "Payments to clients and receipts from clients must be processed through this account only",
+      "All payments to and from the Clearing Corporation must be processed through this account only"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Clearing Bank(s) acts as an important intermediary between a clearing member(s) and the clearing corporation. Every clearing member needs to maintain an account with any of the empanelled clearing banks at the designated clearing bank branches. The clearing accounts have to be used exclusively for settlement of funds with the Clearing Corporation. &nbsp;"
+  },
+  {
+    "text": "Mrs. Ayushi takes two positions: buying a call option (strike Rs150, premium Rs 0.30) and buying a put option (strike Rs 150.00, premium Rs 0.20). Determine her net profit or loss if the underlying asset's price at expiry is Rs 149.50.",
+    "options": [
+      "Rs. 0.20",
+      "Rs. - 0.20",
+      "Rs. 0.50",
+      "0"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Let's evaluate each option at expiry: 1. Call Option (Strike 150) Since spot price &lt; strike price, the call expires worthless. Payoff = 0 2. Put Option (Strike 150) Since spot price &lt; strike price, the put is in the money. Payoff = 150 - 149.50 = Rs 0.50 Total Payoff = 0 (call) + 0.50 (put) = Rs. 0.50 The total cost is the premiums paid which are 0.30 and 0.20 = Rs 0.50 Net P/L = Payoff - Premiums = 0.50 - 0.50 = 0.00 &nbsp;"
+  },
+  {
+    "text": "Which of the following must be specified when submitting a trade order for it to be executed?",
+    "options": [
+      "Market side - Buy or Sell",
+      "Whether the trade is Proprietary or Client trade",
+      "The Quantity to bought or sold",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The main components of an order are: -&nbsp;Price -&nbsp;Time -&nbsp;Quantity / No. of Contract -&nbsp;Security/Contract (What to buy and what to sell)) -&nbsp;Action (Buy / Sell) -&nbsp;Client identity (UCC) and Proprietary / Client identifier. &nbsp;"
+  },
+  {
+    "text": "A shift where interest rates across all maturities change by the same amount and in the same direction is called a _______ .",
+    "options": [
+      "Perpendicular shift",
+      "Vertical shift",
+      "Steepening shift",
+      "Parallel shift"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: A Parallel shift in the yield curve means that interest rates for all maturities change by the same amount and in the same direction — either up or down. This keeps the overall shape of the yield curve the same, just shifted higher or lower. &nbsp;"
+  },
+  {
+    "text": "According to the Security Contracts (Regulation) Rules, 1957, what is the minimum age for an individual to become a trading member?",
+    "options": [
+      "18 years",
+      "21 years",
+      "20 years",
+      "25 years"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: As per the Securities Contracts (Regulation) Rules, 1957, the minimum age requirement for an individual to be eligible for trading membership of a recognized stock exchange is 21 years This is to ensure that the individual is legally an adult with sufficient maturity and capacity to enter into financial contracts and take on trading responsibilities. &nbsp;"
+  },
+  {
+    "text": "To establish a calendar spread in the futures market, two simultaneous trades are executed, and they exhibit the following features: _________",
+    "options": [
+      "Different market side and different underlying's",
+      "Different market side but same expiry month",
+      "Same market side but different expiry months",
+      "None of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: A calendar spread is a contract where a trader buys/sells a particular month contract (Futures or Options) and sells/buys (take an opposite position) of the same contract of a different month. Both have the same underlying but different maturities. Therefore a&nbsp;calendar spread&nbsp;in futures involves: Opposite market sides&nbsp;(one long and one short) Same underlying asset Different expiry months None of the above options match the correct definition of a Calendar Spread. &nbsp;"
+  },
+  {
+    "text": "Identify which of these can be considered as a Derivative?",
+    "options": [
+      "Interest Rate Futures",
+      "Interest Rate Swap",
+      "Interest Rate Options",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: All these are derivatives because their value is derived from an underlying interest rate. -&nbsp;Interest Rate Option – A contract that gives the buyer the right (but not the obligation) to benefit from interest rate movements -&nbsp;Interest Rate Swap – A contract where two parties exchange interest rate cash flows, typically swapping fixed for floating rates. - Interest Rate Futures – Standardized contracts traded on exchanges to buy or sell an interest rate-linked instrument at a future date. &nbsp;"
+  },
+  {
+    "text": "What is the most significant risk to which banks are exposed?",
+    "options": [
+      "Currency risk",
+      "Equity risk",
+      "Interest rate risk",
+      "Commodity risk"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: For banks, the predominant risk is typically interest rate risk, because&nbsp;Banks borrow short-term (e.g., through deposits) and lend long-term (e.g., through loans and mortgages) This mismatch in maturities makes them highly sensitive to changes in interest rates, affecting both net interest income and the economic value of their assets and liabilities. &nbsp;"
+  },
+  {
+    "text": "What is the basis for the final price at which a treasury bill futures contract is settled?",
+    "options": [
+      "The price is linked to the auction price of treasury bill",
+      "The price is the daily settlement price for that day",
+      "The price is fixed by FIMMDA - Fixed Income Money Market and Derivatives Association of India",
+      "The price is fixed by FEDAI - Foreign Exchange Dealers' Association of India."
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The final settlement price for a Treasury Bill Futures contract is based on the weighted average price of the Treasury Bill (T-Bill) determined in the RBI auction on the day of expiry of the futures contract. This ensures that the futures contract aligns with the actual market price of the T-Bill being delivered or settled. &nbsp;"
+  },
+  {
+    "text": "A ________ order is classified as price related condition.",
+    "options": [
+      "Day",
+      "Market",
+      "IOC",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In stock exchanges, order conditions are broadly classified into: Time-related conditions (e.g., Day, IOC) Price-related conditions (e.g., Market, Limit, Stop Loss) A Market Order is a classic example of a price-related condition because: It instructs the system to execute the trade at the best available price in the market. The trader does not specify a price, but the execution depends entirely on current market prices. &nbsp;"
+  },
+  {
+    "text": "Execution of Power of attorney by the client in favour of stock broker is _________.",
+    "options": [
+      "Mandatory at the time of placing an order",
+      "Mandatory at the time of KYC",
+      "Optional"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The Power of Attorney (PoA) given by a client to a stock broker is not mandatory. It is optional and typically used to facilitate seamless transactions such as: Debiting securities from the client’s demat account for settlement, Pledging securities for margin purposes, etc. Clients may choose to not execute a PoA and can still trade by using alternatives like delivery instruction slips (DIS) or e-DIS (electronic delivery instruction slip). &nbsp;"
+  },
+  {
+    "text": "Loss on derivative transactions which are carried out in a “recognized stock exchange” can be carried forward for a period of ________ assessment years",
+    "options": [
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Under the Indian Income Tax Act,&nbsp;losses from derivative transactions&nbsp;carried out on a&nbsp;recognized stock exchange&nbsp;are treated as&nbsp;non-speculative business losses.&nbsp;According to&nbsp;Section 72&nbsp;of the Act, such business losses can be&nbsp;carried forward for up to 8 assessment years&nbsp;immediately following the assessment year in which the loss was incurred. &nbsp;"
+  },
+  {
+    "text": "Limitation of Interest Rate Derivatives for Hedgers is mainly due to __________.",
+    "options": [
+      "Standardised Contract",
+      "Non availability on all kind of underlying instruments",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Hedgers using Interest Rate Derivatives (IRDs) face limitations mainly due to: 1.&nbsp;Standardised Contracts:&nbsp;Exchange-traded IRDs (like interest rate futures) are standardized in terms of contract size, maturity, and underlying instruments.&nbsp;This standardization may not perfectly match the hedger's actual exposure, leading to basis risk. 2.&nbsp;Non-availability on All Types of Underlying Instruments:&nbsp;IRDs may not be available for all kinds of debt instruments (like specific corporate bonds or loans).&nbsp;This limits the effectiveness of hedging for certain portfolios or instruments. &nbsp;"
+  },
+  {
+    "text": "If you expect the interest rate will go up in future, today you should __________.",
+    "options": [
+      "Buy GOI bond futures",
+      "Sell GOI Bond futures",
+      "Buy underlying bond",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: If you expect interest rates to rise in the future, bond prices will typically fall because bond prices and interest rates have an inverse relationship. Selling GOI Bond futures allows you to take advantage of the anticipated drop in bond prices, as the futures price will decline when interest rates increase.&nbsp;When you sell futures, you're betting that the price of the underlying asset (in this case, the government bond) will decrease. &nbsp;"
+  },
+  {
+    "text": "Insurance companies are allowed to participate in interest rate futures only for _____.",
+    "options": [
+      "Long Hedge",
+      "Short Hedge",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Insurance companies&nbsp;are allowed to participate in&nbsp;Interest Rate Futures&nbsp;only for the purpose of a&nbsp;long hedge, which helps them protect against a fall in interest rates that could reduce their investment income. &nbsp;"
+  },
+  {
+    "text": "If the price of a Govt. bond future is Rs 111.75, what will the market value of one contract ?",
+    "options": [
+      "Rs. 111750",
+      "Rs. 223500",
+      "Rs. 142300",
+      "Rs. 411000"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The market value of one contract is 2,000 times the quoted price. Rs. 111.75 x 2000 = Rs. 223500."
+  },
+  {
+    "text": "Repo transaction means ________ .",
+    "options": [
+      "Borrowing security and lending money",
+      "Borrowing money and lending security",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Repo means borrowing&nbsp;money against a collateral. Reverse Repo means lending money against a collateral."
+  },
+  {
+    "text": "Which among the following options is /are eligible to open a Constituent Subsidiary General Ledger (CSGL) Account ?",
+    "options": [
+      "National Bank for Agriculture and Rural Development (NABARD)",
+      "Stock Holding Corporation of India Ltd (SHIL)",
+      "NSDL and CDSL",
+      "All the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Constituent Subsidiary General Ledger (CSGL) Account can be opened by : - Scheduled commercial banks"
+  },
+  {
+    "text": "Which of the following month(s) is / are included in the three serial quarterly contracts for expiry of interest rate derivatives ?",
+    "options": [
+      "January",
+      "September",
+      "May",
+      "October"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Trading Cycle: Three serial monthly contracts and Three serial quarterly contracts of the cycle March / June / September / December."
+  },
+  {
+    "text": "The ________ order requires a trigger price to be specified.",
+    "options": [
+      "Immediate or Cancel",
+      "Stop Loss",
+      "Special Limit",
+      "Market"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The stop-loss order is activated only when the trigger price is hit in the market, and once it is activated it becomes a market order."
+  },
+  {
+    "text": "On which day does the Government of India conducts the auction for Treasury Bills ?",
+    "options": [
+      "Monday",
+      "Wednesday",
+      "Friday",
+      "Sunday"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The 91-day T-bills are auctioned every week on Wednesdays, 182-day and 364-day T-bills are auctioned every alternate week on Wednesdays.&nbsp;"
+  },
+  {
+    "text": "The derivative(s) traded in the exchange market is/are ______ .",
+    "options": [
+      "Options",
+      "Futures",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": ""
+  },
+  {
+    "text": "Assume two bonds are issued by an issuer which have same maturity but different coupon. Which bond should an investor buy ?",
+    "options": [
+      "Bond with a higher market price",
+      "Bond with a lower market price",
+      "Bonds cannot be judged based on their prices",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: When choosing between two bonds issued by the same entity with the same maturity but different coupon amounts, the investor should consider the yield to maturity (YTM) rather than just the market price. The bond with the higher YTM offers better returns, accounting for both coupon payments and price differences. Market price alone doesn’t determine which bond is \"cheaper\" or more attractive, as it ignores the impact of coupons and yield on total returns. &nbsp;"
+  },
+  {
+    "text": "Assume that the regulator has stipulated a minimum margin of Rs 200, the clearing corporation can change it to ________ .",
+    "options": [
+      "Any amount above Rs 200",
+      "Any amount below Rs 200",
+      "Either 1 or 2 as it sees fit",
+      "Any amount between Rs. 150 to 200"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Clearing Corporation cannot modify it to an amount below the regulator stipulated amount."
+  },
+  {
+    "text": "When securities are delivered short, the auction is conducted on _________ .",
+    "options": [
+      "First business day after the day of intention",
+      "Second business day after the day of intention",
+      "On the settlement day",
+      "seven days after the day of intention"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: For interest rate derivatives traded on exchanges like NSE or BSE, if securities are delivered short (i.e., the seller fails to deliver the required securities), the clearing corporation conducts an auction to procure the securities. According to the regulatory framework and clearing corporation rules (e.g., NSE Clearing Limited), the auction is conducted on the settlement day to resolve the short delivery and ensure timely settlement of obligations. This ensures minimal disruption to the settlement process. &nbsp;"
+  },
+  {
+    "text": "For the Open Position on the Last Trading Day, the seller must notify the Clearing Corporation his intention to deliver by the close of ________ .",
+    "options": [
+      "Last Trading Day",
+      "Two business days prior to the last business day (expiry day) of Contract Month",
+      "Both 1 and 2 are same",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In the context of interest-rate futures (or bond futures) in India, for an open position on the last trading day, the seller must notify the clearing corporation of his intention to deliver by a set deadline on that last trading day itself. &nbsp;"
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Test 4</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Test 4</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "What is the net financial outcome for a trader who bought a 300.25 call (₹0.20 premium) and a 299.75 put (₹0.15 premium) when the underlying price closes at ₹299.40?",
+    "options": [
+      "Rs - 0.40",
+      "Rs 0.40",
+      "Rs. - 0.35",
+      "0"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: First lets calculate the Payoff at Expiry: 1. Call Option (300.25 Call) : Since the underlying closes at ?299.40, which is&nbsp;below the strike price (?300.25), the&nbsp;call expires worthless. The Payoff is zero. 2. Put Option (299.75 Put) : Since the underlying closes at ?299.40, which is&nbsp;below the strike price (?299.75), the&nbsp;put is in the money Intrinsic Value = Rs 299.75 –&nbsp; Rs 299.40 =&nbsp; Rs 0.35 Payoff =&nbsp; Profit of Rs 0.35 The Total Premium paid = 0.20 + 0.15 = Rs 0.35 Net&nbsp;Outcome&nbsp;= Total&nbsp;Payoff&nbsp;−&nbsp;Total&nbsp;Premium&nbsp;= Rs&nbsp;0.35 - Rs&nbsp;0.35&nbsp;=&nbsp;&nbsp;0"
+  },
+  {
+    "text": "What is the name of the document that provides crucial information about the risks of trading in equities and derivatives on a stock exchange?",
+    "options": [
+      "Risk Disclosure Document (RDD)",
+      "Rights and obligations document",
+      "Know Your Client (KYC) Form",
+      "Policies and procedures"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The Risk Disclosure Document (RDD) is a document provided to clients by brokers or stock exchanges that outlines the risks involved in trading, particularly in the equities and derivatives segments. It is an important document that helps investors understand the potential risks associated with different financial instruments and strategies. &nbsp;"
+  },
+  {
+    "text": "Evaluate the net payoff for Ms. Manisha who has established the following option positions: a long call with a strike of 125.50 (premium: Rs 0.60), a long call with a strike of 126.50 (premium: Rs 0.20), and two short calls with a strike of 126.00 (premium received: Rs 0.30 each), assuming the underlying bond settles at ₹127 on the expiration date.",
+    "options": [
+      "Rs - 0.20",
+      "0",
+      "Rs. 0.25",
+      "Rs. - 0.40"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Lets first calculate the Pay-Offs as per the settlement price of Rs 127 Long 125.50 Call:&nbsp;&nbsp;Payoff = 127 - 125.50 =&nbsp; 1.50 Short 126.00 Calls (2 contracts):&nbsp;Payoff = 127 - 126 = – Rs 1.00 × 2 = –&nbsp; Rs 2.00 Long 126.50 Call:&nbsp;Payoff = 127 - 126.5 = Rs 0.50 TOTAL PAYOFF = 1.50 - 2.00 + 0.5 = 0 Now lets see what the Net Premium paid / received are : Premium paid:&nbsp;125.50 Call = 0.60 and 126.50 Call = 0.20 Total Paid = Rs 0.80 Premium received:&nbsp;126.00 Calls = ?0.30 × 2 = 0.60 Net Premium PAID =&nbsp; 0.80 - 0.60 = Rs 0.20 Final Net Payoff : Total Payoff - Net Premium paid = 0 - 0.20&nbsp; = Rs. - 0.20 &nbsp;"
+  },
+  {
+    "text": "Mr. X sold a 40.50 strike put option for a Rs. 0.35 premium. If the bond price is Rs. 40.50 at expiry, what is his net pay-off in rupees?",
+    "options": [
+      "Rs 0.35",
+      "Rs. 0.70",
+      "Rs. - 0.50",
+      "Rs. 40.50"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Since the bond price (Rs 40.50) is equal to the strike price (Rs 40.50), the put option expires at the money. The option holder would not exercise the option. The put expires worthless. The buyer gets nothing. Since Mr X has sold the option, he receives and keeps the premium of Rs 0.35. Thus, the net pay-off for Mr X is Rs 0.35 &nbsp;"
+  },
+  {
+    "text": "Losses incurred from derivative transactions executed on a recognized Stock Exchange are eligible for offset against various other income sources within the same fiscal year, with the exception of which particular income type?",
+    "options": [
+      "Business Income",
+      "Salary Income",
+      "Income from other sources",
+      "None of these"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Under the Indian Income Tax Act, losses from derivative transactions that are carried out on a recognized stock exchange can be set off against certain types of income, but not against salary income. Derivative transactions are considered speculative business losses, and as such, they can only be set off against other business income or speculative business income in the same financial year. Salary income is not considered part of business income and therefore cannot be offset against speculative losses (such as from derivatives). &nbsp;"
+  },
+  {
+    "text": "For the cash-settled bond futures contract that is currently being traded, what is its last trading day?",
+    "options": [
+      "First day of the expiry month",
+      "Last Wednesday of expiry month",
+      "Last Thursday of expiry month",
+      "Last Friday of expiry month"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The last trading day for cash settled bond futures contract is last Thursday of expiry month. In case the last Thursday is a trading holiday, the previous trading day shall be the expiry / last trading day. &nbsp;"
+  },
+  {
+    "text": "Where, according to RBI guidelines, can interest rate derivatives contracts be traded?",
+    "options": [
+      "On Exchanges",
+      "On Over-the-Counter (OTC) Market",
+      "On Electronic Trading Platforms (ETPs)",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: As per RBI guidelines, Interest Rate Derivatives (IRDs) can be traded through: -&nbsp;Over-the-Counter (OTC) Market – Customized contracts between parties. -&nbsp;Electronic Trading Platforms (ETPs) – RBI-regulated platforms for standardized products. -&nbsp;Exchanges – Like NSE, BSE, where standardized IRD contracts are listed and traded. &nbsp; &nbsp;"
+  },
+  {
+    "text": "For every 100 ticks the price of a government bond futures contract moves, the contract's value changes by Rs. ______.",
+    "options": [
+      "5",
+      "100",
+      "200",
+      "500"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: In Indian Government Bond Futures, 1 tick = Rs 0.0025 Contract value for 1 lot = 2000 x Trade price If 1 tick = 0.0025, 100 tick movement will be 100 x 0.0025 = 0.25 Contract value will move by 2000 x 0.25 = Rs 500 &nbsp;"
+  },
+  {
+    "text": "Why does Basis Risk arise?",
+    "options": [
+      "Because the futures expiry date is standardized",
+      "Because the futures contract amount is standardized",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Basis risk arises due to a mismatch between the hedged asset and the futures contract used for hedging. Two key reasons are: -&nbsp;Futures contract amount is standardized – The contract size may not exactly match the quantity of the asset being hedged. -&nbsp;Futures expiry date is standardized – The contract may not mature at the exact time when the hedge is needed. These standardizations create a risk that the futures price and the spot price will not move perfectly in sync, leading to basis risk. &nbsp;"
+  },
+  {
+    "text": "Option time value is ________ proportional to its time until expiration.",
+    "options": [
+      "Inversely",
+      "Directly",
+      "Directly for Put option only",
+      "Directly for Call option only"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The time value of an option is the portion of the option's premium that is attributed to the time remaining until expiration. Longer time to expiration - Higher is the time value As the expiration date approaches, the time value decays, eventually becoming zero at expiry. This relationship holds true for both Call and Put options. &nbsp;"
+  },
+  {
+    "text": "Mr. Raj enters a long futures position at Rs. 58 and the underlying price settles at Rs. 56 on expiry. What is the consequence for Mr. Raj?",
+    "options": [
+      "There is no profit or loss",
+      "There is a profit of Rs 2",
+      "There is a loss of Rs 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Mr. Raj&nbsp;goes long in a futures contract at Rs 58. On expiry, the underlying price is Rs 56. Since futures are marked-to-market and settled at the underlying price on expiry: Loss = 58 - 56 = Rs 2 &nbsp;"
+  },
+  {
+    "text": "Identify the last trading day for the treasury bill futures contract from the following options.",
+    "options": [
+      "Last Friday of expiry month",
+      "First day of the expiry month",
+      "Last Thursday of expiry month",
+      "Last Wednesday of expiry month"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: According to the Securities and Exchange Board of India (SEBI), the expiry/last trading day/final settlement day for a 91-day Treasury Bill (T-Bill) futures contract is the last Wednesday of the expiry month. If this day is a trading holiday, the expiry shifts to the previous trading day. &nbsp;"
+  },
+  {
+    "text": "Position limits guideline for Exchange traded interest rate derivatives is provided by __________.",
+    "options": [
+      "Ministry of Finance",
+      "RBI",
+      "Stock Brokers",
+      "SEBI"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: In India, position limits for exchange-traded interest rate derivatives are provided by SEBI (Securities and Exchange Board of India) While the RBI governs monetary policy and manages the banking system, including some aspects of the financial markets, the SEBI oversees the securities markets, including derivatives such as interest rate futures. &nbsp;"
+  },
+  {
+    "text": "What is the settlement method for 91-day bill futures ?",
+    "options": [
+      "Physical",
+      "Cash",
+      "Can be cash or physical",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The settlement method for 91-day bill futures is cash settlement. These futures are based on the underlying 91-day Treasury bills and are settled in cash at expiry.&nbsp;The settlement is done based on the difference between the futures contract price and the spot price of the underlying instrument (the 91-day T-bill) at expiration. &nbsp;"
+  },
+  {
+    "text": "Which of the following is the last trading day for cash settled 10-year bond futures?",
+    "options": [
+      "Last Thursday of Contract Month",
+      "Two business days after the first business day of the Expiry Month",
+      "Two business days before the last business day of the Expiry Month",
+      "Seven business days before the last business day of the Expiry Month"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The last trading day for cash settled 10-year bond futures is the last Thursday of Contract Month. &nbsp;"
+  },
+  {
+    "text": "Credit spread is the price of ___________.",
+    "options": [
+      "Price risk",
+      "Reinvestment risk",
+      "Credit risk",
+      "All of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: A&nbsp;credit spread&nbsp;refers to the&nbsp;difference in yield&nbsp;between two bonds, typically of the same maturity, but with differing credit qualities. It represents the&nbsp;additional yield&nbsp;investors demand for taking on the&nbsp;credit risk&nbsp;of a lower-quality bond compared to a risk-free bond (like government securities). &nbsp;"
+  },
+  {
+    "text": "Investors can have grievances against ___________.",
+    "options": [
+      "Intermediaries",
+      "Brokers",
+      "Company",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Investors can have grievances against: -&nbsp;Brokers (e.g., unauthorized trades, delays) -&nbsp;Intermediaries (e.g., mutual fund houses, registrars) -&nbsp;Companies (e.g., non-receipt of dividends, shares) All of these entities are accountable to investors under regulatory guidelines. &nbsp;"
+  },
+  {
+    "text": "_______ are derivatives with underlying as theoretical bond and not a physical bond.",
+    "options": [
+      "Single bond Futures",
+      "Notional Bond Futures",
+      "Money market futures",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Notional Bond Futures are derivatives where the underlying asset is a theoretical bond (a notional or synthetic bond) rather than a physical bond. These are used to hedge or speculate on interest rate movements without the need to deal with actual bonds. &nbsp;"
+  },
+  {
+    "text": "For the Open Position on the Last Trading Day, the __________ must notify the Clearing Corporation the notice of intent to deliver.",
+    "options": [
+      "Futures seller",
+      "Futures buyer",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: On the last trading day for a futures contract, if either party intends to settle the contract by delivery (rather than cash settlement), the futures seller must notify the Clearing Corporation of their intent to deliver the underlying asset. -&nbsp;The futures buyer is typically not the one who notifies about the intent to deliver, as the buyer receives the asset upon settlement. -&nbsp;The futures seller is the party who delivers the asset, so they must notify the Clearing Corporation. &nbsp;"
+  },
+  {
+    "text": "A person wishes to hedge the long term interest rate as he expects the rate change to happen in the long term. Which of the following options should he choose ?",
+    "options": [
+      "Treasury Bill futures with long expiry date",
+      "Treasury Bill futures with short expiry date",
+      "Govt. Bond futures with long expiry date",
+      "Govt. Bond futures with short expiry date"
+    ],
+    "correct": 2,
+    "explanation": ""
+  },
+  {
+    "text": "What is the implication of 'Inverted' shape of term structure ?",
+    "options": [
+      "Rate is high for medium term and falls off on either side",
+      "Rate is the same for all terms",
+      "Longer the term, the higher is the rate",
+      "Rate rises first and then falls with the term"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: In an inverted curve, there is demand for short-term money (i.e. working capital) and not for long-term money (i.e. capital expenditure). So the rate is higher at first and then falls.&nbsp; This means that borrowers are not going for capital expenditure possibly because they expect no economic growth in the future, which explains why inverted yield curve may indicate recession in near future."
+  },
+  {
+    "text": "The Contract Amount (or Market Lot) for Government Bond futures is Rs 100000 of facevalue - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The Contract Amount (or Market Lot) for Government Bond futures is Rs 200000 of facevalue."
+  },
+  {
+    "text": "In ________ the period is less than one year; and in ________ , it is one year or more.",
+    "options": [
+      "bond market , money market",
+      "money market , equity market",
+      "bond market , commodity market",
+      "money market , bond market"
+    ],
+    "correct": 3,
+    "explanation": ""
+  },
+  {
+    "text": "The seller can deliver __________ for the entire obligation.",
+    "options": [
+      "not more than 3 different deliverable bond",
+      "different deliverable bonds but in multiples of contract amount",
+      "any bond of his preference",
+      "same deliverable bond of equal proportion"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Seller may deliver different Deliverable Bonds, provided each of them is in multiples of Contract Amount (or market lot), which is Rs 2 lakhs in face value."
+  },
+  {
+    "text": "Yield curve spread risk arises when the term structure shift is ________ .",
+    "options": [
+      "steepening",
+      "flattening",
+      "both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Yield curve spread risk arises when the term structure shifts are not parallel but steepening or flattening."
+  },
+  {
+    "text": "The Contract Amount ( or the market lot ) for Treasury Bills and Government Bond futures is ______ and ______ respectively.",
+    "options": [
+      "Rs 10,000 and Rs 1,00,000 of facevalue",
+      "Rs 20,000 and Rs 2,00,000 of facevalue",
+      "Rs 25,000 and Rs 1,00,000 of facevalue",
+      "Rs 2,00,000 of facevalue for both."
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Contract Amount (or Market Lot) is the minimum and multiple of trade size. It is Rs 200,000 of face value for both T Bills and Govt. Bonds futures."
+  },
+  {
+    "text": "For the same deliverable bond, the conversion factor will be ________ .",
+    "options": [
+      "same for different Delivery Months",
+      "different for different Delivery Months",
+      "same for serial months and different for quarterly months",
+      "different for serial months and same for quarterly months"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: For the same bond, the Conversion Factor will be different for different Delivery Months because of&nbsp;change in remaining maturity of the Deliverable Bond from the first calendar day of&nbsp;different Delivery Months. &nbsp;"
+  },
+  {
+    "text": "The Notice of Intent to Deliver is given by ___________ .",
+    "options": [
+      "the buyer",
+      "the seller",
+      "Either the buyer or seller",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: For the Open Position on the Last Trading Day, the seller must notify the Clearing Corporation his intention to deliver."
+  },
+  {
+    "text": "Coupon cannot be considered a true return measure because ________ .",
+    "options": [
+      "it does not consider the premium/discount in bond price",
+      "it does not consider the capital gain/loss at redemption",
+      "both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Coupon cannot be considered the return because it does not consider the premium/discount in bond price and the capital gain/loss at redemption."
+  },
+  {
+    "text": "Of the below mentioned four values, which one can be bought or sold for Govt. Bond Futures ?",
+    "options": [
+      "Rs 1 lakh",
+      "Rs 3 Lakh",
+      "Rs 6 Lakh",
+      "Rs 9 lakh"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Contract Amount (or Market Lot) is the minimum and multiple of trade size. It is Rs 200,000 of face value. Because the face value will always be an integral multiple of Rs 2 lakhs, we cannot buy or sell for amounts like Rs 3 lakh, Rs 5 lakh, etc.(odd amounts)"
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

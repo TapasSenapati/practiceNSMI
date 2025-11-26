@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mutual Fund MCQ Interactive Quiz - Set 2</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Mutual Fund MCQ Interactive Quiz - Set 2</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "In Option Spreads there is a combination of options constructed in such a way that there is limited profit or limited loss - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Option Spreads involve combining options on the same underlying and of same type (call/ put)&nbsp;but with different strikes and maturities. These are limited profit and limited loss&nbsp;positions."
+  },
+  {
+    "text": "If the price volatility of the underlying stock is high then the Put option will _____ .",
+    "options": [
+      "have zero premium",
+      "have comparatively lower premium",
+      "have comparatively higher premium",
+      "Volatility does not have any effect on the Put options"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Volatility is the magnitude of movement in the underlying asset’s price, either up or down. It&nbsp;affects both call and put options in the same way. Higher the volatility of the underlying stock, higher the premium because there is a greater possibility that the option will&nbsp;move in-the-money during the life of the contract."
+  },
+  {
+    "text": "Its common to have derivatives contract without any expiration date - State whether True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Most derivatives contract have an expiration date."
+  },
+  {
+    "text": "When a broker/dealer is doing trades in his own account and also doing trades for their clients then these two trades have to be completely segregated - State True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: As per the regulations by SEBI, a dealer or broker must maintain a clear segregation between: Proprietary trades (trades done on the dealer's or broker's own account) Client trades (trades executed on behalf of clients) This is essential to: Prevent conflicts of interest Ensure transparency Avoid misuse of client information or funds &nbsp;"
+  },
+  {
+    "text": "Whom does the Clearing Member need to consult for setting limits on the trading members clearing through him?",
+    "options": [
+      "Clearing Corporation",
+      "SEBI",
+      "The respective Stock Exchange",
+      "No consultation is required with anyone as the Clearing Member can set the limits of his trading members on his own"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: A trading terminal helps the Clearing Members to monitor the open positions of all the Trading Members"
+  },
+  {
+    "text": "Mr. Arvind is very bullish on the market. How ever he feels some specific companies which he has in his portfolio will not perform well in future. What strategy should he adopt?",
+    "options": [
+      "Sell Index futures and Sell specific companies shares",
+      "Buy Index futures and Sell specific companies shares",
+      "Sell Index futures and Buy specific companies shares",
+      "Do nothing as markets are uncertain"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Mr. Arvind should sell the shares of those specific companies and buy index futures. By this he will profit when the index rises and avoid losses on those specific companies if his view proves to be correct."
+  },
+  {
+    "text": "_______ means the maximum exposures in terms of number of options and futures contracts that an investor can hold on one side of the market.",
+    "options": [
+      "Outstanding Limit",
+      "Market Limit",
+      "Position Limit",
+      "Upper Limit"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Position limits are the maximum exposure levels which the entire market can go up to&nbsp;and each Clearing Member or investor can go up to. Position limits for the entire market&nbsp;and Clearing Members and investors are defined by SEBI."
+  },
+  {
+    "text": "How can you close a short position in a futures market?",
+    "options": [
+      "By buying a Call Option",
+      "By entering into a suitable forward contract",
+      "By executing a purchase of the same futures contracts",
+      "By executing a sale of the same futures contracts"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: A short future contract ie. a sale position can be squared up by buying the same contract in futures market and in no other way."
+  },
+  {
+    "text": "In exercising call option on an index, the option holder receives from the option writer, an amount equal to excess of spot price (at the time of exercise) over the strike price of the call option - State whether True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: When a person buys a Call Option of an index, he is expecting the index to rise. On exercise, if the spot price of the index is over and above the strike price at which the buyer had bought the Call, he will receive the difference between the spot price and strike price."
+  },
+  {
+    "text": "What does hedging do?",
+    "options": [
+      "It maximises business profits",
+      "It minimises business losses",
+      "It produces a more clearer outcome",
+      "Hedging can be used only in currency markets and not in equity markets"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Hedging is a risk management strategy used by businesses or investors to reduce the potential adverse effects of price movements in financial markets. It helps minimize the risk of losses by taking an offsetting position in a related asset, such as using derivatives (options, futures, swaps) to hedge against price fluctuations in currencies, commodities, or equity markets."
+  },
+  {
+    "text": "A trader sells a futures contract and the price rises. The trader will _____ .",
+    "options": [
+      "Make a loss",
+      "Make a profit"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: When a trader sells a futures contract, they are taking a short position, meaning they are betting that the price will fall. If the price rises, the trader will have to buy back the contract at a higher price, resulting in a loss. &nbsp;"
+  },
+  {
+    "text": "What does a beta of more than 1 mean ?",
+    "options": [
+      "It means that the expected percentage change in stock price will be twice the percentage change in index",
+      "It means that the expected percentage change in stock price will be less percentage change in index",
+      "It means that the expected percentage change in stock price will be more than the percentage change in index",
+      "It means that the expected percentage change in stock price equals the percentage change in index"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Beta measures the sensitivity of a stock / portfolio vis-a-vis index&nbsp;movement over a period of time, on the basis of historical prices."
+  },
+  {
+    "text": "Intrinsic value of an option is sum of Option premium and Time value - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Intrinsic value is basically the difference between Spot price and Strike price."
+  },
+  {
+    "text": "Which of these statements is True?",
+    "options": [
+      "Money and securities deposited by clients can be attached for meeting the brokers obligation on his proprietary account",
+      "Money and securities deposited by clients cannot be attached for meeting the brokers obligation on his proprietary account",
+      "Money and securities deposited by clients can be attached as per the decision of the clearing corporation",
+      "Money and securities deposited by clients can be attached as per the decision of the Stock Exchange"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The securities or money deposited by clients&nbsp;cannot be attached for meeting broker’s obligation on his proprietary account."
+  },
+  {
+    "text": "The Intrinsic Value is zero for out-of-the money options but always positive for in-the-money options - State True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Intrinsic Value is the amount by which an option is in-the-money. Out-of-the-money (OTM) options have no intrinsic value because exercising them would result in a loss. In-the-money (ITM) options always have positive intrinsic value, since exercising them yields a gain. &nbsp;"
+  },
+  {
+    "text": "There is higher flexibility in fixing forward contract specification as compared to futures contract specifications - State True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Futures are standardized contracts introduced by the exchanges. They have&nbsp;certain limitations in the context of limited maturities, limited underlying set, lack of&nbsp;flexibility in contract design and increased administrative costs on account of MTM&nbsp;settlement etc.&nbsp;"
+  },
+  {
+    "text": "Speculator accepts the risks in search of profits - State True or False?",
+    "options": [
+      "False",
+      "True"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Speculators try to predict the future movements in prices of stocks, commodities, currencies etc. and accordingly buy or sell. There is&nbsp; risk in such activities but the speculators take these risks in order to make profits."
+  },
+  {
+    "text": "A Clearing Member has to deposit _______ to clearing corporation which forms part of the security deposit.",
+    "options": [
+      "Rs. 50 lakhs",
+      "Rs. 100 lakhs",
+      "Rs. 150 lakhs",
+      "Rs. 20 lakhs"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Clearing Member Eligibility Norms - Net-worth of at least Rs.300 lakhs. The Net-worth requirement for a Clearing Member who clears and settles only deals executed by him is Rs. 100 lakhs. - Deposit of Rs. 50 lakhs to clearing corporation which forms part of the security deposit of the Clearing Member. - Additional incremental deposits of Rs.10 lakhs to clearing corporation for each additional TM, in case the Clearing Member undertakes to clear and settle deals for other TMs. &nbsp;"
+  },
+  {
+    "text": "Exposure levels of Clearing Members are _______ correlated with the Liquid Assets maintained with the Clearing Corporation.",
+    "options": [
+      "Positively",
+      "Negatively",
+      "Not related",
+      "exponentially"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Exposure levels of Clearing Members are positively correlated with the Liquid Assets maintained with the Clearing Corporation. More the liquid assets deposited with the Clearing Corporation, higher will be the exposure levels available to the Clearing Member."
+  },
+  {
+    "text": "In case of ordinary cash dividends, on the ex-dividend date, Call Option values will decrease - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: When a company declares a cash dividend, the stock price generally drops by approximately the dividend amount on the ex-dividend date. Since the price of the underlying stock directly affects call option prices, a lower stock price leads to a decrease in the value of the call option. This is because a call option gives the holder the right to buy the stock at a fixed strike price, and if the stock price drops, the intrinsic value and potential profitability of the call option decrease. Thus, Call Option values will decrease when ordinary cash dividends are declared. &nbsp;"
+  },
+  {
+    "text": "In Index futures, an open position can be settled by ______ .",
+    "options": [
+      "delivery on maturity",
+      "cash settlement on maturity",
+      "either by cash or delivery on maturity",
+      "exchange for gold on maturity"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Index futures are always cash settled on maturity i.e. the difference between trade price and settlement price is received or paid."
+  },
+  {
+    "text": "The holder (Buyer) of a long position in a PUT option will gain if the price of the underlying asset ______ .",
+    "options": [
+      "Increases",
+      "Decreases",
+      "Does not change",
+      "If the option expires worthless"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The buyer of a Put Option is bearish. He believes that the price of the underlying will fall. When the price falls, the value of the put option rises. So he will benefit only if the price decreases."
+  },
+  {
+    "text": "When the price of a future contract increases, the margin account ______ .",
+    "options": [
+      "of the buyer of futures contract will be credited for the gain",
+      "of the seller of futures contract will be debited for the loss",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The buyer of futures will have a notional gain and so his margin account (Mark-to-market margin) will be credited by the notional gain amount. The seller of futures will have a notional loss if the price rises and his margin account&nbsp;(Mark-to-market margin)&nbsp;will be debited by the notional loss amount."
+  },
+  {
+    "text": "A Forward Contract _______ .",
+    "options": [
+      "can be cancelled but only after the expiry date",
+      "can be cancelled if the counter party also agrees to it",
+      "cannot be cancelled",
+      "can be cancelled even without the consent of the counter party"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Forwards are&nbsp;negotiated between two parties and the terms and conditions of contracts are customized."
+  },
+  {
+    "text": "Suppose you are a trading member and have bought 14 contracts of April series index futures and sold 7 contracts of April series index futures on your own account. What will be your exposure on these transactions ?",
+    "options": [
+      "It will grossed up to 21 contracts",
+      "It will be netted to 7 contracts",
+      "Higher of 14 and 7 ie. 14 contracts",
+      "The Stock Exchange can decide to either to gross up or net out the exposure depending on the past record of the trading member"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Since its the same index futures contract, the exposure will be netted ie. 14 - 7 = 7 contracts."
+  },
+  {
+    "text": "A mutual fund manager is bearish on the market and wishes to reduce its exposure to equities from 50% to 40%, without selling any of his equity holdings. Can he sell index futures for it ?",
+    "options": [
+      "Yes, he can sell index futures",
+      "No, Mutual funds are not allowed to sell index futures"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: FII and Mutual funds can buy/sell in futures subject to certain limits."
+  },
+  {
+    "text": "For a derivative exchange, the networth requirement for a clearing member is always less than that for a non clearing member - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In a derivative exchange, the networth requirement for a clearing member is higher than that of a non-clearing member."
+  },
+  {
+    "text": "Theta is the rate of change in option premium for a unit change in ______ .",
+    "options": [
+      "volatility",
+      "price of the underlying asset",
+      "time to expiry",
+      "interest rates"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Theta is the change in option price given a one-day decrease in time to expiration. It is a measure of time decay. &nbsp;"
+  },
+  {
+    "text": "Futures prices are usually more transparent than Forwards prices - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: A futures contract is similar to a forward, except that the deal is made through an&nbsp;organized and regulated exchange rather than being negotiated directly between two&nbsp;parties.&nbsp; Since the futures are traded in an organised manner and mostly done through screen based trading, they are much more transparent than forwards. &nbsp;"
+  },
+  {
+    "text": "Derivatives brokers/ dealers are expected to know their clients and to exercise careto ensure that the derivative product being sold by them to a particular client is suitable to his understanding and financial capabilities - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Derivatives brokers/ dealers should avoid recommending opening futures/ options&nbsp;transaction unless they have a reasonable basis for believing that the customer has such&nbsp;knowledge and financial experience that he or she is capable of evaluating, and&nbsp;financially able to bear, the risks of the transaction."
+  },
+  {
+    "text": "Is it true that a buyer of a CALL OPTION cannot lose more than the option premium paid ?",
+    "options": [
+      "True only for European options",
+      "True only for American options",
+      "True for all type of options",
+      "False for all type of options"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The maximum loss for buyer of any option is the premium paid."
+  },
+  {
+    "text": "Why does 'Screen based trading' has a edge over 'Floor trading'?",
+    "options": [
+      "The technology needs are lower",
+      "There is no need to route the order through an exchange",
+      "There is transparency in trade execution and execution price",
+      "There are no set up costs in screen based trading"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Screen based (Trading thro' computers) trading is fully transparent. All the derivatives exchanges in India provide a fully automated screen-based trading platform for index futures, index options, stock futures and stock options. These trading systems support an order driven market and simultaneously provide complete transparency of trading operations. Derivative trading is similar to that of trading of equities in the cash market segment. All these exchanges have developed software for the F&amp;O market to facilitate efficient and transparent trading in futures and options instruments. &nbsp;"
+  },
+  {
+    "text": "Mr. Rohit is a Chartered Accountant and Mr. Ramesh is a Commerce Graduate. Both are clearing members of a recognized exchange. Base on this information, identify the TRUE statement.",
+    "options": [
+      "Mr. Rohit will enjoy higher exposure limits than Mr. Ramesh",
+      "Mr. Ramesh will enjoy higher exposure limits than Mr. Rohit",
+      "Both of them will enjoy the same exposure limits",
+      "Insufficient information to draw a conclusion"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Position limits are the maximum exposure levels which can be assumed by each investor or Clearing Member or the market as a whole. Such position limits are defined by SEBI. The exchanges lay down exposure limits either in rupee terms or as percentage of the Trade Guarantee Fund (TGF)/Settlement Guarantee Fund (SGF). Thus, exposure limits is dependent on the funds deposited by the Clearing member and not his education qualifications. &nbsp;"
+  },
+  {
+    "text": "What happens to the intrinsic value of a Put Option if the Strike Price is taken down?",
+    "options": [
+      "The intrinsic value goes up",
+      "The intrinsic value goes down",
+      "Their is no change in the intrinsic value"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The intrinsic value of an option refers to the amount by which the option is In-the-money i.e., the amount an option buyer will realize, before adjusting for premium paid, if he exercises the option instantly. For a put option which is In-the-money, the intrinsic value is the excess of Strike price (X) over the spot price (S). Thus, the intrinsic value of put option can be calculated as X-S, with a minimum value possible as zero. For eg – If strike price is 100 and spot price is 90, the intrinsic value is 10 If the strike price is reduced to 95, the intrinsic value will be 5.&nbsp; Therefore the intrinsic value of put option goes down as strike price is taken down. &nbsp;"
+  },
+  {
+    "text": "When SEBI has approved the approves bye-laws of a derivative exchange, the exchange is free to introduce futures contracts on any number of stocks and it does not require to go to SEBI every time - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Once SEBI has approved the approves bye-laws / rules etc. of a derivative exchange, the exchange is free to introduce futures contracts on any number of stocks in accordance to the approved rules and it does not have to go to SEBI every time for approval. &nbsp;"
+  },
+  {
+    "text": "If a speculator purchases a naked Call Option, this means he/she has a ______ .",
+    "options": [
+      "Mixed view",
+      "Bullish view",
+      "Myopic view",
+      "Bearish view"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: A naked position means a positional view – bullish or bearish. It’s the opposite of a hedge position. A buyer of a Call option has a bullish view. &nbsp;"
+  },
+  {
+    "text": "What does 'Near Month' futures contract mean?",
+    "options": [
+      "'Near Month' is the current month of the futures contract",
+      "'Near Month' is the next month after the current month of the futures contract",
+      "'Near Month' is the month of expiry of the futures contract",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Futures contract have a maximum of 3-month trading cycle –&nbsp;the near month contract (which is the 1st / Current month ) the next month contract (which is the 2nd month ) and the far month contract (which is the 3rd month ). Thus, on May 10th, 20XX, index and stock futures contracts on the NSE are available for trading for the near month (May 20XX), the next month (June 20XX) and the far month (July 20XX). &nbsp;"
+  },
+  {
+    "text": "'Rho' is connected to the ______ .",
+    "options": [
+      "Volatility of the underlying",
+      "Time to expiry of the option",
+      "Price of the underlying asset",
+      "Interest rates in the market"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Rho is the change in option price given a one percentage point change in the risk-free interest rate. Rho measures the change in an option’s price per unit increase in the cost of funding the underlying. Rho = Change in an option premium / Change in cost of funding the underlying. &nbsp; &nbsp;"
+  },
+  {
+    "text": "In connection with the futures market, basis is ________ .",
+    "options": [
+      "The current interest rate in the economy",
+      "Volatility in the market",
+      "The difference between the futures price and spot price",
+      "Underlying market price"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The difference between the spot price and the futures price is called basis. If the futures price is greater than spot price, basis for the asset is negative. Similarly, if the spot price is greater than futures price, basis for the asset is positive. &nbsp;"
+  },
+  {
+    "text": "Identify the transaction which is an example of a speculative trade using futures.",
+    "options": [
+      "When a person takes a long position in the stock futures in expectations of announcement of excellent results",
+      "When a person buys a under priced index futures contract of one month and simultaneously selling the overpriced index futures contract of another month",
+      "When a person buys a stock in the cash market and simultaneously shorts the overpriced stock futures contract",
+      "When a person takes a short position in index futures to protect against a decline in his portfolio value"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Speculative transactions in future are those transactions which : -&nbsp;Do not result in delivery -&nbsp;Are not done for hedging -&nbsp;Are not a part of a strategy or arbitrage When a person takes a long position in the stock futures in expectations of announcement of excellent results is pure speculative transaction as its not a hedge or a strategy or arbitrage. &nbsp; &nbsp;"
+  },
+  {
+    "text": "______ can write an option in the Indian stock market.",
+    "options": [
+      "Market Makers",
+      "Foreign portfolio investors",
+      "Individuals",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: All of the above can write (sell) options in Indian stock market. Individuals like traders, hedgers, arbitrageurs etc. can write options as per their plans. FIIs bring foreign capital to India, they invest in the F &amp; O (Future and option market).&nbsp;FIIs can also write options or short futures, as required by their strategy. The market maker is a key stock market participant and like any trader or arbitrageur, he is also there for the profit and buy/write options. &nbsp;"
+  },
+  {
+    "text": "The BID PRICE is always __________ .",
+    "options": [
+      "Higher than ASK PRICE",
+      "Lower than ASK PRICE",
+      "Equal to ASK PRICE"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Bid price is the price buyer is willing to pay and ask price is the price seller is willing to sell. For example the prices as seen on the screen will be – Reliance Inds 2500 – 2501, where 2500 is the bid price and 2501 is the ask price. So the Bid price is always lower than Ask price. &nbsp;"
+  },
+  {
+    "text": "One of the reason that future trading has become expensive is due to higher margins - True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Cost components of futures transaction include margins, transaction costs (commissions), taxes etc. So, higher the margins more expensive the trading. &nbsp;"
+  },
+  {
+    "text": "Who pays the initial margin to the exchange while entering into a futures contract?",
+    "options": [
+      "Only buyers pay initial margin",
+      "Only sellers pay the initial margin",
+      "No margins are payable to the exchange by buyer or seller",
+      "Both the buyer and seller pay initial margin to the exchange"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The amount one needs to deposit in the margin account at the time of entering into a futures contract is known as the initial margin. In case of futures, The buyer and seller are required to pay iinitial margin as decided by exchanges for entering into futures contract. (In case of Options, the initial margin is paid only by the sellers. The option buyers have to pay the premium) &nbsp;"
+  },
+  {
+    "text": "Which member of a stock exchange is not a Trading Member itself but clears and settles the trades of Trading Members and institutional clients?",
+    "options": [
+      "A Trading-cum-clearing member",
+      "A Professional clearing member",
+      "A Self-clearing member",
+      "Custodial participant"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Professional Clearing Member: Professional clearing member clears the trades of his associate Trading Member and institutional clients. PCM is not a Trading Member of the exchange. Typically banks or custodians become a PCM and clear and settle for Trading Members as well as for Custodial Participants. &nbsp;"
+  },
+  {
+    "text": "A loss which is incurred on derivatives transactions and which are carried out in a recognized stock exchange can be carried forward for a period of",
+    "options": [
+      "5 assessment years",
+      "7 assessment years",
+      "8 assessment years",
+      "10 assessment years"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Loss on derivative transactions can be set off against any other income during the year (except salary income). In case the same cannot be set off, it can be carried forward to subsequent assessment year and set off only against any other non-speculative business income of the subsequent year. Such losses can be carried forward for a period of 8 assessment years. &nbsp;"
+  },
+  {
+    "text": "The risks connected with trading in derivatives have to be laid down in which document?",
+    "options": [
+      "Contract Note which is sent to the client",
+      "The Risk Disclosure document",
+      "It can be conveyed verbally to the client",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The broker is required to get a Risk Disclosure Document signed by the client, at the time of client registration. This document informs clients about the kind of risks that derivatives can involve for the client. It makes the client aware and informed about the various risks associated with derivatives trading. &nbsp;"
+  },
+  {
+    "text": "The Beta of a portfolio is the _________ .",
+    "options": [
+      "Sum of the betas the constituent securities in that portfolio",
+      "Simple average of the beta’s of the constituent securities in that portfolio",
+      "Same as the beta of the stock with the highest market capitalization",
+      "Value weighted average of the beta’s of the constituent securities in that portfolio"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Portfolio beta is a weighted average of betas of individual stocks in the portfolio based on their investment proportion. For example, if there are four stocks in a portfolio with betas 0.5, 1.1, 1.30 and 0.90 having weights 35%, 15%, 20% and 30% respectively, the beta of this portfolio would be 0.87 ( = 0.5*0.35 +1.10*0.15 +1.30*0.20 +0.90*0.30) &nbsp;"
+  },
+  {
+    "text": "What is the risk of bad delivery in an index futures contract?",
+    "options": [
+      "The risk does not exist",
+      "The risk is very high",
+      "The risk is there but quiet low",
+      "The risk is around 25% of the total deliveries"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Index futures are&nbsp;financial contracts whose underlying asset is a specific index&nbsp;like Nifty 50 or Bank Nifty. According to the SEBI regulations, all index futures contracts are cash-settled i.e. there is no delivery of stocks. As there is no delivery, risk of bad delivery does not arise. (Bad delivery means delivery of securities which cannot be legally transferred to the buyer due to some issue with the securities. For eg. Fake or stolen securities). &nbsp; &nbsp;"
+  },
+  {
+    "text": "When does the monthly series mature for Nifty index futures of NSE?",
+    "options": [
+      "First Wednesday of the month",
+      "First Thursday of the month",
+      "Last Wednesday of the month",
+      "Last Thursday of the month"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The Nifty futures contracts and the stock futures contracts listed on the NSE expire on the last Thursday of the respective month (or the day before if the last Thursday is a trading holiday). &nbsp;"
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Test 3</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Test 3</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "What does a 'Normal' shape of term structure indicate?",
+    "options": [
+      "It indicates that the rate is same for all terms",
+      "It indicates that the rate rises with the term",
+      "It indicates that the rate falls with the term",
+      "It indicates that the rate first rises and then falls with the term"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The \"Normal\" shape of the term structure of interest rates (or yield curve) is upward sloping, meaning longer-term bonds have higher yields than shorter-term bonds. This reflects expectations of economic growth, inflation, and the time value of money. A normal or upward-sloping yield curve indicates that longer-term interest rates are higher than shorter-term rates. This is considered \"normal\" because investors typically demand a premium for lending their money over longer periods, due to increased risk and opportunity costs. &nbsp;"
+  },
+  {
+    "text": "One way to calculate the Real Rate is by _________.",
+    "options": [
+      "Nominal rate plus effective rate",
+      "Nominal interest rate less inflation",
+      "Nominal rate plus inflation",
+      "Inflation less nominal rate"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The real interest rate represents the actual purchasing power of interest earnings, after adjusting for inflation. The approximate formula for calculating the real interest rate is: Real Interest Rate ≈ Nominal Interest Rate - Inflation Rate &nbsp;"
+  },
+  {
+    "text": "What is the minimum percentage of the Minimum Required Corpus (MRC) that the stock exchange must contribute to the Core SGF?",
+    "options": [
+      "15",
+      "20",
+      "25",
+      "30"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The Core SGF (Settlement Guarantee Fund) is a dedicated fund to ensure settlement obligations are met in case of a default, and stock exchanges are required to contribute at least 25% of the MRC to this fund. This is outlined in SEBI's guidelines, which specify that the Clearing Corporation contributes at least 50% of the MRC, the Stock Exchange contributes at least 25%, and the remaining up to 25% can come from Clearing Members. &nbsp;"
+  },
+  {
+    "text": "The impact of time decay on an option's price is measured by ______.",
+    "options": [
+      "Theta",
+      "Gamma",
+      "Rho",
+      "Delta"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Theta is a measure of an option’s sensitivity to time decay. Theta is the change in option price given a one-day decrease in time to expiration. It is a measure of time decay. Theta is generally used to gain an idea of how time decay is affecting your option positions. &nbsp;"
+  },
+  {
+    "text": "The extent to which an option is In-the-money is known as its ________.",
+    "options": [
+      "Intrinsic Value",
+      "Time Value",
+      "Premium Value",
+      "Notional Value"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Intrinsic Value represents the amount by which an option is in the money (ITM)—meaning the difference between the strike price and the current market price of the underlying asset. -&nbsp;For a call option, it's the current price of the underlying asset minus the strike price (if positive). -&nbsp;For a put option, it's the strike price minus the current price of the underlying asset (if positive). &nbsp;"
+  },
+  {
+    "text": "If someone plans to borrow money later and expects interest rates to go up, what hedging strategy can he/she employ?",
+    "options": [
+      "Buy GOI Bond Call option",
+      "Sell GOI Bond futures",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: If a person expects interest rates to rise in the future: Bond prices fall when interest rates rise (they have an inverse relationship). So, to hedge against rising interest rates, the person should take a position that profits when bond prices fall. Sell Govt Of India bond futures &nbsp;- This is a hedge against falling bond prices (i.e., rising interest rates). If interest rates go up, bond prices drop, and the short futures position makes a profit, offsetting losses elsewhere. &nbsp;"
+  },
+  {
+    "text": "The contract value is ________ when an investor purchases 10 lots of single bond futures at Rs. 99.",
+    "options": [
+      "Rs. 20,00,000",
+      "Rs. 20,20,000",
+      "Rs. 19,80,000",
+      "Rs. 19,90,000"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The Lot size for bond futures is 2000 Lots purchased = 10 Price = Rs 99 Therefore the contract value = 2000 x 10 x 99 = Rs 19,80,000 &nbsp;"
+  },
+  {
+    "text": "For long-term interest rate speculation or hedging with a long-term outlook, which instrument should be used?",
+    "options": [
+      "Treasury Bills futures",
+      "10 year Government Bond futures",
+      "Both of these",
+      "None of these"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: 10-year Government Bond Futures contracts are directly linked to the price of long-term Government of India bonds (typically with a maturity around 10 years). Since bond prices have an inverse relationship with interest rates, these futures allow you to take a position on the expected direction of long-term interest rates. If you expect long-term rates to fall (bond prices to rise), you would buy the futures. If you expect long-term rates to rise (bond prices to fall), you would sell the futures. Treasury bills are short-term debt instruments and are not the ideal instrument for speculating or hedging for long-term interest rate movement. &nbsp;"
+  },
+  {
+    "text": "The timeframe for all entities to resolve investor complaints received via SCORES is ____ calendar days from the date of receipt.",
+    "options": [
+      "10",
+      "15",
+      "21",
+      "30"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Under the SEBI SCORES 2.0 framework, when a person lodges a complaint against a SEBI-registered entity, the complaint is automatically forwarded to the concerned entity. The entity is then required to respond and submit an Action Taken Report (ATR) on the SCORES platform within 21 calendar days of receiving the complaint. If the entity fails to respond within this timeframe or the investor is not satisfied with the response, the complaint is escalated to a first-level review with a designated body. &nbsp;"
+  },
+  {
+    "text": "What additional detail is required to convert an interest rate into a specific interest amount?",
+    "options": [
+      "Day Count basis",
+      "Identities of debtor and lender",
+      "Compounding frequency",
+      "Both - Identities of debtor and lender and Compounding frequency"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Day Count Basis is essential because it defines how time is measured in the interest calculation — for example: Actual/360 30/360 Actual/Actual These conventions determine how the number of days in the interest period is counted, which directly affects the final interest amount. &nbsp;"
+  },
+  {
+    "text": "Individuals selecting the presumptive taxation under 44AD can declare profits as _____ % of turnover received digitally/via cheque and _____ % for cash income.",
+    "options": [
+      "6 , 8",
+      "5 , 10",
+      "8 , 6",
+      "7, 12"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: If the taxpayer is opting for the presumptive taxation scheme under Section 44AD of the Income Tax Act, the profits can be declared as follows: -&nbsp;6% of turnover/gross receipts received through digital modes (like cheque, bank transfer, UPI, cards, etc.) -&nbsp;8% of turnover/gross receipts received in cash. &nbsp;"
+  },
+  {
+    "text": "How can a person, who is holding a fixed income security, hedge his position?",
+    "options": [
+      "By Buying GOI bond to call option",
+      "By Selling GOI bond futures",
+      "Both of the above",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: A person who holds a fixed income security (like a bond) is exposed to interest rate risk — specifically, the risk that interest rates may rise, which would decrease the price of the bond. To hedge this risk, the person can sell GOI bond futures Thus, if interest rates rise, bond prices fall. By selling bond futures, the person profits from the drop in futures prices, which offsets the loss in the value of the bond. &nbsp;"
+  },
+  {
+    "text": "Which of the following is interest rate derivative?",
+    "options": [
+      "Interest rate swaps",
+      "Interest rate futures",
+      "Forward rate agreement",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: All of the options listed are interest rate derivatives, which are financial instruments used to manage or hedge interest rate risk.&nbsp; Forward Rate Agreement (FRA): A contract between two parties to fix the interest rate for a future period, used to hedge against interest rate fluctuations. Interest Rate Swaps: A contract where two parties exchange cash flows based on different interest rates, typically one fixed and one floating, to manage interest rate exposure. Interest Rate Futures: Standardized contracts traded on exchanges, where the buyer and seller agree on the future value of interest rates. These are used to hedge or speculate on interest rate movements. &nbsp;"
+  },
+  {
+    "text": "__________ is the fund created to take care of legitimate investment claims, which are not of speculative nature of the clients of defaulting member.",
+    "options": [
+      "Investor grievance fund",
+      "Investor protection fund",
+      "Core settlement guarantee fund",
+      "Member default fund"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The Investor Protection Fund (IPF) is created to take care of legitimate investment claims, which are not speculative in nature, for the clients of a defaulting member. This fund helps protect investors in case of a default by a member of the exchange. &nbsp;"
+  },
+  {
+    "text": "Which of the following has higher credit risk ?",
+    "options": [
+      "Bond rated BBB",
+      "Bond rated AAA",
+      "Bond rated A",
+      "All of them have same credit risk"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The bond with a lower rating indicates higher credit risk. So, among the options: AAA is the highest rating, indicating the lowest credit risk. A rated bonds have a moderate credit risk. BBB rated bonds have a higher credit risk compared to A rated bonds. &nbsp;"
+  },
+  {
+    "text": "If the long-term rate is 10% and short-term rate is 8%, the shape of term structure of rates is ___________.",
+    "options": [
+      "Flat",
+      "Normal/positive",
+      "Humped",
+      "Inverted/negative"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: If the&nbsp;long-term rate (10%)&nbsp;is&nbsp;higher&nbsp;than the&nbsp;short-term rate (8%), it indicates an&nbsp;upward-sloping yield curve. This Normal/Positive shape reflects expectations of rising interest rates or economic growth in the future. &nbsp;"
+  },
+  {
+    "text": "In terms of jurisdiction of regulator, the regulation of interest rate derivatives is similar to that of ___________.",
+    "options": [
+      "Cash Market",
+      "Equity Derivatives",
+      "Currency Derivatives",
+      "Commodity Derivatives"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The regulation of interest rate derivatives is similar to that of currency derivatives because both involve financial instruments used to manage or speculate on changes in interest rates or currency values. Both types are typically regulated by the same authorities like SEBI (in India) or similar financial regulatory bodies. &nbsp;"
+  },
+  {
+    "text": "____________ are the maximum exposure levels which the entire market can go up to and each trading member or investor can go up to.",
+    "options": [
+      "Position limits",
+      "Open interest",
+      "Value at Risk",
+      "Price bands"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Position Limits refer to the maximum number of derivative contracts (like futures or options) that a trading member, client, or the entire market can hold at any point in time. These limits are set by regulatory bodies like SEBI or the exchanges to prevent market manipulation, manage systemic risk and ensure fair trading practices. &nbsp;"
+  },
+  {
+    "text": "The last trading day for Treasury Bill future contract is Last Thursday of Contract Month (or the previous trading day if it falls on a holiday) - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The last trading day for Treasury Bill future contract is the&nbsp;Last Wednesday of Contract Month where as for Govt. Bonds it is the Last Thursday of Contract Month. &nbsp;"
+  },
+  {
+    "text": "The size of settlement risk is equal to the _________ .",
+    "options": [
+      "trade value",
+      "replacement cost",
+      "replacement gain",
+      "credit risk"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The size of settlement risk is equal to the trade value because one party performs (by paying cash or delivering security) while the other does not. The size of counterparty credit risk is equal to the replacement cost of the trade."
+  },
+  {
+    "text": "The Treasury Bills auction is conducted by the Govt. of India on ________ .",
+    "options": [
+      "Monday",
+      "Wednesday",
+      "Friday",
+      "Saturday"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The 91-day T-bills are auctioned every week on Wednesdays, 182-day and 364-day T-bills are auctioned every alternate week on Wednesdays.&nbsp; &nbsp;"
+  },
+  {
+    "text": "As per the current accounting standards in India - The fair value will be taken to the Profit/Loss Account inculding transactions qualifying as Hedging Transactions - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The fair value will be taken to the Profit/Loss Account except for transactions qualifying as Hedging Transactions."
+  },
+  {
+    "text": "The change in bond price is ________ after the change in interest rate but the effect of reinvestment income is __________ .",
+    "options": [
+      "slow over a period of time , instant",
+      "instant , slow over a period of time",
+      "negative , positive",
+      "negligible , huge"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Price risk (also known as market risk) is the possibility of change in bond price before maturity because of change in market interest rate. The change in bond price is instant after the change in interest rate. Usually&nbsp;if the interest rate rises, the bond price falls and viceversa. Reinvestment risk is the risk due to the uncertainity of the interest rates at which the periodical interest received on a bond will be reinvested. So the effect of reinvestment risk will over the period of the bonds term."
+  },
+  {
+    "text": "If the difference between Long term Rates and Short term Rates rises or widens (from positive to more positive or from negative to less negative), than the term structure of rates (shifts) is called ________ .",
+    "options": [
+      "Steepening",
+      "Flattening",
+      "Parallel",
+      "Humped"
+    ],
+    "correct": 0,
+    "explanation": ""
+  },
+  {
+    "text": "Which interest rate affect the price of Treasury Bills ?",
+    "options": [
+      "Short Term rate",
+      "Long Term rate",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Since Treasury bills are of less than 1 year duration, only the short term rates affect them."
+  },
+  {
+    "text": "Fixed-income securities market consists of which of the following markets ?",
+    "options": [
+      "Bond Markets",
+      "Money Markets",
+      "Both 1 and 2",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Debt market or Fixed-income securities market, consists of money and bond markets. In money market, the period is less than one year; and in bond market, it is one year or more."
+  },
+  {
+    "text": "Considering 30/360 day count basis, how many days are counted for interest accrual for the period Feb 28' 2023 to March 1 ' 2023 ?",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Under the 30/360 day count basis, each month is considered to have 30 days.&nbsp; Under the 30/360 day count convention, February 28, 2023, is treated as the 30th day of February for calculation purposes. Therefore, the period from February 28 (treated as day 30) to March 1 (day 1 of the next month) effectively covers only one day of interest accrual. &nbsp;"
+  },
+  {
+    "text": "The contract-level minimum margin is ________ .",
+    "options": [
+      "same for all the days of a contract",
+      "different for all days of a contract",
+      "one amount for the first day and different amount for other days of the contract",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: There is a contract-level minimum margin specified by the regulator. If the initial margin requirement under SPAN margining is less than the regulatory-specified minimum margin, the margin requirement is set at the regulatory-specified minimum margin."
+  },
+  {
+    "text": "Calendar spread consists of buying and selling futures on _______ .",
+    "options": [
+      "same underlying , same quantity and same expiry month",
+      "different underlying , same quantity and different expiry month",
+      "same underlying , different quantity and same expiry month",
+      "None of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Calendar spread consists of buying and selling futures on the same underlying and for the same quantity&nbsp;but different expiry months. &nbsp;"
+  },
+  {
+    "text": "Which of the following is true about the Conversion Factor ?",
+    "options": [
+      "It makes the adjustment always perfect",
+      "It makes the adjustment always imperfect",
+      "It is a good and practical approximation for adjustment",
+      "None of the above"
+    ],
+    "correct": 2,
+    "explanation": ""
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>

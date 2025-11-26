@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Last day - Set 1</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 30px; background: #f5f8fa; color: #333; }
+    h1 { color: #2c3e50; margin-bottom: 30px; text-align: center; }
+    #quiz { max-width: 900px; margin: 0 auto; }
+    .question { background: white; padding: 20px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .question-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; line-height: 1.5; }
+    .options { margin: 15px 0; }
+    .options button { display: block; width: 100%; text-align: left; padding: 12px 15px; margin: 8px 0; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-size: 15px; transition: all 0.3s ease; }
+    .options button:hover:not(:disabled) { background: #f0f7ff; border-color: #3084e0; }
+    .options button:disabled { cursor: default; }
+    .feedback { margin-top: 10px; font-weight: bold; font-size: 15px; }
+    .feedback.correct { color: #27ae60; }
+    .feedback.incorrect { color: #e74c3c; }
+    .explanation { background: #f0f4ff; padding: 12px 15px; margin-top: 10px; border-radius: 6px; border-left: 4px solid #3084e0; font-size: 14px; line-height: 1.6; color: #444; }
+    #controls { max-width: 900px; margin: 30px auto; text-align: center; }
+    #submitBtn { padding: 12px 30px; font-size: 16px; border: none; border-radius: 6px; background: #3084e0; color: white; cursor: pointer; transition: background 0.3s; }
+    #submitBtn:hover { background: #2563c1; }
+    #scoreDisplay { max-width: 900px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #27ae60; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none; }
+  </style>
+</head>
+<body>
+  <h1>Last day - Set 1</h1>
+  <div id="quiz"></div>
+  <div id="controls">
+    <button id="submitBtn" style="display:none">Show Your Score</button>
+  </div>
+  <div id="scoreDisplay"></div>
+
+<script>
+const questions = [
+  {
+    "text": "Consider a scenario in which USDINR was quoting as 63.40/63.42 and EURUSD as 1.1450 / 1.1453 in the morning and by the day end USDINR moves to 63.10/63.12 while EURUSD moves to 1.1420/1.1422. What would best describe the movement of currency during the day ?",
+    "options": [
+      "USD has appreciated against INR and also appreciated against EUR",
+      "USD has depreciated against INR and also depreciated against EUR",
+      "USD has appreciated against INR and depreciated against EUR",
+      "USD has depreciated against INR and appreciated against EUR"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Let's analyze the movement of USD against INR and EUR separately. Step 1: USD vs INR Movement Morning USD/INR: 63.40 / 63.42 Evening USD/INR: 63.10 / 63.12 Since USD/INR has decreased, it means INR has appreciated and USD has depreciated against INR. Step 2: USD vs EUR Movement Morning EUR/USD: 1.1450 / 1.1453 Evening EUR/USD: 1.1420 / 1.1422 Since EUR/USD has decreased, it means EUR has depreciated and USD has appreciated against EUR. Step 3: Conclusion USD depreciated against INR. USD appreciated against EUR. Correct Answer:&nbsp;USD has depreciated against INR and appreciated against EUR. &nbsp; &nbsp;"
+  },
+  {
+    "text": "What is the initial deposit that is required to initiate a currency futures position called?",
+    "options": [
+      "Initial Margin",
+      "Initial Capital",
+      "Portfolio Margin",
+      "Account opening margin"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The initial security deposit paid by a member is considered as his initial margin for the purpose of allowable exposure limits. Initially, every member is allowed to take exposures up to the level permissible on the basis of the initial deposit. &nbsp; &nbsp;"
+  },
+  {
+    "text": "A trader sees that 3 month USDINR forward is quoting at 65.5 while futures is quoting at 65.8. So he sells in futures and buys in forward market. Determine the type of market participant would this trader be ?",
+    "options": [
+      "He is a speculator",
+      "He is hedger",
+      "He is a technical analyst",
+      "He is an arbitrageur"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Arbitrageurs are &nbsp;market participants who identify mispricing in the market and use it for making profit. Arbitrageurs lock in a profit by simultaneously entering opposite side transactions in two or more markets.&nbsp;"
+  },
+  {
+    "text": "Who acts as the central counter party to JPYINR future trades in India ?",
+    "options": [
+      "The Currency Broker who executed the trade",
+      "Bank trading and clearing member",
+      "Clearing corporation",
+      "Exchange"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: For exchange traded derivative contracts, the Clearing Corporation acts as a central counterparty to all trades. &nbsp;"
+  },
+  {
+    "text": "A trader sells 10 lots of EURINR 1 month futures when price was 82.60/82.80 and squares off 5 lots after a week when price was 83.75/83.85 . Calculate the profit or loss on the squared up transaction.",
+    "options": [
+      "- 7500",
+      "- 5450",
+      "- 3750",
+      "- 6250"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The trader sold at 82.60&nbsp; and bought back at 83.85. So he made a loss of 1.25&nbsp; ( 82.60 - 83.85 ) 1.25 x 5 Lots x 1000 (Lot size) = 6250 Loss"
+  },
+  {
+    "text": "A trading member, Mr. Gupta buys 100 lots of USDINR one months futures on day 1 at 66.50 and also sells 60 lots of the same contract on the same day at 66.20 in his proprietary book. The settlement price for day 1 was 66.30 and he paid the MTM margin accordingly at the end of day 1. The settlement price for day 2 is 66.80. Calculate his mark to market margin on is position on day 2.",
+    "options": [
+      "+ Rs 17500",
+      "+ Rs 20000",
+      "- Rs 9800",
+      "+ Rs 22500"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In this question, we are required to calculate the MTM for day 2. So we ignore the buying and selling of day 1."
+  },
+  {
+    "text": "What is the co-relation between price of a CALL option to the changes in spot price ?",
+    "options": [
+      "Increase in price with increasing spot price",
+      "Increase in price with decreasing spot price",
+      "Decreasing price with increasing spot price",
+      "No Co-relation"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In General - In a Call Option - The price of option increases with increase in spot price In a Put Option - The price of option decreases with increase in spot price"
+  },
+  {
+    "text": "With respect to exercise of currency options in India , which of the following is TRUE ?",
+    "options": [
+      "Only Exchange Traded currency options are American while OTC are European",
+      "Only OTC currency options are American while Exchange Traded are European",
+      "Both OTC and Exchange traded options are European in nature",
+      "Both OTC and Exchange traded options are American in nature"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: European options can be exercised by the buyer of the option&nbsp;only on the expiration date. &nbsp; In India, all the currency options in OTC and Exchange traded are of&nbsp;European type. &nbsp;"
+  },
+  {
+    "text": "Assume USDINR was quoting as 81.02/81.04 in the morning and by the day end it moved to 81.22/81.24. What would best describe the movement of currency during the day ?",
+    "options": [
+      "INR has appreciated",
+      "USD has appreciated",
+      "USD has appreciated against the INR by 20 paisa",
+      "INR has appreciated against the USD by 20 paisa"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Morning quote: 81.02 / 81.04 Evening quote: 81.22 / 81.24 That means earlier 1 USD = Rs. 81.02 – Rs. 81.04, and by the end of the day 1 USD = Rs. 81.22– Rs. 81.24. Since now more rupees are required to buy one dollar, the rupee has weakened (depreciated) and the dollar has strengthened (appreciated). &nbsp;"
+  },
+  {
+    "text": "Mahindra Exim Traders has taken a currency loan and has to make the loan repayments in USD by equal monthly installments. It also has exports remittances (in USD) every month which are slightly above the monthly loan repayment amount. How should the company hedge so that there is no risk involved of currency fluctuations ?",
+    "options": [
+      "Hedge part of loan payments which is over and above exports",
+      "Hedge part of exports which is over and above loan dues",
+      "Hedge exports, leave loan payments unhedged",
+      "Hedge loan payments , leave exports unhedged"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The exports are higher than monthly loan payments. So only the amount over and above the loan payment is subject to currency risks and should be hedged."
+  },
+  {
+    "text": "Mr. Amit sells a USD put option at strike of 66 and receives a premium of INR 0.4. What would be the break even point for the transaction?",
+    "options": [
+      "65.60",
+      "66.40",
+      "66",
+      "65.40"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The breakeven point for a short&nbsp;put&nbsp;is the strike price of the option minus the premium. So 66 - 0.40 = 65.60 (In easier terms, when a person sells PUT, he has a bullish view and believes that price will rise. He has bought at 66 and he receives .40 premium so his buying price reduces by .40 ie. 65.60 which is break even price)"
+  },
+  {
+    "text": "A Currency exchange trading member buys 20 lots of USDINR one month futures on day 1 at 65.80 and also sells 4 lots of the same contract on the same day at 65.90 in the proprietary book. The settlement price for the day was 65.80. What would be mark to market (MTM) margin on the open positions (in Rs.) ?",
+    "options": [
+      "Zero",
+      "-400",
+      "800",
+      "-600"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Mark to Market margin is calculated on three positions - Squared up, Not Squared up and Bought forward. In the above example : Squared Up : 4 lots squared up : 65.80 - 65.90 = 0.10 x 4 lots x 1000 lot size = Rs 400 profit Not Squared up : 16 lots ( 20 - 4 ) Settlement Price - Contract Price = 65.80 - 65.80 = 0 No MTM on non squared up position as&nbsp;Settlement Price &amp; Contract Price are same Bought Forward : NIL So Mark to Market Margin = + 400 In this case the M to M is receivable from the exchange, so he has to pay Zero &nbsp; &nbsp;"
+  },
+  {
+    "text": "A currency futures trade at one maturity which is hedged by an opposite trade at a different maturity is known as ________ .",
+    "options": [
+      "Arbitrage trade",
+      "Tango",
+      "Calendar Spread",
+      "Circular Trading"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Calendar Spread ( also known as&nbsp;intra-currency pair spread )&nbsp;consists of one long futures and one short futures contract. Both have the same underlying but&nbsp;different maturities. &nbsp;"
+  },
+  {
+    "text": "From the below given options, which parameters were used by RBI to decide which banks could run foreign currency INR option book ?",
+    "options": [
+      "Networth, Capital adequacy , Profitability, Net non performing assets %",
+      "Networth, Capital adequacy , Net non performing assets %",
+      "Networth, Number of years of operation, Profitability",
+      "net non performing assets %, Profitability, Capital adequacy"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Banks were allowed to run option book subject to their meeting certain parameters with respect to net worth, profitability, capital adequacy and NPA%. &nbsp;"
+  },
+  {
+    "text": "A trader sells 20 lots of USDINR 1 month futures when price was 65.60 / 65.90 and squares off 10 lots after a week when price was 64.65/64.85 . How much money (in Rupees) did he make/ lose on the part of the transaction that was squared off ?",
+    "options": [
+      "+ 6800",
+      "- 6800",
+      "+ 7500",
+      "- 7500"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: When the price was 65.60 / 65.90, the trader sold USDINR - so he sold at 65.60 as that is the Bid (Buyers) price. When the price was 64.65 / 64.85, the trader bought&nbsp;USDINR, so he bought at 64.85 as that is the Ask (Sellers) price. Out of the 20 lots bought, he has squared off only 10 lots.&nbsp;The profit has to be calculated only on the squared off trade ie. 10 lots 65.60 - 64.85 = 0.75 ( Profit ) Total Profit = 0.75 x 10 lots x 1000 (each lot of&nbsp;USDINR) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= 7500"
+  },
+  {
+    "text": "A trader executes a currency futures trade – Buys USDINR and sells GBPINR for an equivalent amount. What view has he executed ?",
+    "options": [
+      "GBP depreciating against USD",
+      "GBP appreciating against USD",
+      "INR appreciating against USD",
+      "INR depreciating against USD"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Buying USDINR - view is USD appreciating against INR Selling GBPINR - View is GBP depreciating against INR Combined view - USD appreciating against GBP or&nbsp;&nbsp;GBP depreciating against USD &nbsp; For the trader to profit, the following must happen: The USDINR rate must rise. The GBPINR rate must fall. If USDINR goes up and GBPINR goes down, the GBPUSD rate must be falling. A falling GBPUSD rate means that GBP is depreciating against USD. &nbsp;"
+  },
+  {
+    "text": "State True or False - Margins across the various clients of a member are collected on a netted off basis.",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Clients' positions are arrived at by summing together&nbsp;net (buy - sell) positions of each individual client. Please note that positions are only&nbsp;netted for each client and not netted across clients and are rather added up across"
+  },
+  {
+    "text": "As per the rules with respect to monitoring and enforcement of position limits in the currency futures market - Positions during the day are monitored based on the total open interest at the end of the previous day’s trade. This monitoring is for _____ .",
+    "options": [
+      "client level positions",
+      "trading member level positions",
+      "Only FII positions",
+      "Both 1 and 2"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Positions during the day are monitored based on the total open interest at the end&nbsp;of the previous day’s trade."
+  },
+  {
+    "text": "A trading member buys 80 lots of USDINR at 74.50 and sells 90 lots the same day at 74.60. The settlement price for the day was 74.30. What would be his mark to market margin (MTM) on the open positions ?",
+    "options": [
+      "+ 3000",
+      "+ 6000",
+      "- 3000",
+      "- 6000"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The question asked is to calculate the MTM only on OPEN POSITIONS. He has bought 80 lots and sold 90 lots, so his open position is of Short 10 lots at Rs 74.60 The settlement price is Rs 74.30, which means he is in a profitable position. The MTM receivable will be (74.60 - 74.30) x 10 lots x 1000 lot size =&nbsp; + 3000&nbsp; &nbsp;"
+  },
+  {
+    "text": "A hedger has a grievance against a trading member and he uses the mechanism of Arbitration to settle the dispute. Generally in how many days / months does the arbitrator gives his decision from the date of initial hearing?",
+    "options": [
+      "Within 30 days",
+      "Within 15 days",
+      "Within 2 months",
+      "Within 4 months"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The arbitrator conducts the arbitration&nbsp;proceeding and passes the award normally within a period of four months from the date&nbsp;of initial hearing."
+  },
+  {
+    "text": "One of the reason for growth of financial derivatives is _______ .",
+    "options": [
+      "Limited returns in foreign exchange trade",
+      "Low awareness of clients about financial derivatives",
+      "Reducing return in commodity derivatives",
+      "Reduced cost of communication and development of sophisticated risk management products"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Some of the factors driving the growth of financial derivatives are:"
+  },
+  {
+    "text": "Who decides the price for market order?",
+    "options": [
+      "Trader",
+      "Exchange system",
+      "Order mentions the price",
+      "Clearing member"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Market orders are orders for which no price is specified at the time&nbsp;the order is entered (i.e. price is market price). For such orders, the trading system&nbsp;determines the price."
+  },
+  {
+    "text": "An Indian investor has invested Rs 340000 in US securities. At the time of investment, the exchange rate was 74. Two years later, he noticed that his investment has gained 20% in USD terms and liquidated his investment. He repatriated the money to India at the then existing exchange rate of 72. What would be the real returns (returns in INR terms)?",
+    "options": [
+      "Loss of 6.88%",
+      "Loss of 15.55%",
+      "Profit of 16.75%",
+      "Profit of 19.64%"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The investor has invested Rs 340000 in US Securities when the USDINR rate was 74 So he had invested 340000/74 = 4594.59 Dollars in US Stocks. His investment grew by 20% : 4594.60 x 20% = 4594.60 + 918.92 = 5513.52 He is repatriating at USDINR rate of 72 :&nbsp; 5513.52 x 72 = 396973.44 Therefore his investment in INR terms have grown from Rs 3.40.000 to Rs 3,96,973.44 396973.44 / 340000 x 100 = 116.75 This is an increase of 16.75 %"
+  },
+  {
+    "text": "Sriniwas is an employee of a broking house and has a very good track record in identifying likely trend in currency movement. According to his analysis, INR should appreciate against USD in next six months. He advised some of his clients to take a short position by selling USD against INR and he guaranteed against losses. The supervisor of the employee takes an action against him for violating certain trading guidelines. What should the employee have done to avoid the punishment?",
+    "options": [
+      "Sriniwas should also have clearly stated the risks to his views",
+      "Sriniwas should have advised the clients correctly to take short position for 3 months and not 6 months",
+      "Sriniwas should not have guaranteed against losses",
+      "Sriniwas should have advised the clients correctly to take long position"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Exchange regulations specify codes of conduct related to the currency derivatives&nbsp;segment. All trading members must comply with these. One of the code of conduct is : - No Trading Member or person associated with the Trading Member shall guarantee&nbsp;a client against a loss in any transactions effected by the Trading Member for such&nbsp;client."
+  },
+  {
+    "text": "The currency futures price of USD is at a premium to INR. If the USDINR spot is 75 and a trader thinks that on expiry of one month USDINR futures, the spot may remain at 75. Assuming everything else remaining the same, what currency futures trade strategy would be profitable to him if his views comes correct?",
+    "options": [
+      "Buy USDINR",
+      "Sell USDINR",
+      "Buy USDINR for 1 month and sell for 3 month",
+      "Sell USDINR for 1 month and buy for 3 month"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: He should sell USDINR futures at Rs 75 + premium If the price remains stable, he will able to buy back the same at Rs 75 on settlement.(There is no premium on settlement). So he will earn a profit of the premium x Lot size &nbsp;"
+  },
+  {
+    "text": "What is the frequency of adjusting liquid net worth of clearing members with initial margin?",
+    "options": [
+      "Every day at 11.30 AM and then at 3.30 PM",
+      "Every one hour",
+      "On a Real time basis",
+      "Every day at 3 PM"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The initial margin shall be deducted from the&nbsp;liquid net worth of the clearing member on an online, real-time basis."
+  },
+  {
+    "text": "Which are the basic accounting heads to be maintained by any client for maintaining currency futures accounts?",
+    "options": [
+      "Mark-to-margin – Currency futures",
+      "Initial margin – Currency futures and Mark-to-margin – Currency futures",
+      "Initial margin – Currency futures",
+      "Profit and Loss - Currency futures"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Client has to maintain two separate accounting heads for initial margin and mark to&nbsp;market margin. These heads could be called as:"
+  },
+  {
+    "text": "An international trading company has export revenue in USD and it uses part of it tomake import payments in USD and balance is converted to INR. The company isconcerned about USDINR risk. Which of the following best describes company's risk and the currency futures strategy that it may use to mitigate the risk?",
+    "options": [
+      "USD depreciating against INR, Long USDINR",
+      "USD depreciating against INR, Short USDINR",
+      "USD appreciating against INR, Long USDINR",
+      "USD appreciating against INR, Short USDINR"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The company should be worried about USD depreciating against INR and so should short USDINR to counter this risk. For example - It is expecting export remittance at say USDINR = 75. But if this depreciates to say 74, it will incur a loss. So it should short USDINR to hedge its position."
+  },
+  {
+    "text": "Mr. Vaibhav writes a call option and receives premium of 65 paise to a USD. Next day the premium for the same call option falls to 30 paise to a USD when spot prices did not change. Which of the following could best explain the drop in option price?",
+    "options": [
+      "Decrease in volatility",
+      "Increase in volatility",
+      "Unexpected fall in inflation",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: If the spot prices do not change and the premium falls then this can be mostly due to two reasons - 1. Due to time decay 2. Due to fall in volatility Thus, in the above question, the fall in option premium is due to decrease in volatility."
+  },
+  {
+    "text": "If 10 units of gold was valued at INR 45000 and the same was valued at USD 600. As per the gold standard methodology, what would be the value of one USD in terms of INR?",
+    "options": [
+      "13.33",
+      "750",
+      "75",
+      "70"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Earlier the value of each currency against another currency was derived from gold exchange rate."
+  },
+  {
+    "text": "At the start of month, JPYUSD is 2.66 and GBPUSD is 1.80. At the end of month, JPYUSD is 2.87 and GBPUSD is 1.73. Which of the following best describes the price movement ?",
+    "options": [
+      "USD has weakened against GBP",
+      "USD has strengthened against JPY",
+      "JPY has weakened against USD",
+      "GBP has weakened against USD"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: GBPUSD has moved from 1.80 to 1.73, which means GBP has weakened against USD or USD has strengthened against GBP. (Corelating to USDINR, if this moves from&nbsp; 69 to 69.50, this means USD has&nbsp;strengthened and Indian Rupee has weakened)"
+  },
+  {
+    "text": "What is the maximum maturity of EURINR future contracts which are traded on a recognised stock exchange ?",
+    "options": [
+      "3 months",
+      "6 months",
+      "9 months",
+      "12 months"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The currency futures contracts on the SEBI recognized exchanges have one-month, two-month, and three-month up to twelve-month expiry cycles. Therefore, these exchanges will have 12 contracts outstanding at any given point in time. &nbsp;"
+  },
+  {
+    "text": "M/s Auto Exports has taken a currency loan and has to make the loan repayments in USD by equal monthly installments. It also has exports remittances (in USD) every month which are slightly above the monthly loan repayment amount. How should the company hedge so that there is no risk involved of currency fluctuations ?",
+    "options": [
+      "It should hedge exports and leave the loan payments unhedged",
+      "It should hedge loan repayments and leave exports unhedged",
+      "It should hedge part of exports which is over and above the loan dues",
+      "It should hedge part of loan dues which is over and above the exports"
+    ],
+    "correct": 2,
+    "explanation": ""
+  },
+  {
+    "text": "A Trading Member can seek exchange's permission if he wants to enter 'Pro Account' order from multiple locations - State True or False ?",
+    "options": [
+      "True",
+      "False - 'Pro Account' orders can be entered only from one location."
+    ],
+    "correct": 0,
+    "explanation": "Explanation: When a &nbsp;Trading Member requires the facility of using ‘Pro-account’ through trading terminals from more than one location, such Trading Member shall request the Exchange stating the reason for using the ‘Pro-account’ at multiple locations. The Exchange may, on a case to case basis after due diligence, consider extending the facility of allowing use of ‘Pro-account’ from more than one location."
+  },
+  {
+    "text": "Which of the below option is TRUE with respect to Exchange Traded derivatives ?",
+    "options": [
+      "Only the contracting parties are safe guarded by the risk management policies and not all the market participants.",
+      "Exchange traded derivatives are not regulated",
+      "The margining system is different for different set of counter parties",
+      "All market participants are safe guarded by the risk management policies"
+    ],
+    "correct": 3,
+    "explanation": ""
+  },
+  {
+    "text": "Which of the following segments of market participants are allowed to trade in currency futures?",
+    "options": [
+      "NRIs",
+      "Individual",
+      "Corporates",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: All of the above can trade in currency futures. &nbsp;"
+  },
+  {
+    "text": "A wheat flour manufacturer gets into a contract with a five star hotel chain to sell certain quantity of wheat flour at a fixed price for a year. However after a few months, the price of wheat rises much above the contracted price and the manufacturer refuses to sell to the five star hotel chain. What is the type of risk highlighted in this contract ?",
+    "options": [
+      "Operational Risk",
+      "Liquidity Risk",
+      "Basis Risk",
+      "Counter Party Risk"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Counter Party Risk &nbsp;- The risk to each party of a contract that the counterparty will not live up to its contractual obligations. &nbsp; &nbsp;"
+  },
+  {
+    "text": "Only American style currency options are traded on exchanges - State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In India, all the currency options in OTC market / Exchanges are of European type. European options can be exercised by the buyer of the option only on the expiration date. American options can be exercised by the buyer of the option on or before the expiration date."
+  },
+  {
+    "text": "A GDP growth rate higher than expected may mean relative __________ of the currency of that country, assuming everything else remaining the same.",
+    "options": [
+      "strengthening",
+      "weakening",
+      "No effect",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: GDP represents the total market value of all final goods and services produced in a country during a given year. A GDP growth rate higher than expected may mean relative strengthening of the currency of that country, assuming everything else remaining the same. More the development of a country, more will be the foreign capital inflows - leading to appreciation of the local currency."
+  },
+  {
+    "text": "Mr Doshi believes that there is a very strong bullish trend in EURINR. He also believes that there will be a increase in volatility. So which option strategy is he most likely to use ?",
+    "options": [
+      "Long Put",
+      "Long Call",
+      "Short Put",
+      "Short Call"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: To benefit from a bullish trend, Mr. Doshi has two options to use ie. either Short a Put or go long on a Call. Shorting a put has limited benefits as profits are limited. As Mr. Doshi is expecting a strong bull trend, the best option is to long a call and get the full profits of the strong upward move."
+  },
+  {
+    "text": "USDINR three month future is quoting at 60.2 and six month is quoting at 61.10. Mr. Naik expects that after a month the three month future should quote at 59.90 and the six month should quote at 60.50. If Mr Naik executes a spread trade and the view goes right, how much profit will he make ?",
+    "options": [
+      "Rs 400",
+      "Rs 350",
+      "Rs 300",
+      "Rs 100"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: In the first leg of the spread trade : Bought at 60.20 and sold at 61.10. Here he has made a profit of 0.90 To reverse his position - In the second leg of his trade he sold at 59.90 and bought at 60.50. Here he has made a loss of -0.60 So overall he has made a profit of 0.90 - 0.60 = 0.30 X 1000 (lot size of USDINR) = Rs 300 profit"
+  },
+  {
+    "text": "From the below mentioned options, which one is true with respect governing council of Currency future segment and Equity Derivative segment of an exchange ?",
+    "options": [
+      "The governing council of Currency futures and Equity derivative segment can have 5 % common members.",
+      "The governing council of Currency futures and Equity derivative segment can have 15 % common members.",
+      "The governing council of Currency futures and Equity derivative segment can have 25 % common members.",
+      "No trading / clearing member should be allowed simultaneously to be on the Governing Council of the currency futures segment and the cash/equity derivatives segment."
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The Governing Council of the currency futures segment can have up to 50% common public representatives with the equity/cash derivatives council. However, no trading or clearing member is allowed to be on both councils at the same time. This ensures independence and avoids conflicts of interest between the two market segments. &nbsp;"
+  },
+  {
+    "text": "Which of below options best describes the rules for reporting the closing of a position by a trading member to the exchange ?",
+    "options": [
+      "A TM has to identify whether the position is his or of his client at the time of initiating the position.",
+      "A TM has to identify whether the position is his or of his client at the end of the day.",
+      "A TM has to identify whether the position is his or of his client, half an hour before the market closing.",
+      "A TM has to identify whether the position is his or of his client within one hour of initiating the position."
+    ],
+    "correct": 0,
+    "explanation": "Explanation: While entering orders on the trading system, TMs are required to identify the orders, whether proprietary (if own trades) or client (if entered on behalf of clients) through 'Pro/Cli' indicator provided in the order entry screen."
+  },
+  {
+    "text": "Options are different from Futures in the sense that Options gives the buyer a right to buy or a right to sell. State True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Options differ from futures in that they grant the buyer the right, but not the obligation, to buy (call option) or sell (put option) an asset at a predetermined price within a specified period. In contrast, futures contracts obligate both parties (buyer and seller) to execute the transaction at the agreed-upon price on the contract's expiration date. &nbsp;"
+  },
+  {
+    "text": "An Indian exporter wishes to completely hedge the 10,000 GBP he is expecting to receive on 70th day from today. On the exchange the contracts available are for 30,60 and 90 maturity days. He does not want to take any risk. What kind of action is he likely to take ?",
+    "options": [
+      "Short GBPINR on an Exchange",
+      "Long GBPINR on an Exchange",
+      "Long GBPINR on OTC market",
+      "Short GBPINR on OTC market"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: He will short (sell) 10,000 GBPINR for 70 days future on OTC market, for eg - with a Bank etc. as 70 days maturity is not available on exchange. &nbsp; &nbsp;"
+  },
+  {
+    "text": "The value of one tick on each USDINR contract is Rupees _______.",
+    "options": [
+      ".25",
+      "2.50",
+      ".0025",
+      "25"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: In the USDINR futures contract traded on Indian exchanges, the tick size (minimum price movement) is 0.0025 INR per USD. Each contract represents 1,000 USD. The value of one tick movement is calculated as: 0.0025&nbsp;×&nbsp;1000&nbsp;=&nbsp;2.50&nbsp;INR Thus, the value of one tick on each USDINR contract is Rs.&nbsp;2.50 &nbsp;"
+  },
+  {
+    "text": "Arbitrage Trading means risk off-setting positions in contracts expiring on different maturities in the same underlying taken simultaneously - State True or False ?",
+    "options": [
+      "False",
+      "True"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Arbitrageurs lock in a profit by simultaneously entering opposite side transactions in two or more markets. &nbsp; Spread Trading (Calendar Spread) means risk off-setting positions in contracts expiring on different maturity dates in the same underlying taken simultaneously. &nbsp;"
+  },
+  {
+    "text": "If more than one contract in a series are outstanding at the time of expiry/ squaring off, the contract price of the contract so squared off should be determined using __________ method for calculating profit/loss on squaring-up.",
+    "options": [
+      "LIFO",
+      "FIFO",
+      "High price first",
+      "Low price first"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: If more than one contract in a series are outstanding at the time of expiry/ squaring off, the contract price of the contract so squared off should be determined using First-in, First-out (FIFO) method for calculating profit/loss on squaring-up."
+  },
+  {
+    "text": "An exporter hedged USD 2500 by purchasing a USDINR put option at a strike price of Rs 86.00, when the premium was Rs. 0.42/0.44. However, he received the export payment earlier than expected and decided to cancel the option. At the time of cancellation, the option premium was Rs 0.56/0.57, and the latest available FBIL USDINR reference rate was Rs. 85.40. The bank offered him a buying rate of Rs. 85.35/85.65 for converting USD into INR. What was the net effective INR per USD received by the exporter?",
+    "options": [
+      "Rs. 85.31",
+      "Rs. 85.43",
+      "Rs. 85.35",
+      "Rs. 85.47"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: 1) Calculate the profit / loss on option premium purchased and sold : Bought at Rs 0.44 (ask price at time of purchase) and Sold at Rs 0.56 (bid price at time of cancellation) Option&nbsp;profit&nbsp;per&nbsp;USD = 0.56 −&nbsp; 0.44 = Rs. 0.12 2) USD Conversion : Exporter sells USD to the bank : use bank’s bid rate = Rs 85.35 3) Net INR per USD Received : Net&nbsp;price&nbsp;per&nbsp;USD = 85.35 + 0.12 = 85.47 &nbsp;"
+  },
+  {
+    "text": "An Indian investor invested Rs. 1,50,000 in UK securities. At the time of investment, the exchange rate was Rs. 95 per GBP. After 3 years, the investment lost 15% in GBP terms. He liquidated the investment and converted it back to INR at an exchange rate of Rs. 90 per GBP. What is the holding period return in INR terms?",
+    "options": [
+      "Profit of 16.74%",
+      "Loss of 19.47%",
+      "Loss of 16.88%",
+      "No Profit No Loss"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The investor initially invested Rs. 1,50,000, and the exchange rate was Rs. 95 per GBP. So, the investment in GBP is 1,50,000 / 95 = approximately 1,578.95 GBP. The investment lost 15% in GBP terms, so the value after 3 years is 1,578.95 Less 15% = 1578.95 – 236.84 = 1,342.10 GBP The exchange rate after 3 years is Rs. 90 per GBP. So, the value in INR is 1,342.10 * 90 = Rs. 1,20,789 The Holding period return (HPR) formula is : HPR = (Ending Value - Beginning Value) / Beginning Value = (1,20,789 - 1,50,000) / 1,50,000 = - 19.47% &nbsp;"
+  },
+  {
+    "text": "A car manufacturer offers a 5-year extended warranty covering certain parts for an additional fee of Rs. 30,000. This arrangement is similar to the customer purchasing a Put option on those specific parts. Is this statement true or false?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: When you get your car insured, you&nbsp;pay an insurance premium to the insurance company and the insurance company&nbsp;guarantees to compensate you for the damage to your car during the insurance period.&nbsp;In this, you are buying a put option from the insurance company and paying it&nbsp;an option premium in the form of insurance premium."
+  },
+  {
+    "text": "The value of an option is made up of two components: intrinsic value and time value. True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The value of an option has two parts: -&nbsp;Intrinsic Value: The amount by which the option is \"in-the-money\". -&nbsp;Time Value: The potential for the option to gain value before expiration. Together, they make up the total value of an option. Intrinsic value is based on the current price, while time value reflects potential future gains. &nbsp;"
+  },
+  {
+    "text": "The maximum maturity of a EURINR contract traded on a recognized currency exchange in India is _______ months.",
+    "options": [
+      "3",
+      "6",
+      "9",
+      "12"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: As per SEBI guidelines, the maximum maturity of EURINR futures contracts that can be traded on any recognised exchange is 12 months. &nbsp;"
+  },
+  {
+    "text": "Ms. Roshni has a strong bearish view on USDINR and believes that its price should not cross Rs. 84.00 during the next one-month period. To act on this view, she writes a call option with a strike price of Rs. 84.00 and receives a premium of Rs. 0.35 per USD. At the expiry of the contract, the settlement price is declared at Rs. 84.60. How much profit or loss per USD did Ms. Roshni make in this transaction?",
+    "options": [
+      "Loss of 0.25",
+      "Loss of 0.60",
+      "Profit of 0.25",
+      "Profit of 0.60"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Ms. Roshni thinks the USDINR rate will stay below Rs. 84.00 in the next month. So, she sells a call option at a strike price of 84.00 and receives a premium of Rs. 0.35 per USD. However, at the end of the month, the actual rate becomes Rs. 84.60. So she loses 0.60 (84.60 – 84) However, she had received a premium of Rs. 35 So her net loss will be 0.60 – 0.35 = Rs. 0.25 per USD &nbsp;"
+  },
+  {
+    "text": "Which volatility measure is determined by analyzing the past closing prices?",
+    "options": [
+      "Theta",
+      "Delts",
+      "Implied volatility",
+      "Historical volatility"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Historical Volatility is a measure of how much the price of a security (like a stock or currency) has fluctuated in the past. It is calculated using past closing prices, typically over a set period (like 30 days).&nbsp;It shows the actual price movement and is used to estimate future risk. &nbsp;"
+  },
+  {
+    "text": "An Indian national invested Rs 2,00,000 in US Stock Markets when the USDINR rate was 50. After one year his investment appreciated by 20% in USD terms. He sold of his investments and repatriated the money to India at the then existing rate of 48. What is his real returns in INR ?",
+    "options": [
+      "Loss od 4.60 %",
+      "Loss of 13.60 %",
+      "Profit of 15.20%",
+      "Profit of 6.30 %"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The investor invested Rs 2,00,00 in US Stock when the USDINR rate was 50. So he had invested 200000 / 50 = 4000 Dollars in US Stocks. His investment grew by 20% : 4000 x 20% = 4000 + 800 = 4800 He is repatriating at USDINR rate of 48 : &nbsp;4800 x 48 = 2,30,400 Therefore his investment in INR terms have grown from Rs 2,00,000 to Rs 2,30,400 230400 x 100 / 200000 = 15.20 This is an increase of 15.20 %"
+  },
+  {
+    "text": "Which of the following accurately reflects the rules for trading in a 'Pro-Account' by a trading member?",
+    "options": [
+      "Pro-Account orders can be placed from any terminal or location",
+      "Pro-Account orders can be placed only from a location approved by SEBI",
+      "Pro-Account orders can be placed only from location(s) approved by the exchange",
+      "Pro-Account orders can be placed only from a single location approved by the clearing corporation"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Trading members who wish to place Proprietary (Pro) orders — i.e., trades made on their own account — are required to do so only from terminals or locations specifically approved by the exchange for proprietary trading. This ensures better monitoring and regulatory compliance. &nbsp;"
+  },
+  {
+    "text": "The smallest price movement or minimum trading increment at which traders can place bids and offers is known as _______ .",
+    "options": [
+      "Spread",
+      "Bid",
+      "Tick",
+      "Ask"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Tick Size: It is the minimum move allowed in the price quotations. The minimum trading&nbsp;increment or price differential at which traders are able to enter bids and offers is called&nbsp;the tick size. For example, if tick size for USDINR futures is Rs. 0.0025, the price entered&nbsp;by buyer and seller can be 82.9975, 83.0000, 83.0025 in multiples of Rs.0.0025. &nbsp;"
+  },
+  {
+    "text": "Mr. Avinash sold USDINR one month future at 86.50. The interest rate gap between US and India was approximately 12% per annum, with Indian rates being higher than US rates. What could have been USDINR spot at the time of selling futures?",
+    "options": [
+      "85.64",
+      "86.78",
+      "84.75",
+      "86.15"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Interest Rate Parity formula for currency futures:&nbsp;F = S × (1 + (rINR−rUSD/12)) Where:&nbsp;F = futures price,&nbsp;S = spot price,&nbsp;Gap between interest rates = rINR − rUSD = 12% The interest rate gap per month = (rINR−rUSD/12) = 12% / 12 = 1% = 0.01 Applying in the formula : 86.50 = S x (1 + 12% /12) 86.50 = S x (1 + 0.1) 86.50 = S x 1.01 S = 86.50 / 1.01 = 85.64 &nbsp;"
+  },
+  {
+    "text": "USDINR 3-month futures is quoting at Rs. 86.20 and 9-month futures at Rs. 87.50. You expect the 3-month futures to quote at Rs. 86.00 and the 9-month futures at Rs. 87.80 in the next few trading sessions. If you execute a spread trade based on this view, how much profit (in Rs) per lot of USDINR could you make if your view goes correct?",
+    "options": [
+      "Rs 50",
+      "Rs 350",
+      "Rs 500",
+      "Rs 3500"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: A typical spread trade here is: 1.&nbsp;Sell 3-month futures at 86.20 → expected to fall to 86. If the view goes correct, here the profit will be 86.20 - 86 = 0.20 2.&nbsp;Buy 9-month futures at 87.50 → expected to rise to 87.80. If the view goes correct, here the profit will be 87.80 - 87.50 = 0.30 Total Profit = 0.20 + 0.30 = 0.50 x 1000 (Lot size) = Rs 500 &nbsp;"
+  },
+  {
+    "text": "Which of the following statements accurately describe over-the-counter (OTC) traded derivatives?",
+    "options": [
+      "There are no formal risk management rules for all market participants",
+      "Risk management policies are established to maintain market stability and integrity",
+      "Risk and burden sharing are governed by standardized formal risk frameworks.",
+      "Contracts have standardized terms and conditions"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: OTC derivatives are privately negotiated contracts without standardized terms and unlike exchange-traded derivatives, they typically lack formal, uniform risk management rules that apply to all participants.&nbsp; &nbsp;"
+  },
+  {
+    "text": "As a trader, you anticipate that the USDJPY rate will rise from 110 to 116 over the next 3 months. To take advantage of this expected movement using currency futures contracts available in JPYINR and USDINR, what strategy should you adopt?",
+    "options": [
+      "Long JPYINR and Short USDINR",
+      "Short JPYINR and Long USDINR",
+      "Long JPYINR",
+      "Short JPYINR"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: You believe USD/JPY will rise from 110 to 116, which means: -&nbsp;USD is strengthening -&nbsp;JPY is weakening So, to benefit from this move, you should: -&nbsp;Buy USD (expecting it to rise) : Long USDINR -&nbsp;Sell JPY (expecting it to fall) : Short JPYINR &nbsp;"
+  },
+  {
+    "text": "A trading member buys 40 lots of USD/INR 1-month futures on Day 1 at Rs.86.20 and sells 55 lots of the same contract on the same day at Rs.86.35 in his proprietary book. The settlement price for Day 1 is Rs.86.80, and he pays the MTM margin accordingly for the carry-forward positions. The settlement price for Day 2 is Rs.87.10. How much will be his mark-to-market (MTM) profit or loss for Day 2 (in Rs.)?",
+    "options": [
+      "Loss of Rs 4500",
+      "Loss of Rs 6500",
+      "Profit of Rs 5000",
+      "Profit of Rs. 7500"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Net position after Day 1 trades : Long 40 lots and Short 55 lots. So Net short = 55 − 40 = 15 lots (short). Day 1 settlement price = Rs. 86.80 Day 2 settlement price = Rs. 87.10 Change = 87.10 − 86.80 = 0.30 rise. Impact of price rise on short position :&nbsp;Short loses when price rises. Loss per USD = Rs. 0.30. Lot size = 1,000 → Total USD exposure = 15 × 1,000 = 15,000. MTM loss = 15,000 × Rs. 0.30 = Rs. 4,500. &nbsp;"
+  },
+  {
+    "text": "If EURUSD quotes are 1.2550/1.2575 and USDINR are 83.74/83.75, then cross EURINR OFFER rate will be ______ .",
+    "options": [
+      "105.3156",
+      "105.6341",
+      "105.5850",
+      "105.0086"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: We are given: -&nbsp;EUR/USD = 1.2550 (bid) / 1.2575 (offer) -&nbsp;USD/INR = 83.74 (bid) / 83.75 (offer) We are to find the cross rate for EUR/INR (offer rate). To calculate EUR/INR offer, we multiply: EUR/USD (offer rate) × USD/INR (offer rate) = 1.2575 × 83.75 = 105.315625 &nbsp;"
+  },
+  {
+    "text": "Participant who take position in Currency Derivatives to reduce currency risk are known as ______ .",
+    "options": [
+      "Speculators",
+      "Arbitragers",
+      "Hedgers",
+      "Traders"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Hedgers face risk associated with the prices of underlying assets and use derivatives to reduce their risk. With context of forex market, in India, “Hedging” means the activity of undertaking a foreign exchange derivative transaction to manage currency risk and “Currency risk” means the potential for loss on account of movement in exchange rates of Rupee against a foreign currency or on account of movement in exchange rates of one foreign currency against another or on account of movement of interest rate applicable to a foreign currency. &nbsp;"
+  },
+  {
+    "text": "What is the similarity between currency futures and stock index futures?",
+    "options": [
+      "Both have same underlying asset",
+      "Both have similar tick size",
+      "Both have same rules of margining",
+      "Both are products with linear payoffs"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The payoff graph for futures displays a linear or symmetrical style. This means there are infinite possibilities for getting profits and losses through futures.&nbsp; In case of futures contracts for Currency, Stocks, Stock index etc, both long as well as short position has unlimited profit or loss potential. This results into linear pay offs for futures contracts. &nbsp;"
+  },
+  {
+    "text": "What is the process known as through which Clearing Corporation becomes a party to every trade that is executed on the Exchange?",
+    "options": [
+      "Novation",
+      "Replacement",
+      "Trade Guarantee",
+      "Substitution"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: The Clearing Corporation acts as a central counterparty i.e., it provides financial guarantees for all transactions executed on the Exchange. It acts as a legal counterparty to all trades through the process called Novation. Thus Clearing Corporation becomes the buyer to every seller and seller to every buyer. If there is a default in this scenario, Clearing Corporation being counter party, is responsible for ensuring the settlement, thus managing risk and guaranteeing settlement to both the parties. &nbsp;"
+  },
+  {
+    "text": "Identify the TRUE statement with respect to ‘Clearing Bank Account’?",
+    "options": [
+      "The Clearing Bank Account has to be used exclusively for making or receiving payments with Clearing corporation",
+      "Closure of a Clearing Bank Account requires prior permission of Clearing corporation",
+      "Clearing corporation can directly raise a debit in the Clearing Bank Account without prior permission of the Clearing member",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Clearing Bank acts as an important intermediary between a clearing member and the Clearing Corporation. Every clearing member needs to maintain an account with any of the empaneled clearing banks. The clearing accounts are to be used exclusively for clearing &amp; settlement operations All transactions of pay-in/pay-out of funds are carried out by these clearing banks. The pay-in obligation details are passed on to the clearing banks by clearing corporation, who then debit the clearing member account. Closure of a Clearing Bank Account requires prior permission of Clearing corporation. &nbsp;"
+  },
+  {
+    "text": "The USDINR three months futures is quoting at 81.4 and six month future at 82.1 and you expect the three month to quote at 81.2 and six month at 82.2 in next few trading sessions. How much profit per lot of USDINR could you make if you executed a spread trade and your view goes correct?",
+    "options": [
+      "Rs. 400 profit",
+      "Rs. 600 profit",
+      "Rs. 450 profit",
+      "Rs. 300 Profit"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: In the first leg of the spread trade : Sold the three month futures at 81.4 and bought the six month futures at 82.1. Here he has made a loss of&nbsp; 81.4 - 82.1 = - 0.7 To reverse his position - In the second leg of his trade he bought the three months futures at 81.2 and sold the six month futures at 82.2. Here he has made a profit of 82.2 - 81.2 = 1 So overall he has made a profit of -0.7 +1&nbsp; = 0.3 X 1000 (lot size of USDINR) = Rs 300 profit"
+  },
+  {
+    "text": "Rohidas is a farmer and he agrees to sell his cotton produce to a ginning factory at a fixed price three months in advance. Which type of contract has Rohidas entered into you with the ginning factory?",
+    "options": [
+      "Swap",
+      "Futures",
+      "Option",
+      "Forward"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: A forward contract is a customized contract between two parties, where settlement takes place on a specific date in the future at today's pre-agreed price. (A futures contract is similar to a forward, except that the deal is made through an organized and regulated exchange rather than being negotiated directly between two parties) &nbsp;"
+  },
+  {
+    "text": "As per the Indian Income Tax Act, if the taxpayer is opting for the presumptive taxation scheme under section 44AD, he can declare the profit at the rate of _____ of turnover in case of receipts in cheque or any digital modes.",
+    "options": [
+      "5%",
+      "6%",
+      "7.5%",
+      "10%"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The Income-tax Act does not contain any provision or guidance for computation of turnover in Exchange traded derivatives trading. The computation of turnover is a very important factor as the applicability of tax audit is determined on the basis of turnover. Also, if the taxpayer is opting for the presumptive taxation scheme under section 44AD (subject to total turnover not exceeding Rs. 2 crores), he can declare the profit at the rate of 6% of such turnover in case of receipts in cheque or any digital modes or 8% of turnover in case of cash receipts. &nbsp;"
+  },
+  {
+    "text": "The value of a currency option can be equated as Option Value = Intrinsic Value - Time Value. State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Option Value = Intrinsic Value + Time Value Option premium consists of two components : intrinsic value and time value Intrinsic value refers to the amount by which option is in the money. Time value is directly proportional to the length of time to expiration date of the option. &nbsp;"
+  },
+  {
+    "text": "Interoperability among Clearing Corporations framework is applicable to all for all the products available in the Indian securities market, except ______ .",
+    "options": [
+      "Commodity derivatives",
+      "Currency derivatives",
+      "Index derivatives",
+      "Index options"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: SEBI introduced the concept of Interoperability among Clearing Corporations which necessitates linking of multiple Clearing Corporations. Inter-operability among Clearing Corporation (CC) has enabled a Clearing Member to select the Clearing Corporation of its&nbsp;choice to clear and settle trades executed in multiple exchanges. The interoperability framework is applicable to all the recognised clearing corporations excluding those operating in International Financial Services Centre (IFSC) and all the products available for trading on stock exchanges, except commodity derivatives, made available under this framework. Hence, interoperability is also applicable to Currency Derivatives Segment. &nbsp;"
+  },
+  {
+    "text": "GBPUSD price as 1.3300 / 1.3325 and USDINR as 75.64 / 75.65, the price for GBPINR works out to be ______ .",
+    "options": [
+      "56.76/56.88",
+      "100.6012 / 100.8036",
+      "56.88/56.76",
+      "100.7903 / 100.6145"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: The price of GBPINR can be calculated as under : 1.3300 x 75.64 = 100.6012 1.3325 x 75.65 = 100.8036 GBPINR will be 100.6012 / 100.8036 &nbsp;"
+  },
+  {
+    "text": "Ms. Reshma buys 20 lots of USDINR 1 month futures when price was 61.80/61.90 and squares off 5 lots after a week when price was 62.65/62.75. Calculate the amount did she make /lose on the part of the transaction that was squared off?",
+    "options": [
+      "Loss of Rs. 4350",
+      "Profit of Rs. 2500",
+      "Profit of Rs. 4950",
+      "Profit of Rs. 3750"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: When the price was 61.80/61.90, Ms. Reshma bought USDINR, so she bought at 61.90 as that is the Ask (Sellers) price. When the price was 62.65/62.75, she sold USDINR - so she sold at 62.65 as that is the Bid (Buyers) price. 62.65 - 61.90&nbsp; = &nbsp;0.75 Profit Out of the 20 lots purchased, she has squared off only 5 lots. Profit on squared off position = 0.75 x 5 lots x 1000 (Lot size) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = 3750 &nbsp;"
+  },
+  {
+    "text": "Margins of all the clients of a member are collected on a netted off basis - State True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Clients' positions are arrived at by summing together net (buy - sell) positions of each individual client. Please note that positions are only netted for each client at contract level and not netted across clients and are rather added up across clients. A Trading Member's open position is the sum of proprietary open position, client open long position and client open short position. &nbsp;"
+  },
+  {
+    "text": "Brokers have to issue contract notes to their clients _______ .",
+    "options": [
+      "In a format which is customized for each client",
+      "In a format which is approved by its senior management",
+      "In a format which is specified by the exchange",
+      "There are no guidelines on the format of a contract note"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: As per the&nbsp;SEBI’s Code of Conduct for Brokers -&nbsp;A stock-broker shall issue without delay to his client a contract note for all transactions in the format specified by the stock exchange. &nbsp;"
+  },
+  {
+    "text": "The current USDINR spot as Rs 83.00 and the premium for January 20XX maturity USDINR PUT option at strike of Rs 83.50 as Rs 0.56/0.57 and premium for January 20XX maturity USDINR call option at strike of Rs 83.00 as Rs 0.25/0.26. Mr. Shashank does a trade where in he buys a put at strike of Rs 83.50 and sells a call at strike of Rs 83.00. On expiry the FBIL/RBI USDINR reference rate is Rs 83.75. Calculate the net profit / loss Mr. Shashank make per USD?",
+    "options": [
+      "Profit of 0.87",
+      "Profit of 1.52",
+      "Loss of 1.32",
+      "Loss of 1.07"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Mr. Shashank has bought a PUT and sold a CALL - In both the cases he has assumed that the USDINR will fall and he can make a profit. Trade 1 - Buys a Put option at 0.57. So he has to pay a premium of Rs. 0.57. The RBI reference rate is 83.75. So there is a loss as the price has moved up with respect to strike price of 83.50. However his loss will be restricted to the premium paid ie. Rs. 0.57 Trade 2 - Sells a Call option at Rs. 0.25. So he receives this premium of Rs.0.25.&nbsp;The RBI reference rate is 83.75 and the strike price is 83. So here is makes a loss of Rs. 0.75 (83 - 83.75) due to adverse price movement. The net loss is 0.50 (0.25 - 0.75) Loss from Trade 1 is 0.57 and loss from Trade 2 is 0.50. Total Loss = 0.57 + 0.50 = 1.07 &nbsp; &nbsp;"
+  },
+  {
+    "text": "Investors can have grievances against __________.",
+    "options": [
+      "Intermediaries",
+      "Brokers",
+      "Company",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Investors can have grievances against a) intermediary/broking firm through which it is carrying out the transactions or/and (b) against the company of which it is a shareholder.&nbsp; &nbsp;"
+  },
+  {
+    "text": "Arbitration is a ________ judicial process.",
+    "options": [
+      "Non",
+      "Quasi",
+      "Fully",
+      "None of the above"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Arbitration is a quasi-judicial process, is an alternate dispute resolution mechanism prescribed under the Arbitration and Conciliation Act, 1996. The Exchanges prescribe the provisions in respect of arbitration and the procedure therein has been prescribed in the Regulations. &nbsp;"
+  },
+  {
+    "text": "Which of the following derivatives contracts are traded only on Exchanges?",
+    "options": [
+      "Currency Futures",
+      "Currency Options",
+      "Currency Swaps",
+      "FX Swaps"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: In India, currency futures are traded exclusively on exchanges like NSE, BSE, and MSE, regulated by SEBI and RBI. Currency options are traded both on exchanges (exchange-traded options) and over-the-counter (OTC). Currency swaps and FX swaps are primarily OTC contracts, negotiated bilaterally and not traded on exchanges, as per RBI guidelines. Thus, only currency futures are exclusively exchange-traded. &nbsp;"
+  },
+  {
+    "text": "Selling an option means selling a right to buy an underlying asset - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Selling an option means you are writing (granting) a right to the buyer. If you sell a call option, you are selling the buyer the right to buy the underlying asset. If you sell a put option, you are selling the buyer the right to sell the underlying asset. So the statement “Selling an option means selling a right to buy” is only true for call options, but not universally true for all options. Therefore, the correct answer is False. &nbsp;"
+  },
+  {
+    "text": "In the OTC FX market settlement, value date of T+2 is also called as _____ . (T - Date of transaction).",
+    "options": [
+      "Spot",
+      "Tom",
+      "Ready",
+      "Tom-Spot"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Depending upon the gap between trade and value date, forex trading can either be categorized as 'Cash', 'Tom' or 'Spot' transaction Ready or cash - The transaction to be settled on the same day. Tom - The delivery of foreign exchange to be made on the business day next to the date of transaction. Spot - The most important value date is the “spot” value date, which is settlement after two business days. &nbsp;"
+  },
+  {
+    "text": "A ‘Clearing Bank Account’ is the account of a Clearing Member from which the Clearing Corporation carries out the Pay-In and Pay-out obligations of that clearing member. Which of these statements is true about the ‘Clearing Bank Account’?",
+    "options": [
+      "Clearing corporation can directly raise a debit in the Clearing Bank Account without prior permission of the Clearing member",
+      "The Clearing Bank Account has to be used exclusively for making or receiving payments with Clearing corporation",
+      "Closure of a Clearing Bank Account requires prior permission of Clearing corporation",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Clearing Bank acts as an important intermediary between a clearing member and the Clearing Corporation. Every clearing member needs to maintain an account with any of the empaneled clearing banks. The clearing accounts are to be used exclusively for clearing &amp; settlement operations All transactions of pay-in/pay-out of funds are carried out by these clearing banks. The pay-in obligation details are passed on to the clearing banks by clearing corporation, who then debit the clearing member account. Closure of a Clearing Bank Account requires prior permission of Clearing corporation. &nbsp;"
+  },
+  {
+    "text": "When you sell a PUT option, it means that you have an obligation to sell the underlying asset. - State whether True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Selling a PUT option means having an obligation to BUY an underlying asset. The right to buy the asset is called Call option and the right to sell the asset is called Put option. A buyer of Put option has the right to sell the underlying asset at the strike price and the seller of put option is obliged to buy / take delivery of the underling asset at the strike price."
+  },
+  {
+    "text": "Interoperability among Clearing Corporations framework is applicable to all for all the products available in the Indian securities market, except _________ .",
+    "options": [
+      "Index derivatives",
+      "Index options",
+      "Commodity derivatives",
+      "Currency derivatives"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: SEBI introduced the concept of Interoperability among Clearing Corporations which necessitates linking of multiple Clearing Corporations. Inter-operability among Clearing Corporation (CC) has enabled a Clearing Member to select the Clearing Corporation of its&nbsp;choice to clear and settle trades executed in multiple exchanges. The interoperability framework is applicable to all the recognised clearing corporations excluding those operating in International Financial Services Centre (IFSC) and all the products available for trading on stock exchanges,&nbsp;except commodity derivatives,&nbsp;made available under this framework. Hence, interoperability is also applicable to Currency Derivatives Segment. &nbsp;"
+  },
+  {
+    "text": "For the same tenor, the premium for buying an ‘In the Money’ option is likely to be lower than the premium for buying an 'At the Money’ option. True or False?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Option premium consists of two components – intrinsic value and time value. For an option, intrinsic value refers to the amount by which option is in the money i.e. the amount an option buyer will realize, before adjusting for premium paid.&nbsp;Therefore, only in-the-money options have intrinsic value whereas at-the-money and out-of-the-money options have zero intrinsic value. Thus, for the same tenor, the premium for buying an In-the-money option will be higher than premium for buying an At-the-Money option. &nbsp;"
+  },
+  {
+    "text": "Which of the following accounting standards of Institute of Chartered Accountants of India (ICAI) defines the accounting for derivatives?",
+    "options": [
+      "AS 9",
+      "AS 6",
+      "AS 10",
+      "AS 30"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: Accounting Standard (AS) 30, “Financial Instruments: Recognition and Measurement”, issued by the Council of the Institute of Chartered Accountants of India, specify about the accounting of derivatives contract. The objective of this Standard is to establish principles for recognising and measuring financial assets, financial liabilities and some contracts to buy or sell non-financial items. &nbsp;"
+  },
+  {
+    "text": "Which option pricing model depend on calculation by Iteration ?",
+    "options": [
+      "Interest rate parity",
+      "Binomial",
+      "Black and Scholes",
+      "Black (1976)"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Iteration means the action or a process of iterating or repeating. The binomial option pricing model values options using an iterative approach utilizing multiple periods to value options. The binomial option pricing model was developed by William Sharpe in 1978. It has proved over time to be the most flexible, intuitive and popular approach to option pricing. The binomial model represents the price evolution of the option’s underlying asset as the binomial tree of all possible prices at equally-spaced time steps from today under the assumption that at each step, the price can only move up and down at fixed rates and with respective simulated probabilities. This is a very accurate model as it is iterative, but also very lengthy and time consuming. &nbsp;"
+  },
+  {
+    "text": "Which of the following segments of market participants are allowed to become member of Currency Derivatives of Exchange?",
+    "options": [
+      "Individual",
+      "Corporates",
+      "AD Category I Bank",
+      "All of the above"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: All of the above are allowed to become member of Currency Derivatives of Exchange subject to meeting all the regulatory and financial requirements. &nbsp;"
+  },
+  {
+    "text": "A export firm in India is concerned about the volatility in currency markets and so it approaches a bank who is prepared to take a risk and enters into a derivative contract with it. Which economic function is performed by this derivative contract ?",
+    "options": [
+      "catalyst for new entrepreneurial activity",
+      "shifting of volatility to futures market",
+      "transferring of risks",
+      "increase in trading volumes"
+    ],
+    "correct": 2,
+    "explanation": ""
+  },
+  {
+    "text": "Mr Mehta invested Rs 1.00,000 in UK Stock Markets when the GBPINR rate was 75. After one year his investment appreciated by 20% in GBP terms. He sold of his investments and repatriated the money to India at the then existing rate of 80. What is his real returns in INR ?",
+    "options": [
+      "He has made a Profit of 20%",
+      "He has made a Loss of 20%",
+      "He has made a Profit of 28%",
+      "He has made a Loss of 28%"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: Mr. Mehta invested Rs1,00,000 in UK Stock when the GBPINR rate was 75. So he had invested 1,00,000 / 75 &nbsp;= 1333.33 pounds in UK Stocks. His investment grew by 20% : 1333.33 x 20% = 1333.33 + 266.66 = 1600 He is repatriating at GBPINR rate of 80 : &nbsp;1600 x 80 = 128000 Therefore his investment in INR terms have grown from Rs 1,00,000 to Rs 1,28,000 128000 x 100 / 100000 = 128 This is an increase of 28 %"
+  },
+  {
+    "text": "Extreme loss margin would be deducted from the liquid assets of the clearing member on an online, real time basis - True or False ?",
+    "options": [
+      "True",
+      "False"
+    ],
+    "correct": 0,
+    "explanation": ""
+  },
+  {
+    "text": "A trading member buys 5 lots of two month USDINR future in his proprietary account. What is his open position at the end of that day in USD ?",
+    "options": [
+      "5",
+      "50",
+      "500",
+      "5000"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: One lot of USDINR is of 1000 USD. So 5 x 1000 = 5000"
+  },
+  {
+    "text": "When you a buy an option, it gives you the right to buy the underlying asset - True or False ?",
+    "options": [
+      "False",
+      "True"
+    ],
+    "correct": 0,
+    "explanation": "Explanation: Only in a&nbsp;CALL OPTION, the buyer has the right &nbsp;to&nbsp;buy&nbsp;an agreed quantity of a asset . In a&nbsp;put option&nbsp;the buyer has the right to&nbsp;sell&nbsp;an agreed quantity of the underlying asset. So it depends on whether its a Call Option or Put Option to determine if the buyer has the right to buy the underlying asset."
+  },
+  {
+    "text": "Mega Imports and Exports Pvt. Ltd has taken a foreign currency loan in USD and the repayment of this loan has to be done by monthly installments. The treasury head of this company is of the strong view that the interest rate gap between USA and India will widen in the coming months. So which is the most appropriate step he should take ?",
+    "options": [
+      "He should sell USDINR future",
+      "He should buy USDINR future",
+      "He should buy current USDINR future and sell 6 month USDINR future",
+      "He should do nothing as the USD futures is generally at a premium."
+    ],
+    "correct": 1,
+    "explanation": "Explanation: When the interest rate gap widens between US and India, the forward premium also goes up.&nbsp; So by buying USDINR futures he can hedge his position and safegaurd against possibility of a higher USDINR price in future due to interest rate gap widening."
+  },
+  {
+    "text": "Computation of Open positions of clearing members and finalising the mark to market margins is called as _____________.",
+    "options": [
+      "Pay in and Pay out",
+      "Clearing",
+      "Settlement",
+      "Risk Management"
+    ],
+    "correct": 1,
+    "explanation": "Explanation: Clearing means computing open positions and obligations of clearing members in the trading system. Settlement means actual pay in or pay out to settle the contract."
+  },
+  {
+    "text": "Assume that USDINR spot price to remain the same in the next 30 days and premium on USD to INR to continue. So which of the below actions will result in losses ?",
+    "options": [
+      "Selling USDINR call options",
+      "Selling USDINR OTC forward",
+      "Buying USDINR call option"
+    ],
+    "correct": 2,
+    "explanation": "Explanation: The buyer of option contract suffers a loss if there is no movement in the underlying due to the concept of time decay."
+  },
+  {
+    "text": "The main factor driving the growth of financial derivatives is ________.",
+    "options": [
+      "Innovations in the derivatives markets, which optimally combine the risks and returns over a large number of financial assets, leading to higher returns, reduced risk and lower transactions costs as compared to individual financial assets.",
+      "There was a great reduction in the returns from Capital Markets",
+      "Low volatility in the financial markets",
+      "None of the above"
+    ],
+    "correct": 0,
+    "explanation": ""
+  },
+  {
+    "text": "At what time does the GBPINR and USDINR futures contract stops trading on the contract expiry day ?",
+    "options": [
+      "11 am",
+      "12 noon",
+      "2 pm",
+      "12.30 pm"
+    ],
+    "correct": 3,
+    "explanation": "Explanation: The last trading&nbsp;day (or Expiry day) and the time at which the futures contract stop trading are&nbsp;-&nbsp;Two working days prior to the last business day of the expiry month at&nbsp;12:30 pm."
+  }
+];
+
+
+function shuffleArray(arr) {
+  const array = arr.slice();
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuestions = shuffleArray(questions);
+let userAnswers = Array(shuffledQuestions.length).fill(null);
+
+function renderQuiz() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+
+  shuffledQuestions.forEach((q, index) => {
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+
+    const qText = document.createElement('div');
+    qText.className = 'question-text';
+    qText.textContent = 'Q' + (index + 1) + '. ' + q.text;
+    questionDiv.appendChild(qText);
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    q.options.forEach((opt, optIndex) => {
+      const btn = document.createElement('button');
+      btn.textContent = opt;
+      btn.disabled = userAnswers[index] !== null;
+      btn.onclick = () => handleOptionClick(index, optIndex, btn);
+      optionsDiv.appendChild(btn);
+    });
+
+    questionDiv.appendChild(optionsDiv);
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'feedback';
+    feedbackDiv.id = 'feedback_' + index;
+    questionDiv.appendChild(feedbackDiv);
+
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'explanation';
+    explanationDiv.id = 'explanation_' + index;
+    questionDiv.appendChild(explanationDiv);
+
+    quizDiv.appendChild(questionDiv);
+  });
+
+  document.getElementById('submitBtn').style.display = 'block';
+}
+
+function handleOptionClick(qIndex, optionIndex, btn) {
+  if (userAnswers[qIndex] !== null) return;
+
+  userAnswers[qIndex] = optionIndex;
+  const q = shuffledQuestions[qIndex];
+
+  const buttons = btn.parentNode.querySelectorAll('button');
+  buttons.forEach((button, idx) => {
+    button.disabled = true;
+    if (idx === q.correct) {
+      button.style.backgroundColor = '#27ae60';
+      button.style.color = 'white';
+      button.style.borderColor = '#27ae60';
+    } else if (idx === optionIndex) {
+      button.style.backgroundColor = '#e74c3c';
+      button.style.color = 'white';
+      button.style.borderColor = '#e74c3c';
+    }
+  });
+
+  const feedbackDiv = document.getElementById('feedback_' + qIndex);
+  const explanationDiv = document.getElementById('explanation_' + qIndex);
+
+  if (optionIndex === q.correct) {
+    feedbackDiv.textContent = '✓ Correct!';
+    feedbackDiv.className = 'feedback correct';
+  } else {
+    feedbackDiv.textContent = '✗ Incorrect!';
+    feedbackDiv.className = 'feedback incorrect';
+  }
+
+  explanationDiv.textContent = q.explanation;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  let score = 0;
+  for (let i = 0; i < shuffledQuestions.length; i++) {
+    if (userAnswers[i] === shuffledQuestions[i].correct) {
+      score++;
+    }
+  }
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  scoreDisplay.textContent = 'Your Score: ' + score + ' / ' + shuffledQuestions.length;
+  scoreDisplay.style.display = 'block';
+
+  document.getElementById('submitBtn').style.display = 'none';
+});
+
+renderQuiz();
+</script>
+</body>
+</html>
